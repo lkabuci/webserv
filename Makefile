@@ -10,7 +10,6 @@ NAME		= webserv
 SRC_DIR		= src/
 
 SRCS		= main.cpp test.cpp
-CLASSES		= 
 BUILD_DIR	= build/
 OBJECTS		= $(addprefix $(BUILD_DIR),$(SRCS:%.cpp=%.o))
 
@@ -33,8 +32,9 @@ $(NAME): $(OBJECTS)
 	@$(CC) $^ -o $@
 	@ar cr $(LIB) $(filter-out build/main.o,$^)
 
-$(BUILD_DIR)%.o:	$(SRC_DIR)%.cpp $(CLASSES)
-	@mkdir -p $(BUILD_DIR) $(BUILD_DIR)test
+$(OBJECTS): | $(BUILD_DIR)
+
+$(BUILD_DIR)%.o:	$(SRC_DIR)%.cpp
 	@echo "$(GREEN)=> Compiling$(NC) $<"
 	@$(CC) $(CPPFLAGS) -c $< -o $@
 
@@ -43,6 +43,9 @@ tests:  all $(UNITTEST_OBJECTS)
 
 $(BUILD_DIR)$(TEST_DIR)%.o: $(TEST_DIR)%.cpp
 	@$(CC) $(CPPFLAGS) $(UNITTEST_FLAGS) $< -o $@
+
+$(BUILD_DIR):
+	@mkdir -p $(BUILD_DIR)
 
 # Dockerfile ----------
 d:
