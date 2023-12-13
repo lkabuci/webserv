@@ -4,7 +4,6 @@
     "editor.rulers": [80],
     "editor.insertSpaces": true,
     "editor.formatOnSave": true,
-    "editor.renderIndentGuides": false,
     "editor.renderWhitespace": "selection",
     "editor.renderControlCharacters": true,
     "editor.wordWrap": "on",
@@ -17,6 +16,7 @@
     "C_Cpp.clang_format_fallbackStyle": "LLVM",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
+    "editor.guides.indentation": false,
 
     // Git integration
     // "git.enableSmartCommit": true,
