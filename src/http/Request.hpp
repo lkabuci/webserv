@@ -1,0 +1,69 @@
+#ifndef __HTTP_REQUEST_HPP__
+#define __HTTP_REQUEST_HPP__
+
+/*
+    GET / HTTP/1.1
+    Host: localhost:7777
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0)
+   Gecko/20100101 Firefox/117.0 Accept:
+   text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*\/*;q=0.8
+    Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+    Accept-Encoding: gzip, deflate, br
+    Connection: keep-alive
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: none
+    Sec-Fetch-User: ?1
+*/
+
+/*
+    POST / HTTP/1.1
+    User-Agent: PostmanRuntime/7.33.0
+    Accept: *\/*
+    Postman-Token: 62d2482f-10fc-40dc-9
+    Host: localhost:7777
+    Accept-Encoding: gzip, deflate, br
+    Connection: keep-alive
+    Content-Length: 0
+*/
+
+/*
+    DELETE / HTTP/1.1
+    User-Agent: PostmanRuntime/7.33.0
+    Accept: *\/*
+    Postman-Token: 754c09c7-8871-43a3-8
+    Host: localhost:7777
+    Accept-Encoding: gzip, deflate, br
+    Connection: keep-alive
+*/
+
+/*
+    PUT / HTTP/1.1
+    User-Agent: PostmanRuntime/7.33.0
+    Accept: *\/*
+    Postman-Token: 0c9b888d-0955-
+    Host: localhost:7777
+    Accept-Encoding: gzip, deflate, br
+    Connection: keep-alive
+    Content-Length: 0
+*/
+
+#include "HTTP.hpp"
+#include "Header.hpp"
+#include "StatusLine.hpp"
+#include <vector>
+
+class Request {
+
+  public:
+    Request(StatusLine, std::vector<Header>&);
+    std::string serialize() const;
+    static Request deserialize(const std::string& request);
+
+  private:
+    StatusLine _status_line;
+    std::vector<Header> _headers;
+};
+
+#endif // __HTTP_REQUEST_HPP__
