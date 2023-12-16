@@ -1,20 +1,20 @@
-#include "Stmt.hpp"
+#include "Expr.hpp"
 
 Context::Context(const std::shared_ptr<Token>& name) : _name(name) {}
 
 Context::Context(const std::shared_ptr<Token>& name,
                 const std::vector<std::string>& params,
-                const std::shared_ptr<Stmt>& left,
-                const std::shared_ptr<Stmt>& right)
+                const std::shared_ptr<Expr>& left,
+                const std::shared_ptr<Expr>& right)
     : _name(name)
     , _params(params)
-    , _leftStmt(left)
-    , _rightStmt(right)
+    , _leftExpr(left)
+    , _rightExpr(right)
 {
 }
 
 void    Context::accept(Visitor& visitor) {
-    visitor.visitContextStmt(*this);
+    visitor.visitContextExpr(*this);
 }
 
 Token&  Context::getName() { return *_name; }
@@ -23,18 +23,18 @@ std::vector<std::string>&   Context::getParams() {
     return _params;
 }
 
-Stmt&   Context::getLeftExpr() { return *_leftStmt; }
+Expr&   Context::getLeftExpr() { return *_leftExpr; }
 
-Stmt&   Context::getRightStmt() { return *_rightStmt; }
+Expr&   Context::getRightExpr() { return *_rightExpr; }
 
 void    Context::addParam(const std::string& param) {
     _params.push_back(param);
 }
 
-void    Context::addStmtToLeft(const std::shared_ptr<Stmt>& left) {
-    _leftStmt = left;
+void    Context::addExprToLeft(const std::shared_ptr<Expr>& left) {
+    _leftExpr = left;
 }
 
-void    Context::addStmtToRight(const std::shared_ptr<Stmt>& right) {
-    _rightStmt = right;
+void    Context::addExprToRight(const std::shared_ptr<Expr>& right) {
+    _rightExpr = right;
 }

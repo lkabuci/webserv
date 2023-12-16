@@ -2,57 +2,60 @@
 
 Parser::Parser(const std::list<Token>& tokens) : _tokens(tokens), _current(0) {}
 
-std::shared_ptr<Stmt>   Parser::parse() {
-    return (statement());
+std::shared_ptr<Expr>   Parser::parse() {
+    return statement();
 }
 
-std::shared_ptr<Stmt>   Parser::statement() {
-    return expression();
+std::shared_ptr<Expr>   Parser::statement() {
+    try {
+        return expression();
+    } catch (...) {
+        throw;
+    }
 }
 
-std::shared_ptr<Stmt>   Parser::expression() {
-    std::shared_ptr<Stmt>   expr(serverContext());
+std::shared_ptr<Expr>   Parser::expression() {
+    std::shared_ptr<Expr>   expr(serverContext());
 
     while (!isAtEnd()) {
-        std::shared_ptr<Stmt>   right(statement());
-        expr = std::shared_ptr<Stmt>(new MainContext(expr, right));
+        std::shared_ptr<Expr>   right(statement());
+        expr = std::shared_ptr<Expr>(new MainContext(expr, right));
     }
     return expr;
 }
 
-std::shared_ptr<Stmt>   Parser::serverContext() {
+std::shared_ptr<Expr>   Parser::serverContext() {
     consume(SERVER_CONTEXT, "Expected a server context.");
     std::shared_ptr<Token>              name(new Token(previous()));
     std::shared_ptr<Context>            stmt(new Context(name));
     std::shared_ptr<Directive>          left(new Directive());
-    std::shared_ptr<Stmt>               right;
+    std::shared_ptr<Expr>               right;
     std::vector<Directive::Parameter>   params;
 
     consume(LEFT_BRACE, "Expect '{' after expression.");
     do {
         if (!isDirectiveKey() && !check(LOCATION_CONTEXT))
             throw ParseException(peek(), "Invalid Expression");
-        while (isDirectiveKey()) {
+        while (consumeDirective()) {
             params.push_back(direcitve());
         }
-        if (check(LOCATION_CONTEXT))
-            right = std::shared_ptr<Stmt>(new MainContext(right,
+        if (match({LOCATION_CONTEXT}))
+            right = std::shared_ptr<Expr>(new MainContext(right,
                                                         locationContext()));
     } while (!check(RIGHT_BRACE) && !check(END));
-    consume(RIGHT_BRACE, "Expect '{' after expression.");
+    consume(RIGHT_BRACE, "Expect '}' after expression.");
     left->add(params);
-    stmt->addStmtToLeft(left);
-    stmt->addStmtToRight(right);
+    stmt->addExprToLeft(left);
+    stmt->addExprToRight(right);
     return stmt;
 }
 
-std::shared_ptr<Stmt>   Parser::locationContext() {
-    std::shared_ptr<Token>              name(new Token(peek()));
+std::shared_ptr<Expr>   Parser::locationContext() {
+    std::shared_ptr<Token>              name(new Token(previous()));
     std::shared_ptr<Context>            stmt(new Context(name));
     std::shared_ptr<Directive>          left(new Directive());
     std::vector<Directive::Parameter>   params;
 
-    advance();
     consume(PARAMETER, "Expected parameter.");
     stmt->addParam(previous().getLexeme());
     consume(LEFT_BRACE, "Expect a '{' after expression.");
@@ -60,16 +63,15 @@ std::shared_ptr<Stmt>   Parser::locationContext() {
         params.push_back(direcitve());
     consume(RIGHT_BRACE, "Expect '}' after expression.");
     left->add(params);
-    stmt->addStmtToLeft(left);
+    stmt->addExprToLeft(left);
     return stmt;
 }
 
 Directive::Parameter    Parser::direcitve() {
+    std::string                 key = previous().getLexeme();
     Directive::Parameter        params;
-    std::string                 key = peek().getLexeme();
     std::vector<std::string>    values;
 
-    advance();
     while (match({PARAMETER})) {
         values.push_back(previous().getLexeme());
     }
@@ -85,9 +87,7 @@ void    Parser::consume(TokenType type, const std::string& message) {
 }
 
 bool    Parser::isDirectiveKey() {
-    TokenType   type = peek().getType();
-
-    switch (type) {
+    switch (peek().getType()) {
         case LISTEN:
         case ROOT:
         case AUTOINDEX:
@@ -120,6 +120,13 @@ Token&  Parser::previous() {
 
    std::advance(it, _current - 1);
    return *it;
+}
+
+bool    Parser::consumeDirective() {
+    if (!isDirectiveKey())
+        return false;
+    advance();
+    return true;
 }
 
 bool    Parser::match(const std::initializer_list<TokenType>& types) {

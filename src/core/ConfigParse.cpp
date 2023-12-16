@@ -27,24 +27,13 @@ void    ConfigParse::_parse(const std::string& source) {
 
     try {
         tokens = scanner.scanTokens();
-        //for (auto token : tokens)
-        //    std::cout << token << std::endl;
         Parser  parser(tokens);
 
-        //std::shared_ptr<Expr>   expr(parser.parse());
-        std::shared_ptr<Stmt>   stmt = parser.parse();
-        AstPrinter              ap;
-        //Interpret   interpret;
+        std::shared_ptr<Expr>   stmt = parser.parse();
+        AstPrinter  ap;
 
         ap.print(*stmt);
         std::cout << "\n";
-        //interpret.interpret(expr);
-        //for (auto ep : expr)
-        //    ap.print(*ep);
-        //std::list<Token>::iterator  it;
-
-        //for (it = tokens.begin(); it != tokens.end(); ++it)
-        //    std::cout << *it << std::endl;
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

@@ -2,15 +2,15 @@
 
 AstPrinter::~AstPrinter() {}
 
-void    AstPrinter::print(Stmt& stmt) {
+void    AstPrinter::print(Expr& stmt) {
     stmt.accept(*this);
 }
 
-void    AstPrinter::visitMainContextStmt(MainContext& stmt) {
-    parenthesize("block", {&stmt.getLeftStmt(), &stmt.getRightStmt()});
+void    AstPrinter::visitMainContextExpr(MainContext& stmt) {
+    parenthesize("block", {&stmt.getLeftExpr(), &stmt.getRightExpr()});
 }
 
-void    AstPrinter::visitContextStmt(Context& stmt) {
+void    AstPrinter::visitContextExpr(Context& stmt) {
     std::cout << stmt.getName().getLexeme();
     if (!stmt.getParams().empty()) {
         std::cout << " [";
@@ -19,11 +19,11 @@ void    AstPrinter::visitContextStmt(Context& stmt) {
         std::cout << " ]";
     }
     std::cout << " (";
-    parenthesize("", {&stmt.getLeftExpr(), &stmt.getRightStmt()});
+    parenthesize("", {&stmt.getLeftExpr(), &stmt.getRightExpr()});
     std::cout << ") ";
 }
 
-void    AstPrinter::visitDirectiveStmt(Directive& stmt) {
+void    AstPrinter::visitDirectiveExpr(Directive& stmt) {
     if (stmt.getParams().empty())
         return;
     std::cout << "[";
@@ -36,7 +36,7 @@ void    AstPrinter::visitDirectiveStmt(Directive& stmt) {
 }
 
 void    AstPrinter::parenthesize(const std::string& name,
-                                std::initializer_list<Stmt*> stmts)
+                                std::initializer_list<Expr*> stmts)
 {
     std::cout << "{ " << name;
     for (auto stmt : stmts) {

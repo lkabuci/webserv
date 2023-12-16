@@ -4,7 +4,7 @@
 #define __PARSER_HPP__
 
 #include "ParseException.hpp"
-#include "Stmt.hpp"
+#include "Expr.hpp"
 
 class   Parser {
 public:
@@ -12,18 +12,18 @@ public:
     Parser(const Parser&) = delete;
     Parser& operator=(const Parser&) = delete;
 
-    std::shared_ptr<Stmt>   parse();
+    std::shared_ptr<Expr>   parse();
 
 private:
     std::list<Token>    _tokens;
     size_t              _current;
 
-    std::shared_ptr<Stmt>   statement();
-    std::shared_ptr<Stmt>   expression();
-    std::shared_ptr<Stmt>   serverContext();
-    std::shared_ptr<Stmt>   block();
+    std::shared_ptr<Expr>   statement();
+    std::shared_ptr<Expr>   expression();
+    std::shared_ptr<Expr>   serverContext();
+    std::shared_ptr<Expr>   block();
     Directive::Parameter    direcitve();
-    std::shared_ptr<Stmt>   locationContext();
+    std::shared_ptr<Expr>   locationContext();
 
     bool    check(TokenType type);
     Token&  peek();
@@ -33,6 +33,7 @@ private:
     bool    isAtEnd();
     bool    isDirectiveKey();
     void    consume(TokenType type, const std::string& message);
+    bool    consumeDirective();
     bool    isInvalidToken();
 };
 

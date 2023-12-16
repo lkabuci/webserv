@@ -11,9 +11,9 @@ class   Visitor {
 public:
     virtual ~Visitor() {}
 
-    virtual void    visitMainContextStmt(MainContext& stmt) = 0;
-    virtual void    visitContextStmt(Context& stmt) = 0;
-    virtual void    visitDirectiveStmt(Directive& stmt) = 0;
+    virtual void    visitMainContextExpr(MainContext& stmt) = 0;
+    virtual void    visitContextExpr(Context& stmt) = 0;
+    virtual void    visitDirectiveExpr(Directive& stmt) = 0;
 };
 
 #endif

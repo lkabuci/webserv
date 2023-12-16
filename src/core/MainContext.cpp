@@ -1,18 +1,18 @@
-#include "Stmt.hpp"
+#include "Expr.hpp"
 
-MainContext::MainContext(const std::shared_ptr<Stmt>& left,
-                        const std::shared_ptr<Stmt>& right)
-    : _leftStmt(left)
-    , _rightStmt(right)
+MainContext::MainContext(const std::shared_ptr<Expr>& left,
+                        const std::shared_ptr<Expr>& right)
+    : _leftExpr(left)
+    , _rightExpr(right)
 {
 }
 
 void    MainContext::accept(Visitor& visitor) {
-    visitor.visitMainContextStmt(*this);
+    visitor.visitMainContextExpr(*this);
 }
 
 MainContext::~MainContext() {}
 
-Stmt&   MainContext::getLeftStmt() { return *_leftStmt; }
+Expr&   MainContext::getLeftExpr() { return *_leftExpr; }
 
-Stmt&   MainContext::getRightStmt() { return *_rightStmt; }
+Expr&   MainContext::getRightExpr() { return *_rightExpr; }

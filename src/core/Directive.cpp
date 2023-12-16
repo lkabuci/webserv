@@ -1,11 +1,11 @@
-#include "Stmt.hpp"
+#include "Expr.hpp"
 
 Directive::Directive() : _params() {}
 
 Directive::Directive(const Parameter& params) : _params(params) {}
 
 void    Directive::accept(Visitor& visitor) {
-    visitor.visitDirectiveStmt(*this);
+    visitor.visitDirectiveExpr(*this);
 }
 
 const Directive::Parameter& Directive::getParams() { return _params; }
