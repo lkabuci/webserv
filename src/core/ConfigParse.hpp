@@ -13,6 +13,8 @@ public:
     ConfigParse();
     void    parseFile(const char* file);
 
+    static std::string  toString(int n) noexcept;
+
 private:
     ConfigParse(const ConfigParse&);
     ConfigParse&    operator=(const ConfigParse&);

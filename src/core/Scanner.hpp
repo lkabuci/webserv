@@ -34,7 +34,6 @@ private:
     char    peekNext();
     char    advance();
     void    addToken(TokenType type);
-    void    _number();
     void    _string();
     void    _path();
     void    cgi_path();

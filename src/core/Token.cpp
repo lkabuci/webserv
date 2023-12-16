@@ -6,17 +6,16 @@ std::map<TokenType, std::string>  Token::createMap() {
     std::map<TokenType, std::string>  m;
 
     m[PARAMETER] = "PARAMETER";
-    m[NUMBER] = "NUMBER";
     m[LEFT_BRACE] = "LEFT_BRACE";
     m[RIGHT_BRACE] = "RIGHT_BRACE";
     m[SEMICOLON] = "SEMICOLON";
-    m[SERVER_BLOCK] = "SERVER_BLOCK";
+    m[SERVER_CONTEXT] = "SERVER_CONTEXT";
     m[LISTEN] = "LISTEN";
     m[ROOT] = "ROOT";
     m[CLIENT_MAX_BODY_SIZE] = "CL_MBS";
     m[ERROR_PAGE] = "ERROR_PAGE";
     m[INDEX] = "INDEX";
-    m[LOCATION] = "LOCATION";
+    m[LOCATION_CONTEXT] = "LOCATION_CONTEXT";
     m[AUTOINDEX] = "AUTOINDEX";
     m[ALLOW_METHODS] = "ALLOW_METHODS";
     m[RETURN] = "RETURN";

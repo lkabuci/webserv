@@ -5,14 +5,14 @@ std::map<std::string, TokenType>    Scanner::keys = creatKeysMap();
 std::map<std::string, TokenType>    Scanner::creatKeysMap() {
     std::map<std::string, TokenType>    m;
 
-    m["server"] = SERVER_BLOCK;
+    m["server"] = SERVER_CONTEXT;
     m["listen"] = LISTEN;
     m["server_name"] = SERV_NAME;
     m["root"] = ROOT;
     m["client_max_body_size"] = CLIENT_MAX_BODY_SIZE;
     m["error_page"] = ERROR_PAGE;
     m["index"] = INDEX;
-    m["location"] = LOCATION;
+    m["location"] = LOCATION_CONTEXT;
     m["autoindex"] = AUTOINDEX;
     m["allow_methods"] = ALLOW_METHODS;
     m["return"] = RETURN;
@@ -35,6 +35,7 @@ std::list<Token>    Scanner::scanTokens() {
         _start = _current;
         scanToken();
     }
+    _tokens.push_back(Token(END, "", _line));
     return _tokens;
 }
 
@@ -45,20 +46,9 @@ void    Scanner::scanToken() {
         case '{':   addToken(LEFT_BRACE);   break;
         case '}':   addToken(RIGHT_BRACE);  break;
         case ';':   addToken(SEMICOLON);    break;
-        case '\n':  _line++;    break;
-        case '#':   skipComment();  break;
-        case '\\':  cgi_path(); break;
-        default:
-            if (std::isdigit(c)) {
-                _number();
-            } else if (isPath(c)) {
-                _path();
-            } else if (std::isalpha(c)) {
-                _string();
-            } else {
-                throw SyntaxException(_line, "Unexpected character ", c);
-            }
-            break;
+        case '\n':  _line++;                break;
+        case '#':   skipComment();          break;
+        default:    _string();              break;
     }
 }
 
@@ -66,12 +56,6 @@ void    Scanner::addToken(TokenType type) {
     std::string text = _source.substr(_start, _current - _start);
 
     _tokens.push_back(Token(type, text, _line));
-}
-
-void    Scanner::_number() {
-    while (std::isdigit(peek()))
-        advance();
-    addToken(NUMBER);
 }
 
 void    Scanner::_string() {
@@ -113,7 +97,7 @@ bool    Scanner::isAtEnd() const {
 }
 
 bool    Scanner::isStringChar(char c) {
-    return !std::isspace(c) && c != ';' && c != '{' && c != '}';
+    return !std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#';
 }
 
 bool    Scanner::isPath(char c) {
@@ -121,7 +105,7 @@ bool    Scanner::isPath(char c) {
 }
 
 bool    Scanner::isValidPathChar(char c) {
-    return !(std::isspace(c) && c != ';' && c != '{' && c != '}');
+    return !(std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#');
 }
 
 void    Scanner::skipWhiteSpaces() {
