@@ -16,7 +16,6 @@ std::map<std::string, TokenType>    Scanner::creatKeysMap() {
     m["autoindex"] = AUTOINDEX;
     m["allow_methods"] = ALLOW_METHODS;
     m["return"] = RETURN;
-    m["include"] = INCLUDE;
     return m;
 }
 
@@ -70,21 +69,6 @@ void    Scanner::_string() {
         type = PARAMETER;
     }
     addToken(type);
-}
-
-void    Scanner::_path() {
-    while (isValidPathChar(peek()))
-        advance();
-    addToken(PATH);
-}
-
-void    Scanner::cgi_path() {
-    advance();
-    while (isValidPathChar(peek()))
-        advance();
-    if (peek() == '$')
-        advance();
-    addToken(CGI_PATH);
 }
 
 void    Scanner::skipComment() {

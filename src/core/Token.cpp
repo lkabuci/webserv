@@ -19,9 +19,6 @@ std::map<TokenType, std::string>  Token::createMap() {
     m[AUTOINDEX] = "AUTOINDEX";
     m[ALLOW_METHODS] = "ALLOW_METHODS";
     m[RETURN] = "RETURN";
-    m[INCLUDE] = "INCLUDE";
-    m[PATH] = "PATH";
-    m[CGI_PATH] = "CGI_PATH";
     m[SERV_NAME] = "SERV_NAME";
     return m;
 }

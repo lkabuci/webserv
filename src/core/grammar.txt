@@ -17,13 +17,15 @@ server {
 
 }
 
-statement   ->  serverContext+ ;
+statement   ->  expression ;
 
-serverContext   ->  "server" "{" ((directive ";")* (locationContext)*)+ "}" ;
+expression  ->  serverContext (statement)* ;
 
-locationContext ->  "location" (param)? "{" (directive ";")* "}" ;
+serverContext   ->  "server" "{" ((directive)* (locationContext)*)+ "}" ;
 
-directive       ->  directiveKey (param)+ ;
+locationContext ->  "location" (param)? "{" (directive)* "}" ;
+
+directive       ->  directiveKey (param)+ ";";
 
 directiveKey    ->  "listen" | "root" | "server_name" | "client_max_body_size"
                     | "error_page" | "index" | "autoindex" | "allow_methods" ;

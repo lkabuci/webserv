@@ -35,8 +35,6 @@ private:
     char    advance();
     void    addToken(TokenType type);
     void    _string();
-    void    _path();
-    void    cgi_path();
     void    skipComment();
     bool    isStringChar(char c);
     bool    isPath(char c);
