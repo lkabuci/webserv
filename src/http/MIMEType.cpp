@@ -1,55 +1,69 @@
 #include "MIMEType.hpp"
 #include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <exception>
 #include <fstream>
 #include <map>
-#include <nl_types.h>
 #include <sstream>
 #include <string>
 #include <vector>
 #define SPACES " \t\r\n"
 
 static std::string trim(const std::string& str);
-static bool is_all_whitespace(const std::string& line);
+static bool isAllWhiteSpace(const std::string& line);
 static void removeHeader(std::string& content);
 
-MIMEType::MIMEType() {
-    const std::string mimeTypesFilePath = "../../config/mime.types";
-    parseMimeTypesFile(mimeTypesFilePath);
+// NOTE: this script should be run from the root of the repo
+MIMEType::MIMEType(const std::string& path) {
+    if (path.empty()) {
+        const char* rootDirectory = std::getenv("PWD");
+        parseMimeTypesFile(std::string(rootDirectory) + "/config/mime.types");
+        return;
+    }
+    parseMimeTypesFile(path);
 }
 
 void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
-    std::ifstream file("/Users/relkabou/Desktop/webserv/config/mime.types");
+    std::ifstream file(mimeTypesFilePath);
     std::string line;
     if (!file.is_open()) {
-        throw std::runtime_error("Could not open mime.types file");
+        throw std::runtime_error("Failed to open the mime.types file. Check if "
+                                 "the file exists and has proper permissions.");
     }
-    std::string fileContent((std::istreambuf_iterator<char>(file)),
-                            std::istreambuf_iterator<char>());
-    removeHeader(fileContent);
-    std::stringstream ss(fileContent);
-    while (std::getline(ss, line, ';')) {
-        if (is_all_whitespace(line))
-            continue;
+    try {
 
-        std::vector<std::string> mime_line = get_mime_line_info(trim(line));
-        for (int i = 1; i < mime_line.size(); ++i) {
-            _mime_types.insert(std::pair<std::string, std::string>(
-                mime_line[i], mime_line[0]));
+        std::string fileContent((std::istreambuf_iterator<char>(file)),
+                                std::istreambuf_iterator<char>());
+        removeHeader(fileContent);
+        std::stringstream ss(fileContent);
+        while (std::getline(ss, line, ';')) {
+            if (isAllWhiteSpace(line))
+                continue;
+
+            std::vector<std::string> mime_line = getMimeLineInfo(trim(line));
+            for (int i = 1; i < mime_line.size(); ++i) {
+                _mimeTypes.insert(std::pair<std::string, std::string>(
+                    mime_line[i], mime_line[0]));
+            }
         }
+    } catch (const std::exception& ex) {
+        file.close();
+        throw;
     }
 }
 
 std::string
 MIMEType::getMimeTypeForExtension(const std::string& extension) const {
     std::map<std::string, std::string>::const_iterator it;
-    it = _mime_types.find(extension);
-    if (it != _mime_types.end()) {
+    it = _mimeTypes.find(extension);
+    if (it != _mimeTypes.end()) {
         return it->second;
     }
     return "text/plain";
 }
 
-std::vector<std::string> MIMEType::get_mime_line_info(std::string line) {
+std::vector<std::string> MIMEType::getMimeLineInfo(std::string line) {
     std::string buffer;
     std::vector<std::string> lineInfo;
 
@@ -65,21 +79,28 @@ std::vector<std::string> MIMEType::get_mime_line_info(std::string line) {
 // Check if the string before "{" is "types" only
 // Remove the "types {" and "}" from the end
 void removeHeader(std::string& content) {
+    const std::string mimeDirectiveName = "types";
     content = trim(content);
 
     size_t start = content.find("{");
     if (start == std::string::npos || start == 0) {
-        throw std::runtime_error("Invalid mime.types file");
+        throw std::runtime_error(
+            "Invalid header format in the mime.types file. Ensure the file "
+            "starts with 'types {'.");
     }
 
     std::string beforeBrace = trim(content.substr(0, start));
-    if (beforeBrace != "types") {
-        throw std::runtime_error("Invalid mime.types file");
+    if (beforeBrace != mimeDirectiveName) {
+        throw std::runtime_error(
+            "Invalid header format in the mime.types file. Ensure the file "
+            "have the 'types' directive.");
     }
 
     size_t end = content.rfind("}");
     if (end == std::string::npos || start >= end) {
-        throw std::runtime_error("Invalid mime.types file");
+        throw std::runtime_error(
+            "Invalid header format in the mime.types file. Ensure the file "
+            "ends with the '}'");
     }
     content = content.substr(start + 1, end - start - 1);
 }
@@ -96,7 +117,7 @@ static std::string trim(const std::string& str) {
     return trimmedStr;
 }
 
-bool is_all_whitespace(const std::string& line) {
+bool isAllWhiteSpace(const std::string& line) {
     for (std::string::const_iterator it = line.begin(); it != line.end();
          ++it) {
         if (!std::isspace(*it)) {
