@@ -21,7 +21,7 @@ statement   ->  serverContext+ ;
 
 serverContext   ->  "server" "{" ((directive ";")* (locationContext)*)+ "}" ;
 
-locationContext ->  "location" (param)? "{" (directive ";")+ (locationContext)* "}" ;
+locationContext ->  "location" (param)? "{" (directive ";")* "}" ;
 
 directive       ->  directiveKey (param)+ ;
 

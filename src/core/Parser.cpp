@@ -21,67 +21,60 @@ std::shared_ptr<Stmt>   Parser::serverContext() {
         throw ParseException(peek(), "Expected a server context.");
     std::shared_ptr<Token>              name(new Token(previous()));
     std::shared_ptr<Context>            stmt(new Context(name));
-    std::shared_ptr<Directive>          right(new Directive());
-    std::shared_ptr<Stmt>               left;
+    std::shared_ptr<Directive>          left(new Directive());
+    std::shared_ptr<Stmt>               right;
     std::vector<Directive::Parameter>   params;
 
     if (!match({LEFT_BRACE}))
         throw ParseException(peek(), "Expect open brace '{'.");
     while (!check(RIGHT_BRACE) && !check(END)) {
-        if (isDirectiveKey())
+        while (isDirectiveKey()) {
             params.push_back(direcitve());
+        }
         if (check(LOCATION_CONTEXT))
-            left = std::shared_ptr<Stmt>(new MainContext(left,
+            right = std::shared_ptr<Stmt>(new MainContext(left,
                                                         locationContext()));
     }
     consume(RIGHT_BRACE, "Expect end brace.");
-    right->add(params);
-    stmt->addStmtToRight(right);
+    left->add(params);
     stmt->addStmtToLeft(left);
+    stmt->addStmtToRight(right);
     return stmt;
 }
 
 std::shared_ptr<Stmt>   Parser::locationContext() {
     std::shared_ptr<Token>              name(new Token(peek()));
     std::shared_ptr<Context>            stmt(new Context(name));
-    std::shared_ptr<Directive>          right(new Directive());
-    std::shared_ptr<Stmt>               left;
+    std::shared_ptr<Directive>          left(new Directive());
     std::vector<Directive::Parameter>   params;
 
     advance();
     if (!match({PARAMETER})) {
         throw ParseException(peek(), "Expect path.");
     }
-    stmt->addParam(peek().getLexeme());
+    stmt->addParam(previous().getLexeme());
     if (!match({LEFT_BRACE}))
         throw ParseException(peek(), "Expect open brace '{'.");
-    while (!check(RIGHT_BRACE) && !check(END)) {
-        if (isDirectiveKey())
-            params.push_back(direcitve());
-        if (check(LOCATION_CONTEXT))
-            left = locationContext();
-    }
+    while (isDirectiveKey())
+        params.push_back(direcitve());
     consume(RIGHT_BRACE, "Expect expression [3].");
-    right->add(params);
-    stmt->addStmtToRight(right);
+    left->add(params);
     stmt->addStmtToLeft(left);
     return stmt;
 }
 
 Directive::Parameter    Parser::direcitve() {
     Directive::Parameter        params;
+    std::string                 key = peek().getLexeme();
+    std::vector<std::string>    values;
 
-    do {
-        std::string                 key = peek().getLexeme();
-        std::vector<std::string>    values;
-        advance();
-        while (match({PARAMETER})) {
-            values.push_back(previous().getLexeme());
-        }
-        if (!match({SEMICOLON}))
-            throw ParseException(peek(), "Expect ';' at end of expression.");
-        params[key] = values;
-    } while (isDirectiveKey());
+    advance();
+    while (match({PARAMETER})) {
+        values.push_back(previous().getLexeme());
+    }
+    if (!match({SEMICOLON}))
+        throw ParseException(peek(), "Expect ';' at end of expression.");
+    params[key] = values;
     return params;
 }
 
