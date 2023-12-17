@@ -1,12 +1,16 @@
 CC := g++
-CPPFLAGS := -Wall -Wextra -Werror -std=c++98 -g
+CPPFLAGS := -Wall -Wextra -Werror -std=c++98 -g -I include/
 RM := rm -rf
 
 NAME := parse
 OBJ_DIR := ../../build/
 
-HEADERS := common.hpp ConfigParse.hpp SyntaxException.hpp Token.hpp \
-TokenType.hpp Scanner.hpp
+PARSER_DIR := Parser/
+SCANNER_DIR := Sanner/
+INCLUDE_DIR := include/
+VISITOR_DIR := visitor/
+
+HEADERS := $(wildcard $(INCLUDE_DIR)*.hpp)
 
 SRCS := $(wildcard *.cpp)
 OBJS = $(addprefix $(OBJ_DIR),$(SRCS:%.cpp=%.o))
