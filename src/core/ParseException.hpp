@@ -9,6 +9,7 @@
 class   ParseException : public std::exception {
 public:
     ParseException(Token token, const std::string& message);
+    virtual ~ParseException() throw() {}
 
     virtual const char* what() const throw();
 

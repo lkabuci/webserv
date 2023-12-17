@@ -4,6 +4,8 @@ Directive::Directive() : _params() {}
 
 Directive::Directive(const Parameter& params) : _params(params) {}
 
+Directive::~Directive() {}
+
 void    Directive::accept(Visitor& visitor) {
     visitor.visitDirectiveExpr(*this);
 }

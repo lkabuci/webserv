@@ -7,7 +7,11 @@
 
 class   Token {
 public:
+    Token();
     Token(TokenType type, const std::string& lexeme, size_t line);
+    Token(const Token& t);
+
+    Token&  operator=(const Token& t);
 
     static std::map<TokenType, std::string>   m;
     static std::map<TokenType, std::string>   createMap();

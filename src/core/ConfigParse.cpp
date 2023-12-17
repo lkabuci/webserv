@@ -29,17 +29,18 @@ void    ConfigParse::_parse(const std::string& source) {
         tokens = scanner.scanTokens();
         Parser  parser(tokens);
 
-        std::shared_ptr<Expr>   stmt = parser.parse();
+        Expr*   stmt = parser.parse();
         AstPrinter  ap;
 
         ap.print(*stmt);
         std::cout << "\n";
+        delete stmt;
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
 }
 
-std::string ConfigParse::toString(int n) noexcept {
+std::string ConfigParse::toString(int n) {
     std::stringstream   ss;
 
     ss << std::dec << n;

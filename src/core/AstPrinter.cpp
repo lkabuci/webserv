@@ -7,43 +7,50 @@ void    AstPrinter::print(Expr& stmt) {
 }
 
 void    AstPrinter::visitMainContextExpr(MainContext& stmt) {
-    parenthesize("block", {&stmt.getLeftExpr(), &stmt.getRightExpr()});
+    parenthesize("block", 2, stmt.getLeftExpr(), stmt.getRightExpr());
 }
 
 void    AstPrinter::visitContextExpr(Context& stmt) {
     std::cout << stmt.getName().getLexeme();
     if (!stmt.getParams().empty()) {
+        std::vector<std::string>::iterator  it = stmt.getParams().begin();
         std::cout << " [";
-        for (auto param : stmt.getParams())
-            std::cout << " " << param;
+        for (; it != stmt.getParams().end(); ++it)
+            std::cout << " " << *it;
         std::cout << " ]";
     }
     std::cout << " (";
-    parenthesize("", {&stmt.getLeftExpr(), &stmt.getRightExpr()});
+    parenthesize("", 2, stmt.getLeftExpr(), stmt.getRightExpr());
     std::cout << ") ";
 }
 
 void    AstPrinter::visitDirectiveExpr(Directive& stmt) {
     if (stmt.getParams().empty())
         return;
+    Directive::Parameter                pramas = stmt.getParams();
+    Directive::Parameter::iterator      it = pramas.begin();
+    std::vector<std::string>::iterator  itvec;
     std::cout << "[";
-    for (auto param : stmt.getParams()) {
-        std::cout << " -" << param.first << ":";
-        for (auto value : param.second)
-            std::cout << " " << value;
+    for (; it != pramas.end(); ++it) {
+        std::cout << " -" << it->first << ":";
+        for (itvec = it->second.begin(); itvec != it->second.end(); ++itvec)
+            std::cout << " " << *itvec;
     }
     std::cout << "]";
 }
 
-void    AstPrinter::parenthesize(const std::string& name,
-                                std::initializer_list<Expr*> stmts)
+void    AstPrinter::parenthesize(const std::string& name, int n, ...)
 {
+    va_list ap;
+    va_start(ap, n);
+
     std::cout << "{ " << name;
-    for (auto stmt : stmts) {
-        if (!stmt)
+    for (int i = 0; i < n; ++i) {
+        Expr*   ptr = va_arg(ap, Expr*);
+        if (!ptr)
             continue;
         std::cout << " ";
-        stmt->accept(*this);
+        ptr->accept(*this);
     }
     std::cout << "}";
 }

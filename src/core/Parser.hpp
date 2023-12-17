@@ -5,29 +5,32 @@
 
 #include "ParseException.hpp"
 #include "Expr.hpp"
+#include <stdarg.h>
 
 class   Parser {
 public:
     Parser(const std::list<Token>& tokens);
-    Parser(const Parser&) = delete;
-    Parser& operator=(const Parser&) = delete;
 
-    std::shared_ptr<Expr>   parse();
+    Expr*   parse();
 
 private:
-    std::list<Token>    _tokens;
-    size_t              _current;
+    Parser(const Parser&);
+    Parser& operator=(const Parser&);
 
-    std::shared_ptr<Expr>   statement();
-    std::shared_ptr<Expr>   expression();
-    std::shared_ptr<Expr>   serverContext();
-    std::shared_ptr<Expr>   block();
+    std::list<Token>            _tokens;
+    size_t                      _current;
+    std::list<Token>::iterator  _itCurrent;
+
+    Expr*                   statement();
+    Expr*                   expression();
+    Expr*                   serverContext();
+    Expr*                   block();
     Directive::Parameter    direcitve();
-    std::shared_ptr<Expr>   locationContext();
+    Expr*                   locationContext();
 
     bool    check(TokenType type);
     Token&  peek();
-    bool    match(const std::initializer_list<TokenType>& types);
+    bool    match(int n, ...);
     void    advance();
     Token&  previous();
     bool    isAtEnd();

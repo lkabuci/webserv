@@ -1,5 +1,5 @@
-CC := c++
-CPPFLAGS := -Wall -Wextra -Werror -std=c++17 -g
+CC := g++
+CPPFLAGS := -Wall -Wextra -Werror -std=c++98 -g
 RM := rm -rf
 
 NAME := parse

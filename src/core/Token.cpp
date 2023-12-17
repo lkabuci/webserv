@@ -23,11 +23,26 @@ std::map<TokenType, std::string>  Token::createMap() {
     return m;
 }
 
+Token::Token() : _type(END), _lexeme(), _line(0) {}
+
 Token::Token(TokenType type, const std::string& lexeme, size_t line)
     : _type(type)
     , _lexeme(lexeme)
     , _line(line)
 {
+}
+
+Token::Token(const Token& t)
+    : _type(t._type)
+    , _lexeme(t._lexeme)
+    , _line(t._line)
+{
+}
+Token&  Token::operator=(const Token& t) {
+    _type = t._type;
+    _lexeme = t._lexeme;
+    _line = t._line;
+    return *this;
 }
 
 TokenType   Token::getType() const { return _type; }

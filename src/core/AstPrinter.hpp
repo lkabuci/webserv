@@ -10,8 +10,7 @@ public:
     virtual ~AstPrinter();
 
     void    print(Expr& stmt);
-    void    parenthesize(const std::string& name,
-                        std::initializer_list<Expr*> stmts);
+    void    parenthesize(const std::string& name, int n, ...);
 
     virtual void    visitMainContextExpr(MainContext& stmt);
     virtual void    visitContextExpr(Context& stmt);

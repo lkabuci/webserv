@@ -3,10 +3,10 @@
 
 ParseException::ParseException(Token token, const std::string& message) {
     if (token.getType() == END) {
-        _errorMsg = "[" + ConfigParse::toString(token.getLine()) + "] at end: "
-                    + message;
+        _errorMsg = "[line " + ConfigParse::toString(token.getLine())
+                    + "] at end: " + message;
     } else {
-        _errorMsg = "[" + ConfigParse::toString(token.getLine()) + "] at '"
+        _errorMsg = "[line " + ConfigParse::toString(token.getLine()) + "] at '"
                     + token.getLexeme() + "': " + message;
     }
 }

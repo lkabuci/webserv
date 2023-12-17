@@ -13,7 +13,7 @@ public:
     ConfigParse();
     void    parseFile(const char* file);
 
-    static std::string  toString(int n) noexcept;
+    static std::string  toString(int n);
 
 private:
     ConfigParse(const ConfigParse&);

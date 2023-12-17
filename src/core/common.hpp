@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <cstdarg>
 #include <cstdlib>
 #include <exception>
 #include "TokenType.hpp"
