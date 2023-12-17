@@ -10,12 +10,13 @@ StatusLine::StatusLine(HTTP::METHOD method, const std::string& uri,
 
 std::string StatusLine::serliaze() const {
     std::stringstream status_line;
-    status_line << _method << " " << _uri << " " << _version;
+    status_line << HTTP::toString(_method) << " " << _uri << " "
+                << HTTP::toString(_version);
     return status_line.str();
 }
 
-StatusLine StatusLine::deserialize(const std::string& status_line) {
-    std::stringstream ss(status_line);
+StatusLine StatusLine::deserialize(const std::string& statusLine) {
+    std::stringstream ss(statusLine);
     std::string buffer;
     HTTP::METHOD method;
     HTTP::VERSION version;
@@ -26,9 +27,9 @@ StatusLine StatusLine::deserialize(const std::string& status_line) {
     int count = 0;
     while (std::getline(ss, buffer, ' ')) {
         switch (count) {
-        case 0: method = HTTP::to_method(buffer); break;
+        case 0: method = HTTP::toMethod(buffer); break;
         case 1: uri = buffer; break;
-        case 2: version = HTTP::to_version(buffer); break;
+        case 2: version = HTTP::toVersion(buffer); break;
         }
         count++;
     }

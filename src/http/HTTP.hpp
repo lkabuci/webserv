@@ -31,10 +31,10 @@ enum STATUS_CODE {
     SERVICE_UNAVAILABLE = 503,
 };
 
-std::string to_string(HTTP::VERSION version);
-HTTP::VERSION to_version(const std::string& version);
-std::string to_string(HTTP::METHOD method);
-HTTP::METHOD to_method(const std::string& method);
+std::string toString(VERSION version);
+VERSION toVersion(const std::string& version);
+std::string toString(METHOD method);
+METHOD toMethod(const std::string& method);
 
 } // namespace HTTP
 

@@ -6,7 +6,7 @@ Header::Header(const std::string& key, const std::string& value)
 
 std::string Header::serialize() const {
     std::stringstream header;
-    header << _key << ": " << _value << CRLF;
+    header << _key << ": " << _value;
     return header.str();
 }
 
@@ -16,7 +16,7 @@ Header Header::deserialize(const std::string& header) {
         throw std::runtime_error("Error while parsing the header");
     }
     std::string key = header.substr(0, pos);
-    std::string value = header.substr(pos + 2); // NOTE: what about \r\n?
+    std::string value = header.substr(pos + 2);
     return Header(key, value);
 }
 

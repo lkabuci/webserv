@@ -1,4 +1,5 @@
 #include "EventLoop.hpp"
+#include <cstring>
 
 std::vector<struct pollfd> EventLoop::_pollfds;
 

@@ -22,7 +22,6 @@ all:	$(NAME)
 $(NAME): $(OBJECTS)
 	@echo $(CXX) $^ -o $@
 	@$(CXX) $^ -o $@
-	@ar cr $(LIB) $(filter-out build/main.o,$^)
 
 $(OBJECTS): | $(BUILD_DIR)
 
@@ -37,6 +36,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/*/%.cpp $(INCLUDE)
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
+
+docker: unittest
+	@docker compose up --build; make fclean -f Makefile-test
 
 clean:
 	@$(RM) $(BUILD_DIR) $(LIB)
