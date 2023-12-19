@@ -1,4 +1,5 @@
 #include "MIMEType.hpp"
+#include "HttpUtils.hpp"
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -8,7 +9,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "HttpUtils.hpp"
 
 static void removeHeader(std::string& content);
 
@@ -29,25 +29,21 @@ void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
         throw std::runtime_error("Failed to open the mime.types file. Check if "
                                  "the file exists and has proper permissions.");
     }
-    try {
+    std::string fileContent((std::istreambuf_iterator<char>(file)),
+                            std::istreambuf_iterator<char>());
+    file.close();
+    removeHeader(fileContent);
+    std::stringstream ss(fileContent);
+    while (std::getline(ss, line, ';')) {
+        if (HttpUtils::isAllWhiteSpace(line))
+            continue;
 
-        std::string fileContent((std::istreambuf_iterator<char>(file)),
-                                std::istreambuf_iterator<char>());
-        removeHeader(fileContent);
-        std::stringstream ss(fileContent);
-        while (std::getline(ss, line, ';')) {
-            if (HttpUtils::isAllWhiteSpace(line))
-                continue;
-
-            std::vector<std::string> mime_line = getMimeLineInfo(HttpUtils::trim(line));
-            for (int i = 1; i < mime_line.size(); ++i) {
-                _mimeTypes.insert(std::pair<std::string, std::string>(
-                    mime_line[i], mime_line[0]));
-            }
+        std::vector<std::string> mime_line =
+            getMimeLineInfo(HttpUtils::trim(line));
+        for (int i = 1; i < mime_line.size(); ++i) {
+            _mimeTypes.insert(std::pair<std::string, std::string>(
+                mime_line[i], mime_line[0]));
         }
-    } catch (const std::exception& ex) {
-        file.close();
-        throw;
     }
 }
 
