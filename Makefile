@@ -37,7 +37,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/*/%.cpp $(INCLUDE)
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 
-docker: unittest
+unittest:
 	@docker compose up --build; make fclean -f Makefile-test
 
 clean:

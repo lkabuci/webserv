@@ -8,10 +8,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#define SPACES " \t\r\n"
+#include "HttpUtils.hpp"
 
-static std::string trim(const std::string& str);
-static bool isAllWhiteSpace(const std::string& line);
 static void removeHeader(std::string& content);
 
 // NOTE: this script should be run from the root of the repo
@@ -38,10 +36,10 @@ void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
         removeHeader(fileContent);
         std::stringstream ss(fileContent);
         while (std::getline(ss, line, ';')) {
-            if (isAllWhiteSpace(line))
+            if (HttpUtils::isAllWhiteSpace(line))
                 continue;
 
-            std::vector<std::string> mime_line = getMimeLineInfo(trim(line));
+            std::vector<std::string> mime_line = getMimeLineInfo(HttpUtils::trim(line));
             for (int i = 1; i < mime_line.size(); ++i) {
                 _mimeTypes.insert(std::pair<std::string, std::string>(
                     mime_line[i], mime_line[0]));
@@ -80,7 +78,7 @@ std::vector<std::string> MIMEType::getMimeLineInfo(std::string line) {
 // Remove the "types {" and "}" from the end
 void removeHeader(std::string& content) {
     const std::string mimeDirectiveName = "types";
-    content = trim(content);
+    content = HttpUtils::trim(content);
 
     size_t start = content.find("{");
     if (start == std::string::npos || start == 0) {
@@ -89,7 +87,7 @@ void removeHeader(std::string& content) {
             "starts with 'types {'.");
     }
 
-    std::string beforeBrace = trim(content.substr(0, start));
+    std::string beforeBrace = HttpUtils::trim(content.substr(0, start));
     if (beforeBrace != mimeDirectiveName) {
         throw std::runtime_error(
             "Invalid header format in the mime.types file. Ensure the file "
@@ -103,26 +101,4 @@ void removeHeader(std::string& content) {
             "ends with the '}'");
     }
     content = content.substr(start + 1, end - start - 1);
-}
-
-static std::string trim(const std::string& str) {
-    std::string trimmedStr = str;
-    size_t start = trimmedStr.find_first_not_of(SPACES);
-    size_t end = trimmedStr.find_last_not_of(SPACES);
-    if (start != std::string::npos && end != std::string::npos) {
-        trimmedStr = trimmedStr.substr(start, end - start + 1);
-    } else {
-        trimmedStr.clear();
-    }
-    return trimmedStr;
-}
-
-bool isAllWhiteSpace(const std::string& line) {
-    for (std::string::const_iterator it = line.begin(); it != line.end();
-         ++it) {
-        if (!std::isspace(*it)) {
-            return false;
-        }
-    }
-    return true;
 }

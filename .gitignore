@@ -2,3 +2,5 @@ webserv
 build/
 a.out*
 launch.json
+gtest/
+tests

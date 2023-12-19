@@ -13,6 +13,10 @@ class StatusLine {
     std::string serliaze() const;
     static StatusLine deserialize(const std::string& status_line);
 
+    const HTTP::METHOD getMethod() const;
+    const std::string getURI() const;
+    const HTTP::VERSION getVersion() const;
+
   private:
     HTTP::METHOD _method;
     std::string _uri;

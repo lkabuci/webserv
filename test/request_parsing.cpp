@@ -46,9 +46,12 @@ TEST(StatusLine, deserialize) {
 }
 
 TEST(StatusLine, deserialize_abnormal) {
-    EXPECT_THROW(StatusLine::deserialize("GET /index.html"), std::runtime_error);
-    EXPECT_THROW(StatusLine::deserialize("GET /index.html HTTP/1.2"), std::runtime_error);
-    EXPECT_THROW(StatusLine::deserialize("GEET /index.html HTTP/2.0"), std::runtime_error);
+    EXPECT_THROW(StatusLine::deserialize("GET /index.html"),
+                 std::runtime_error);
+    EXPECT_THROW(StatusLine::deserialize("GET /index.html HTTP/1.2"),
+                 std::runtime_error);
+    EXPECT_THROW(StatusLine::deserialize("GEET /index.html HTTP/2.0"),
+                 std::runtime_error);
 }
 
 TEST(Header, normal) {
@@ -62,7 +65,5 @@ TEST(Header, abnormal) {
     header = Header("Host", "localhost:8080");
     EXPECT_NE(header.serialize(), "Host: localhost:808");
 }
-
-
 
 } // namespace

@@ -1,4 +1,5 @@
 #include "Header.hpp"
+#include "HttpUtils.hpp"
 #include <stdexcept>
 
 Header::Header(const std::string& key, const std::string& value)
@@ -11,12 +12,12 @@ std::string Header::serialize() const {
 }
 
 Header Header::deserialize(const std::string& header) {
-    size_t pos = header.find(": ");
+    size_t pos = header.find(":");
     if (pos == std::string::npos) {
         throw std::runtime_error("Error while parsing the header");
     }
-    std::string key = header.substr(0, pos);
-    std::string value = header.substr(pos + 2);
+    std::string key = HttpUtils::trim(header.substr(0, pos));
+    std::string value = HttpUtils::trim(header.substr(pos + 1));
     return Header(key, value);
 }
 
