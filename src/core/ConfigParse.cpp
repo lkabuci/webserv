@@ -32,15 +32,12 @@ void    ConfigParse::_parse(const std::string& source) {
         Parser  parser(tokens);
 
         expr = parser.parse();
+        if (expr == NULL)
+            throw std::runtime_error("no information has found.");
         AstPrinter  ap;
-        //ServerConfig    svconf;
 
         ap.print(*expr);
         std::cout << '\n';
-        //Interpret   interpret;
-
-        //interpret.evalute(expr, svconf);
-        //svconf.display();
         delete expr;
     } catch (const std::exception& e) {
         delete expr;

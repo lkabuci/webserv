@@ -47,7 +47,7 @@ Expr*   Parser::serverContext() {
 }
 
 Expr*   Parser::insideBlock() {
-    if (match(1, LOCATION_CONTEXT))
+    if (match(LOCATION_CONTEXT))
         return locationContext();
     return serverDirective();
 }
@@ -71,11 +71,13 @@ Expr*   Parser::locationContext() {
 }
 
 Expr*   Parser::locationParameter() {
-    if (!match(1, PARAMETER))
+    if (!match(PARAMETER))
         throw ParseException(peek(), "Expect location path.");
     std::vector<std::string>    parameter;
 
-    parameter.push_back(previous().getLexeme());
+    do {
+        parameter.push_back(previous().getLexeme());
+    } while (match(PARAMETER));
     return new Parameter(parameter);
 }
 
@@ -83,9 +85,9 @@ Expr*   Parser::serverDirective() {
     if (consumeServerDirective()) {
         Token   opt(previous());
         Expr*   right = parameter();
-        if (!match(1, SEMICOLON)) {
+        if (!match(SEMICOLON)) {
             delete right;
-            throw ParseException(peek(), "Expect expression.");
+            throw ParseException(peek(), "Expect ';' after expression.");
         }
         return new Directive(opt, right);
     }
@@ -98,11 +100,10 @@ Expr*   Parser::locationDirective() {
     if (consumeLocationDirective()) {
         Token   opt(previous());
         Expr*   right = parameter();
-        if (!match(1, SEMICOLON)) {
+        if (!match(SEMICOLON)) {
             delete right;
-            throw ParseException(peek(), "Expect expression.");
+            throw ParseException(previous(), "Expect ';' after expression.");
         }
-        //consume(SEMICOLON,"Expect expression.");
         return new Directive(opt, right);
     }
     if (!check(RIGHT_BRACE))
@@ -113,7 +114,7 @@ Expr*   Parser::locationDirective() {
 Expr*   Parser::parameter() {
     std::vector<std::string>    parameters;
 
-    while (match(1, PARAMETER)) {
+    while (match(PARAMETER)) {
         parameters.push_back(previous().getLexeme());
     }
     return new Parameter(parameters);
@@ -163,19 +164,11 @@ bool    Parser::consumeLocationDirective() {
     return false;
 }
 
-Token&  Parser::peekNext() {
-    if (isAtEnd())
-        return peek();
-    std::list<Token>::iterator    it = _lookahead;
-    ++it;
-    return *it;
-}
-
-Token&  Parser::peek() {
+Token  Parser::peek() {
     return *_lookahead;
 }
 
-Token&  Parser::previous() {
+Token  Parser::previous() {
    std::list<Token>::iterator   it = _tokens.begin();
 
     for (int i = 0; i < _current - 1; ++i)
@@ -195,7 +188,7 @@ bool    Parser::isAtEnd() {
 }
 
 void    Parser::consume(TokenType type, const std::string& message) {
-    if (match(1, type))
+    if (match(type))
         return;
     throw ParseException(previous(), message);
 }
@@ -222,16 +215,10 @@ bool    Parser::check(TokenType type) {
     return peek().getType() == type;
 }
 
-bool    Parser::match(int n, ...) {
-    va_list ap;
-    va_start(ap, n);
-    for (int i = 0; i < n; ++i) {
-        if (check(static_cast<TokenType>(va_arg(ap, int)))) {
-            advance();
-            va_end(ap);
-            return true;
-        }
+bool    Parser::match(TokenType type) {
+    if (peek().getType() == type) {
+        advance();
+        return true;
     }
-    va_end(ap);
     return false;
 }
