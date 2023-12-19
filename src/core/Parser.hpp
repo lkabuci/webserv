@@ -18,26 +18,33 @@ private:
     Parser& operator=(const Parser&);
 
     std::list<Token>            _tokens;
-    size_t                      _current;
-    std::list<Token>::iterator  _itCurrent;
+    int                         _current;
+    std::list<Token>::iterator  _lookahead;
 
-    Expr*                   statement();
-    Expr*                   expression();
-    Expr*                   serverContext();
-    Expr*                   block();
-    Directive::Parameter    direcitve();
-    Expr*                   locationContext();
+    //Expr*                       statement();
+    Expr*       expression();
+    Expr*       serverContext();
+    Expr*       locationContext();
+    Expr*       serverDirective();
+    Expr*       locationDirective();
+    Expr*       insideBlock();
+    Expr*       parameter();
+    Expr*       locationParameter();
 
     bool    check(TokenType type);
     Token&  peek();
+    Token&  peekNext();
     bool    match(int n, ...);
     void    advance();
     Token&  previous();
     bool    isAtEnd();
     bool    isDirectiveKey();
     void    consume(TokenType type, const std::string& message);
-    bool    consumeDirective();
-    bool    isInvalidToken();
+    //bool    consumeDirective();
+    //bool    isInvalidToken();
+    bool    isServerDirective();
+    bool    consumeServerDirective();
+    bool    consumeLocationDirective();
 };
 
 #endif

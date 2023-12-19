@@ -1,15 +1,15 @@
 #pragma once
 
-#ifndef __SCANNER_HPP__
-#define __SCANNER_HPP__
+#ifndef __LEXER_HPP__
+#define __LEXER_HPP__
 
 #include "common.hpp"
 #include "Token.hpp"
 #include "SyntaxException.hpp"
 
-class   Scanner {
+class   Lexer {
 public:
-    Scanner(const std::string& source);
+    Lexer(const std::string& source);
 
     std::list<Token>    scanTokens();
 
@@ -17,8 +17,8 @@ public:
     static std::map<std::string, TokenType> creatKeysMap();
 
 private:
-    Scanner(const Scanner&);
-    Scanner&    operator=(const Scanner&);
+    Lexer(const Lexer&);
+    Lexer&    operator=(const Lexer&);
 
     std::string         _source;
     std::list<Token>    _tokens;
@@ -35,6 +35,7 @@ private:
     char    advance();
     void    addToken(TokenType type);
     void    _string();
+    void    quotes(char c);
     void    skipComment();
     bool    isStringChar(char c);
     bool    isPath(char c);

@@ -8,8 +8,7 @@
 class   SyntaxException : public std::exception {
 public:
     SyntaxException(int line, const std::string& message, char c);
-    SyntaxException(int line, const std::string& where,
-                    const std::string& message);
+    SyntaxException(int line, const std::string& message);
     virtual ~SyntaxException() throw();
 
     virtual const char* what() const throw();

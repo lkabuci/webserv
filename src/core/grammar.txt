@@ -31,3 +31,32 @@ directiveKey    ->  "listen" | "root" | "server_name" | "client_max_body_size"
                     | "error_page" | "index" | "autoindex" | "allow_methods" ;
 
 param           ->  (STRING | NBR) param* ;
+
+
+
+
+
+
+
+
+
+
+
+
+expression          ::= serverContext (serverContext)*
+
+serverContext       ::= "server" "{" serverdirective insideBlock* "}"
+
+insideBlock         ::=  locationContext | serverDirecitve
+
+locationContext     ::= "location" locationParameter "{" locatoinDirective* "}"
+
+serverDirective     ::= serverKeyword parameter+ ";"
+
+locationDirective   ::=  locationKeyword parameter+ ";"
+
+serverKeyword       ::= "listen" | "server_name" | "root" | "client_max_body_size" | "index" | "error_page"
+
+locationDiretive    ::= "root" | "autoindex" | "allow_methods" | "client_max_body_size"
+
+parameter           ::= ANY_PRINTABLE

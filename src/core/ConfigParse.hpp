@@ -6,7 +6,7 @@
 #include "common.hpp"
 #include "SyntaxException.hpp"
 #include "Token.hpp"
-#include "Scanner.hpp"
+#include "Lexer.hpp"
 
 class   ConfigParse {
 public:

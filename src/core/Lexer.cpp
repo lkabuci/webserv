@@ -1,13 +1,13 @@
-#include "Scanner.hpp"
+#include "Lexer.hpp"
 
-std::map<std::string, TokenType>    Scanner::keys = creatKeysMap();
+std::map<std::string, TokenType>    Lexer::keys = creatKeysMap();
 
-std::map<std::string, TokenType>    Scanner::creatKeysMap() {
+std::map<std::string, TokenType>    Lexer::creatKeysMap() {
     std::map<std::string, TokenType>    m;
 
     m["server"] = SERVER_CONTEXT;
     m["listen"] = LISTEN;
-    m["server_name"] = SERV_NAME;
+    m["server_name"] = SERVER_NAME;
     m["root"] = ROOT;
     m["client_max_body_size"] = CLIENT_MAX_BODY_SIZE;
     m["error_page"] = ERROR_PAGE;
@@ -19,7 +19,7 @@ std::map<std::string, TokenType>    Scanner::creatKeysMap() {
     return m;
 }
 
-Scanner::Scanner(const std::string& source)
+Lexer::Lexer(const std::string& source)
     : _source(source)
     , _start(0)
     , _current(0)
@@ -28,7 +28,7 @@ Scanner::Scanner(const std::string& source)
 {
 }
 
-std::list<Token>    Scanner::scanTokens() {
+std::list<Token>    Lexer::scanTokens() {
     while (!isAtEnd()) {
         skipWhiteSpaces();
         _start = _current;
@@ -38,7 +38,7 @@ std::list<Token>    Scanner::scanTokens() {
     return _tokens;
 }
 
-void    Scanner::scanToken() {
+void    Lexer::scanToken() {
     char    c = advance();
 
     switch (c) {
@@ -47,17 +47,32 @@ void    Scanner::scanToken() {
         case ';':   addToken(SEMICOLON);    break;
         case '\n':  _line++;                break;
         case '#':   skipComment();          break;
+        case '"':
+        case '\'':
+            quotes(c);
+            break;
         default:    _string();              break;
     }
 }
 
-void    Scanner::addToken(TokenType type) {
+void    Lexer::quotes(char c) {
+    advance();
+    while (peek() != c && peek() != '\n')
+        advance();
+    if (peek() == '\n')
+        throw SyntaxException(_line, "Unterminated string");
+    advance();
+    std::string text = _source.substr(_start + 1, _current - _start - 2);
+    _tokens.push_back(Token(PARAMETER, text, _line));
+}
+
+void    Lexer::addToken(TokenType type) {
     std::string text = _source.substr(_start, _current - _start);
 
     _tokens.push_back(Token(type, text, _line));
 }
 
-void    Scanner::_string() {
+void    Lexer::_string() {
     while (isStringChar(peek()))
         advance();
     std::string text = _source.substr(_start, _current - _start);
@@ -71,44 +86,44 @@ void    Scanner::_string() {
     addToken(type);
 }
 
-void    Scanner::skipComment() {
+void    Lexer::skipComment() {
     while (!isAtEnd() && peek() != '\n')
         advance();
 }
 
-bool    Scanner::isAtEnd() const {
+bool    Lexer::isAtEnd() const {
     return _current >= _length;
 }
 
-bool    Scanner::isStringChar(char c) {
+bool    Lexer::isStringChar(char c) {
     return !std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#';
 }
 
-bool    Scanner::isPath(char c) {
+bool    Lexer::isPath(char c) {
     return c == '.' || c == '/';
 }
 
-bool    Scanner::isValidPathChar(char c) {
+bool    Lexer::isValidPathChar(char c) {
     return !(std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#');
 }
 
-void    Scanner::skipWhiteSpaces() {
+void    Lexer::skipWhiteSpaces() {
     while (std::isspace(peek()) && peek() != '\n')
         advance();
 }
 
-char    Scanner::peek() {
+char    Lexer::peek() {
     if (isAtEnd())
         return '\0';
     return _source.at(_current);
 }
 
-char    Scanner::peekNext() {
+char    Lexer::peekNext() {
     if (_current + 1 >= _length)
         return '\0';
     return _source.at(_current + 1);
 }
 
-char    Scanner::advance() {
+char    Lexer::advance() {
     return _source.at(_current++);
 }

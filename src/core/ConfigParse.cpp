@@ -1,6 +1,7 @@
 #include "ConfigParse.hpp"
 #include "Parser.hpp"
 #include "AstPrinter.hpp"
+//#include "Interpret.hpp"
 
 void    fatal(const std::string &msg, int exit_status) {
     std::cerr << msg << std::endl;
@@ -22,20 +23,27 @@ void    ConfigParse::parseFile(const char* file) {
 }
 
 void    ConfigParse::_parse(const std::string& source) {
-    Scanner             scanner(source);
+    Lexer             scanner(source);
     std::list<Token>    tokens;
+    Expr*   expr = NULL;
 
     try {
         tokens = scanner.scanTokens();
         Parser  parser(tokens);
 
-        Expr*   stmt = parser.parse();
+        expr = parser.parse();
         AstPrinter  ap;
+        //ServerConfig    svconf;
 
-        ap.print(*stmt);
-        std::cout << "\n";
-        delete stmt;
+        ap.print(*expr);
+        std::cout << '\n';
+        //Interpret   interpret;
+
+        //interpret.evalute(expr, svconf);
+        //svconf.display();
+        delete expr;
     } catch (const std::exception& e) {
+        delete expr;
         std::cerr << e.what() << std::endl;
     }
 }

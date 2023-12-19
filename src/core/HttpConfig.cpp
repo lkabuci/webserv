@@ -2,10 +2,11 @@
 
 HttpConfig::HttpConfig() {}
 
-HttpConfig::HttpConfig(const size_t& port, const std::string& domainName,
-                    const std::string& rootDir,
-                    const std::vector<std::string>& indexFiles,
-                    const std::map<size_t, std::string>& errorPages)
+HttpConfig::HttpConfig(const size_t& port,
+                const std::vector<std::string>& domainName,
+                const std::string& rootDir,
+                const std::vector<std::string>& indexFiles,
+                const keyVector& errorPages)
     : _port(port)
     , _domainName(domainName)
     , _rootDir(rootDir)
@@ -38,7 +39,9 @@ HttpConfig& HttpConfig::operator=(const HttpConfig& conf) {
 
 const size_t&   HttpConfig::getPort() const { return _port; }
 
-const std::string&  HttpConfig::getDomainName() const { return _domainName; }
+const std::vector<std::string>&  HttpConfig::getDomainName() const {
+    return _domainName;
+}
 
 const std::string&  HttpConfig::getRootDir() const { return _rootDir; }
 
@@ -46,21 +49,21 @@ const std::vector<std::string>& HttpConfig::getIndexFiles() const {
     return _indexFiles;
 }
 
-const std::map<size_t, std::string>&    HttpConfig::getErrorPages() const {
+const HttpConfig::keyVector&  HttpConfig::getErrorPages() const {
     return _errorPages;
 }
 
-const std::string  HttpConfig::getErrorPageByCode(size_t code) {
-    if (_errorPages.find(code) != _errorPages.end())
-        return _errorPages[code];
-    return "";
-}
+//const std::string  HttpConfig::getErrorPageByCode(int code) {
+    //if (_errorPages.find(code) != _errorPages.end())
+    //    return _errorPages[code];
+    //return "";
+//}
 
 void    HttpConfig::setPort(const size_t& port) {
     _port = port;
 }
 
-void    HttpConfig::setDomainName(const std::string& domainName) {
+void    HttpConfig::setDomainName(const std::vector<std::string>& domainName) {
     _domainName = domainName;
 }
 
@@ -72,21 +75,22 @@ void    HttpConfig::setIndexFiles(const std::vector<std::string>& indexFiles) {
     _indexFiles = indexFiles;
 }
 
-void    HttpConfig::setErrorPages(const std::map<size_t,
-                                std::string>& errorPages)
+void    HttpConfig::setErrorPages(const keyVector& errorPages)
 {
     _errorPages = errorPages;
 }
 
-void    HttpConfig::addIndexFile(const std::string& file) {
-    _indexFiles.push_back(file);
-}
+//void    HttpConfig::addDomainName(const std::string& name) {
+//    _domainName.push_back(name);
+//}
 
-void    HttpConfig::addErrorPage(const size_t& code, const std::string& file) {
-    _errorPages[code] = file;
-}
+//void    HttpConfig::addIndexFile(const std::string& file) {
+//    _indexFiles.push_back(file);
+//}
+
 
 void    HttpConfig::display() const {
+    showClassName();
     showPort();
     showDomainName();
     showRootDir();
@@ -94,12 +98,18 @@ void    HttpConfig::display() const {
     showErrorPages();
 }
 
+void    HttpConfig::showClassName() const {
+}
+
 void    HttpConfig::showPort() const {
     std::cout << "Port: " << _port << std::endl;
 }
 
 void    HttpConfig::showDomainName() const {
-    std::cout << "Domain Name: " << _domainName << std::endl;
+    std::cout << "Domain Name:";
+    for (size_t i = 0; i < _domainName.size(); ++i)
+        std::cout << " " << _domainName[i];
+    std::cout << std::endl;
 }
 
 void    HttpConfig::showRootDir() const {
@@ -114,12 +124,12 @@ void    HttpConfig::showIndexFiles() const {
 }
 
 void    HttpConfig::showErrorPages() const {
-    std::map<size_t, std::string>::const_iterator   it = _errorPages.begin();
+    keyVector::const_iterator   it = _errorPages.begin();
 
     for (; it != _errorPages.end(); ++it) {
         std::cout << it->first << ":";
         for (size_t i = 0; i < it->second.size(); ++i)
             std::cout << " " << it->second[i];
+        std::cout << "\n";
     }
-    std::cout << std::endl;
 }

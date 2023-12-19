@@ -10,11 +10,9 @@ SyntaxException::SyntaxException(int line, const std::string& message, char c) {
                 + c + ".";
 }
 
-SyntaxException::SyntaxException(int line, const std::string& where,
-                                const std::string& message)
+SyntaxException::SyntaxException(int line, const std::string& message)
 {
-    _errorMsg = std::string("[line ") + toString(line) + "] Error: " + where
-                + ": " + message;
+    _errorMsg = std::string("[line ") + toString(line) + "] Error: " + message;
 }
 
 const char* SyntaxException::what() const throw() {

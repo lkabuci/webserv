@@ -12,9 +12,12 @@ public:
     Token(const Token& t);
 
     Token&  operator=(const Token& t);
+    bool    operator==(const Token& t);
 
-    static std::map<TokenType, std::string>   m;
-    static std::map<TokenType, std::string>   createMap();
+    static std::map<TokenType, std::string>   values;
+    static std::map<std::string, TokenType>   types;
+    static std::map<TokenType, std::string>   createValuesMap();
+    static TokenType    getLexemeType(const std::string& type);
 
     TokenType           getType() const;
     const std::string&  getLexeme() const;
