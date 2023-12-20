@@ -1,62 +1,44 @@
 GREEN = \033[38;2;0;153;0m
 NC = \033[0m # No Color
 
-CC			= c++
-CPPFLAGS	= -Wall -Wextra -Werror -std=c++17 -g
+CXX			= c++
+CXXFLAGS	= # -Wall -Wextra -Werror -std=c++98 -g
 RM			= rm -rf
 
 NAME		= webserv
 
-SRC_DIR		= src/
+SRC_DIR		= src
+BUILD_DIR	= build
 
-SRCS		= main.cpp test.cpp
-BUILD_DIR	= build/
-OBJECTS		= $(addprefix $(BUILD_DIR),$(SRCS:%.cpp=%.o))
+SRCS		= $(shell find $(SRC_DIR) -type f -name "*.cpp")
+OBJECTS		= $(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:%.cpp=%.o)))
 
-LIB			= $(BUILD_DIR)libwebserv.a
+LIB			= $(BUILD_DIR)/libwebserv.a
 
-INCLUDE		= include/
-
-# Unittest --------------
-GTEST = /usr/local/lib/libgtest.a
-TEST_DIR = test/
-UNITTEST_FLAGS 	= -std=c++17 -Wall -I $(INCLUDE) -I /usr/local/include/gtest/ -c
-UNITTEST_LFLAGS = -std=c++17 -I $(INCLUDE) -pthread
-UNITTEST_SRCS 		= $(wildcard test/*.cpp)
-UNITTEST_OBJECTS	= $(addprefix $(BUILD_DIR),$(UNITTEST_SRCS:%.cpp=%.o))
-# -----------------------
-
+INCLUDE		= include/webserv.h
+INCLUDE		+= $(shell find src -type f -name "*.hpp")
 all:	$(NAME)
 
 $(NAME): $(OBJECTS)
-	@$(CC) $^ -o $@
-	@ar cr $(LIB) $(filter-out build/main.o,$^)
+	@echo $(CXX) $^ -o $@
+	@$(CXX) $^ -o $@
 
 $(OBJECTS): | $(BUILD_DIR)
 
-$(BUILD_DIR)%.o:	$(SRC_DIR)%.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE)
 	@echo "$(GREEN)=> Compiling$(NC) $<"
-	@$(CC) $(CPPFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-tests:  all $(UNITTEST_OBJECTS)
-	@$(CC) $(UNITTEST_LFLAGS) -o $@ $(UNITTEST_OBJECTS) $(GTEST) $(LIB) && ./$@
+$(BUILD_DIR)/%.o: $(SRC_DIR)/*/%.cpp $(INCLUDE)
+	@echo "$(GREEN)=> Compiling$(NC) $<"
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(BUILD_DIR)$(TEST_DIR)%.o: $(TEST_DIR)%.cpp
-	@$(CC) $(CPPFLAGS) $(UNITTEST_FLAGS) $< -o $@
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 
-# Dockerfile ----------
-d:
-	@docker compose up
-
-dit:
-	@docker build -t webserv . && docker run -it --rm --entrypoint bash webserv
-
-dc:
-	@docker system prune -af
-# ---------------------
+unittest:
+	@docker compose up --build; make fclean -f Makefile-test
 
 clean:
 	@$(RM) $(BUILD_DIR) $(LIB)

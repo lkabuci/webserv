@@ -125,5 +125,7 @@ char    Lexer::peekNext() {
 }
 
 char    Lexer::advance() {
+    if (isAtEnd())
+        return '\0';
     return _source.at(_current++);
 }

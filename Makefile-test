@@ -1,0 +1,33 @@
+CXX			= c++
+CXXFLAGS	= -std=c++17 -Wall -I include -I /usr/local/include/gtest/
+RM			= rm -rf
+
+BUILD_DIR	= build
+LIB			= $(BUILD_DIR)/libwebserv.a
+GTEST		= /usr/local/lib/libgtest.a
+LFLAGS		= -pthread
+
+DIR			= test/
+SRCS		= $(wildcard $(DIR)*.cpp)
+TEST_OBJS	= $(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:%.cpp=%.o)))
+
+NORMAL_SRCS	= $(addprefix $(BUILD_DIR)/,$(notdir $(shell find src -type f -name "*.cpp")))
+NORMAL_OBJS = $(NORMAL_SRCS:%.cpp=%.o)
+
+
+tests: $(LIB) $(TEST_OBJS)
+	@$(CXX) $(LFLAGS) $(TEST_OBJS) $(LIB) $(GTEST) -o tests && ./tests
+
+$(LIB):
+	@make -f Makefile
+	@ar cr $(LIB) $(filter-out $(BUILD_DIR)/main.o,$(NORMAL_OBJS))
+	@rm -rf $(BUILD_DIR)/*.o
+
+$(BUILD_DIR)/%.o: $(DIR)%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+
+fclean:
+	@rm -rf $(BUILD_DIR) tests webserv
+
+re: fclean tests
