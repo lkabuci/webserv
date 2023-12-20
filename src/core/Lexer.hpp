@@ -16,7 +16,7 @@ public:
     static std::map<std::string, TokenType> keys;
     static std::map<std::string, TokenType> creatKeysMap();
 
-private:
+//private:
     Lexer(const Lexer&);
     Lexer&    operator=(const Lexer&);
 
@@ -38,7 +38,6 @@ private:
     void    quotes(char c);
     void    skipComment();
     bool    isStringChar(char c);
-    bool    isPath(char c);
     bool    isValidPathChar(char c);
 };
 

@@ -57,9 +57,9 @@ void    Lexer::scanToken() {
 
 void    Lexer::quotes(char c) {
     advance();
-    while (peek() != c && peek() != '\n')
+    while (!isAtEnd() && peek() != c && peek() != '\n')
         advance();
-    if (peek() == '\n')
+    if (isAtEnd() || peek() == '\n')
         throw SyntaxException(_line, "Unterminated string");
     advance();
     std::string text = _source.substr(_start + 1, _current - _start - 2);
@@ -73,7 +73,7 @@ void    Lexer::addToken(TokenType type) {
 }
 
 void    Lexer::_string() {
-    while (isStringChar(peek()))
+    while (!isAtEnd() && isStringChar(peek()))
         advance();
     std::string text = _source.substr(_start, _current - _start);
     TokenType   type;
@@ -97,10 +97,6 @@ bool    Lexer::isAtEnd() const {
 
 bool    Lexer::isStringChar(char c) {
     return !std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#';
-}
-
-bool    Lexer::isPath(char c) {
-    return c == '.' || c == '/';
 }
 
 bool    Lexer::isValidPathChar(char c) {
