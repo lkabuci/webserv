@@ -85,7 +85,7 @@ Expr*   Parser::serverDirective() {
     if (consumeServerDirective()) {
         Token   opt(previous());
         Expr*   right = parameter();
-        if (!match(SEMICOLON)) {
+        if (peek().getLine() != previous().getLine() || !match(SEMICOLON)) {
             delete right;
             throw ParseException(peek(), "Expect ';' after expression.");
         }
@@ -100,7 +100,7 @@ Expr*   Parser::locationDirective() {
     if (consumeLocationDirective()) {
         Token   opt(previous());
         Expr*   right = parameter();
-        if (!match(SEMICOLON)) {
+        if (peek().getLine() != previous().getLine() || !match(SEMICOLON)) {
             delete right;
             throw ParseException(previous(), "Expect ';' after expression.");
         }
@@ -155,7 +155,9 @@ bool    Parser::consumeLocationDirective() {
         case ROOT:
         case AUTOINDEX:
         case ALLOW_METHODS:
+        case INDEX:
         case CLIENT_MAX_BODY_SIZE:
+        case RETURN:
             advance();
             return true;
         default:
