@@ -1,4 +1,5 @@
 #include "Token.hpp"
+#include "TokenType.hpp"
 
 std::map<TokenType, std::string>  Token::values = createValuesMap();
 
@@ -20,6 +21,7 @@ std::map<TokenType, std::string>  Token::createValuesMap() {
     values[ALLOW_METHODS] = "ALLOW_METHODS";
     values[RETURN] = "RETURN";
     values[SERVER_NAME] = "SERV_NAME";
+    values[END] = "END";
     return values;
 }
 
