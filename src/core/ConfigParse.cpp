@@ -41,9 +41,12 @@ void    ConfigParse::_parse(const std::string& source) {
         ++it;
         std::cout << it->getLexeme() << '\n';
         ++it;
+        //std::cout << it->getLexeme() << '\n';
+        //++it;
         std::cout << Token::values[it->getType()] << '\n';
-        ++it;
-        std::cout << Token::values[it->getType()] << '\n';
+        std::cout << "--------\n";
+        //++it;
+        //std::cout << Token::values[it->getType()] << '\n';
 
 
 

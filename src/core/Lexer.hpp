@@ -38,7 +38,6 @@ public:
     void    quotes(char c);
     void    skipComment();
     bool    isStringChar(char c);
-    bool    isValidPathChar(char c);
 };
 
 #endif

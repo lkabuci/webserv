@@ -42,6 +42,7 @@ void    Lexer::scanToken() {
     char    c = advance();
 
     switch (c) {
+        case '\0':  break;
         case '{':   addToken(LEFT_BRACE);   break;
         case '}':   addToken(RIGHT_BRACE);  break;
         case ';':   addToken(SEMICOLON);    break;
@@ -73,7 +74,7 @@ void    Lexer::addToken(TokenType type) {
 }
 
 void    Lexer::_string() {
-    while (!isAtEnd() && isStringChar(peek()))
+    while (isStringChar(peek()))
         advance();
     std::string text = _source.substr(_start, _current - _start);
     TokenType   type;
@@ -96,11 +97,8 @@ bool    Lexer::isAtEnd() const {
 }
 
 bool    Lexer::isStringChar(char c) {
-    return !std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#';
-}
-
-bool    Lexer::isValidPathChar(char c) {
-    return !(std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#');
+    return !std::isspace(c) && c != ';' && c != '{' && c != '}' && c != '#'
+            && !isAtEnd();
 }
 
 void    Lexer::skipWhiteSpaces() {
