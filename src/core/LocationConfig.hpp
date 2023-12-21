@@ -9,7 +9,8 @@ public:
     LocationConfig(const size_t& port, const std::string& host,
                  const size_t& clientMaxBodySize,
                  const std::vector<std::string>& errorPage,
-                 const std::string& indexFile, const std::string& rootDir,
+                 const std::vector<std::string>& indexFile,
+                 const std::string& rootDir,
                  bool autoIndex,
                  const std::vector<std::string>& returnDirective);
     LocationConfig(const LocationConfig& lconfig);

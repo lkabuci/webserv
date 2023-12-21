@@ -48,8 +48,6 @@ Expr*   LocationContext::getRightExpr() { return _right; }
 
 Expr*   LocationContext::getLeftExpr() { return _left; }
 
-//const Token&    LocationContext::getOperator() const { return _opt; }
-
 void    LocationContext::accept(Visitor& visitor) {
     visitor.visitLocationContextExpr(*this);
 }

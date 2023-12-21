@@ -10,7 +10,6 @@
 #include "../src/core/Parser.hpp"
 #include "../src/core/SyntaxException.hpp"
 #include "../src/core/TokenType.hpp"
-#include "../src/core/ClientMaxBodySize.hpp"
 #include "../src/core/Visitor.hpp"
 #include "../src/core/ParseException.hpp"
 #include "../src/core/Expr.hpp"

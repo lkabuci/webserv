@@ -11,6 +11,22 @@ ConfigInfo::ConfigInfo()
     _indexFile.push_back("index.html");
 }
 
+ConfigInfo::ConfigInfo(const size_t& port, const std::string& host,
+                    const size_t& clientMaxBodySize,
+                    const std::vector<std::string>& errorPage,
+                    const std::vector<std::string>& indexFile,
+                    const std::string& rootDir,
+                    bool autoIndex)
+    : _port(port)
+    , _host(host)
+    , _clientMaxBodySize(clientMaxBodySize)
+    , _errorPage(errorPage)
+    , _indexFile(indexFile)
+    , _rootDir(rootDir)
+    , _autoIndex(autoIndex)
+{
+}
+
 ConfigInfo::ConfigInfo(const ConfigInfo& svconfig)
     : _port(svconfig._port)
     , _host(svconfig._host)

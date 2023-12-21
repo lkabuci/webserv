@@ -7,7 +7,7 @@ ServerConfig::ServerConfig(const std::vector<LocationConfig>& locations,
                             const size_t& port, const std::string& host,
                             const size_t& clientMaxBodySize,
                             const std::vector<std::string>& errorPage,
-                            const std::string& indexFile,
+                            const std::vector<std::string>& indexFile,
                             const std::string& rootDir,
                             bool autoIndex)
     : ConfigInfo(port, host, clientMaxBodySize, errorPage, indexFile, rootDir,
