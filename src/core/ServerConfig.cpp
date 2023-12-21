@@ -31,3 +31,11 @@ ServerConfig& ServerConfig::operator=(const ServerConfig& lconfig) {
     _location = lconfig._location;
     return *this;
 }
+
+std::vector<LocationConfig>& ServerConfig::getLocations() {
+    return _location;
+}
+
+void    ServerConfig::addLocation(const LocationConfig& location) {
+    _location.push_back(location);
+}

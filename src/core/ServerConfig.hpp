@@ -19,6 +19,10 @@ public:
 
     ServerConfig&   operator=(const ServerConfig& svconfig);
 
+    std::vector<LocationConfig>& getLocations();
+
+    void    addLocation(const LocationConfig& location);
+
 private:
     std::vector<LocationConfig> _location;
 };

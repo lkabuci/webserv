@@ -2,6 +2,8 @@
 #define __LOCATION_CONFIG_HPP__
 
 #include "ConfigInfo.hpp"
+#include <string>
+#include <vector>
 
 class LocationConfig : public ConfigInfo {
 public:
@@ -17,6 +19,8 @@ public:
     virtual ~LocationConfig();
 
     LocationConfig&   operator=(const LocationConfig& lconfig);
+
+    const std::vector<std::string>& getReturnDirective() const;
 
 private:
     std::vector<std::string>    _return;

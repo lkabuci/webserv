@@ -31,3 +31,7 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& lconfig) {
     _return = lconfig._return;
     return *this;
 }
+
+const std::vector<std::string>& LocationConfig::getReturnDirective() const {
+    return _return;
+}
