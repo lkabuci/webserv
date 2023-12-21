@@ -8,7 +8,7 @@
 class LocationConfig : public ConfigInfo {
 public:
     LocationConfig();
-    LocationConfig(const size_t& port, const std::string& host,
+    LocationConfig(const size_t& port, const std::string& serverName,
                  const size_t& clientMaxBodySize,
                  const std::vector<std::string>& errorPage,
                  const std::vector<std::string>& indexFile,

@@ -8,10 +8,10 @@
 class ConfigInfo {
 public:
     ConfigInfo();
-    ConfigInfo(const size_t& port, const std::string& host,
+    ConfigInfo(const size_t& port, const std::string& serverName,
                 const size_t& clientMaxBodySize,
                 const std::vector<std::string>& errorPage,
-                const std::vector<std::string>& indexFile,
+                const std::vector<std::string>& indexFiles,
                 const std::string& rootDir,
                 bool autoIndex);
     ConfigInfo(const ConfigInfo& svconfig);
@@ -20,28 +20,28 @@ public:
     ConfigInfo&   operator=(const ConfigInfo& svconfig);
 
     void    setPort(const size_t& port);
-    void    setHost(const std::string& host);
+    void    setServerName(const std::string& serverName);
     void    setClientMaxBodySize(const size_t& size);
     void    setErrorPage(const std::vector<std::string>& errorPage);
-    void    setIndexFile(const std::vector<std::string>& indexFile);
+    void    setIndexFiles(const std::vector<std::string>& indexFiles);
     void    setRootDir(const std::string& rootDir);
     void    setAutoIndexOn();
     void    setAutoIndexOff();
 
     const size_t&                   getPort() const;
-    const std::string&              getHost() const;
+    const std::string&              getServerName() const;
     const size_t                    getClientMaxBodySize() const;
     const std::vector<std::string>& getErrorPage() const;
-    const std::vector<std::string>& getIndexFile() const;
+    const std::vector<std::string>& getIndexFiles() const;
     const std::string&              getRootDir() const;
     const bool&                     getAutoIndex() const;
 
 protected:
     size_t                      _port;
-    std::string                 _host;
+    std::string                 _serverName;
     size_t                      _clientMaxBodySize;
     std::vector<std::string>    _errorPage;
-    std::vector<std::string>    _indexFile;
+    std::vector<std::string>    _indexFiles;
     std::string                 _rootDir;
     bool                        _autoIndex;
 };
