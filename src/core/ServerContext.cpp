@@ -1,3 +1,4 @@
+#include "ConfigInfo.hpp"
 #include "Expr.hpp"
 
 ServerContext::ServerContext() : _left(NULL), _right(NULL) {}
@@ -48,6 +49,6 @@ Expr*   ServerContext::getRightExpr() { return _right; }
 
 Expr*   ServerContext::getLeftExpr() { return _left; }
 
-void    ServerContext::accept(Visitor& visitor) {
-    visitor.visitServerContextExpr(*this);
+void    ServerContext::accept(Visitor& visitor, ConfigInfo& conf) {
+    visitor.visitServerContextExpr(*this, conf);
 }

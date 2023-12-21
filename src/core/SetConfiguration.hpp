@@ -1,20 +1,18 @@
-//  For debugging purposes, this class prints the AST in a human-readable format.
-
 #pragma once
 
 #include "ConfigInfo.hpp"
-#ifndef __AST_PRINTER_HPP__
-#define __AST_PRINTER_HPP__
-
 #include "Expr.hpp"
+#ifndef __SET_CONFIGURATION_HPP__
+#define __SET_CONFIGURATION_HPP__
+
 #include "ServerConfig.hpp"
+#include "Visitor.hpp"
 
-class   AstPrinter : public Visitor {
+class   SetConfiguration : public Visitor {
 public:
-    virtual ~AstPrinter();
+    virtual ~SetConfiguration();
 
-    void    print(Expr& expr, ConfigInfo& conf);
-    void    parenthesize(ConfigInfo& conf, const std::string& name, int n, ...);
+    void    accept(Expr& expr, ConfigInfo& conf);
 
     virtual void    visitMainContextExpr(MainContext& expr, ConfigInfo& conf);
     virtual void    visitServerContextExpr(ServerContext& expr,
@@ -23,6 +21,8 @@ public:
                                             ConfigInfo& conf);
     virtual void    visitDirectiveExpr(Directive& expr, ConfigInfo& conf);
     virtual void    visitParameterExpr(Parameter& expr, ConfigInfo& conf);
+
+    void    visit(ConfigInfo& conf, int n, ...);
 };
 
 #endif

@@ -1,3 +1,4 @@
+#include "ConfigInfo.hpp"
 #include "Expr.hpp"
 
 Parameter::Parameter() {}
@@ -16,6 +17,6 @@ Parameter&  Parameter::operator=(const Parameter& param) {
 
 const std::vector<std::string>& Parameter::getParams() const { return _params; }
 
-void    Parameter::accept(Visitor& visitor) {
-    visitor.visitParameterExpr(*this);
+void    Parameter::accept(Visitor& visitor, ConfigInfo& conf) {
+    visitor.visitParameterExpr(*this, conf);
 }

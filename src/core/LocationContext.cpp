@@ -1,3 +1,4 @@
+#include "ConfigInfo.hpp"
 #include "Expr.hpp"
 
 LocationContext::LocationContext() : _left(NULL), _right(NULL) {}
@@ -48,6 +49,6 @@ Expr*   LocationContext::getRightExpr() { return _right; }
 
 Expr*   LocationContext::getLeftExpr() { return _left; }
 
-void    LocationContext::accept(Visitor& visitor) {
-    visitor.visitLocationContextExpr(*this);
+void    LocationContext::accept(Visitor& visitor, ConfigInfo& conf) {
+    visitor.visitLocationContextExpr(*this, conf);
 }

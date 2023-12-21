@@ -1,8 +1,11 @@
 #include "ConfigParse.hpp"
+#include "ConfigInfo.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
 #include "AstPrinter.hpp"
+#include "ServerConfig.hpp"
 #include "Token.hpp"
+#include "Visitor.hpp"
 #include <iostream>
 #include <list>
 
@@ -37,9 +40,10 @@ void    ConfigParse::_parse(const std::string& source) {
         expr = parser.parse();
         if (expr == NULL)
             throw std::runtime_error("no information has found.");
-        AstPrinter  ap;
+        AstPrinter      ap;
+        ServerConfig    svconf;
 
-        ap.print(*expr);
+        ap.print(*expr, svconf);
         std::cout << '\n';
         delete expr;
     } catch (const std::exception& e) {

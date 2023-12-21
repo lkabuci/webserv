@@ -1,3 +1,4 @@
+#include "ConfigInfo.hpp"
 #include "Expr.hpp"
 
 MainContext::MainContext() : _left(NULL), _right(NULL) {}
@@ -29,8 +30,8 @@ MainContext&    MainContext::operator=(const MainContext& mainContext) {
     return *this;
 }
 
-void    MainContext::accept(Visitor& visitor) {
-    visitor.visitMainContextExpr(*this);
+void    MainContext::accept(Visitor& visitor, ConfigInfo& conf) {
+    visitor.visitMainContextExpr(*this, conf);
 }
 
 Expr*   MainContext::getLeftExpr() { return _left; }
