@@ -3,18 +3,18 @@
 #ifndef WEBSERV_H
 #define WEBSERV_H
 
-#include "../src/core/Smart_ptr.hpp"
-#include "../src/core/ConfigInfo.hpp"
-#include "../src/core/Lexer.hpp"
-#include "../src/core/ConfigParse.hpp"
-#include "../src/core/Parser.hpp"
-#include "../src/core/SyntaxException.hpp"
-#include "../src/core/TokenType.hpp"
-#include "../src/core/Visitor.hpp"
-#include "../src/core/ParseException.hpp"
-#include "../src/core/Expr.hpp"
-#include "../src/core/common.hpp"
-#include "../src/core/Token.hpp"
-#include "../src/core/AstPrinter.hpp"
+#include "../src/config/Smart_ptr.hpp"
+#include "../src/config/ConfigInfo.hpp"
+#include "../src/config/Lexer.hpp"
+#include "../src/config/ConfigParse.hpp"
+#include "../src/config/Parser.hpp"
+#include "../src/config/SyntaxException.hpp"
+#include "../src/config/TokenType.hpp"
+#include "../src/config/Visitor.hpp"
+#include "../src/config/ParseException.hpp"
+#include "../src/config/Expr.hpp"
+#include "../src/config/common.hpp"
+#include "../src/config/Token.hpp"
+#include "../src/config/AstPrinter.hpp"
 
 #endif

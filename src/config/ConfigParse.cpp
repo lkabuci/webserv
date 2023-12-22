@@ -29,22 +29,29 @@ void    ConfigParse::parseFile(const char* file) {
 }
 
 void    ConfigParse::_parse(const std::string& source) {
-    Lexer             lexer(source);
-    std::list<Token>    tokens;
+    //Lexer             lexer(source);
+    //std::list<Token>    tokens;
+    Token   token;
     Expr*   expr = NULL;
 
     try {
-        tokens = lexer.scanTokens();
-        Parser  parser(tokens);
+        Lexer lexer("   \n   server");
+        Token token = lexer.scan();
 
-        expr = parser.parse();
-        if (expr == NULL)
-            throw std::runtime_error("no information has found.");
-        AstPrinter      ap;
-        ServerConfig    svconf;
 
-        ap.print(*expr, svconf);
-        std::cout << '\n';
+        std::cout << "type: |" << Lexer::keywordsValues[token.getType()] << "|\n";
+        std::cout << "lexeme: |" << token.getLexeme() << "|\n";
+        std::cout << "line: |" << token.getLine() << "|\n";
+        //Parser  parser(tokens);
+
+        //expr = parser.parse();
+        //if (expr == NULL)
+        //    throw std::runtime_error("no information has found.");
+        //AstPrinter      ap;
+        //ServerConfig    svconf;
+
+        //ap.print(*expr, svconf);
+        //std::cout << '\n';
         delete expr;
     } catch (const std::exception& e) {
         delete expr;
