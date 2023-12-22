@@ -146,33 +146,32 @@ Lexer::Lexer(const std::string& source)
 Lexer::~Lexer() {}
 
 Token   Lexer::scan() {
-    if (isAtEnd())
-        return Token(END, "", _line);
-    _start = _current;
-    scanToken();
-    return _token;
+    //if (isAtEnd())
+    //    return Token(END, "", _line);
+    return scanToken();
+    //return _token;
 }
 
-void    Lexer::scanToken() {
+Token   Lexer::scanToken() {
     char    c;
 
     while (!isAtEnd()) {
         _start = _current;
-        c = advance();
-        switch (c) {
+        switch ((c = advance())) {
             case ' ':
             case '\t':
             case '\r':  break;
-            case '{':   setToken(LEFT_BRACE);   return;
-            case '}':   setToken(RIGHT_BRACE);  return;
-            case ';':   setToken(SEMICOLON);    return;
             case '#':   skipComment();  break;
             case '\n':  _line++;        break;
+            case '{':   setToken(LEFT_BRACE);   return _token;
+            case '}':   setToken(RIGHT_BRACE);  return _token;
+            case ';':   setToken(SEMICOLON);    return _token;
             case '\'':
-            case '"':   _string(c);      return;
-            default:    _parameter();   return;
+            case '"':   _string(c);      return _token;
+            default:    _parameter();   return _token;
         }
     }
+    return Token(END, "", _line);
 }
 
 void    Lexer::setToken(TokenType type) {

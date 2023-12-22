@@ -17,6 +17,6 @@ int main(int argc, char* argv[]) {
     ConfigParse cp;
 
     cp.parseFile(argv[1]);
-    std::cout << "\n\n";
+    //std::cout << "\n\n";
     return 0;
 }

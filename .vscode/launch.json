@@ -7,10 +7,10 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
+            "name": "Launch",
             "program": "${workspaceFolder}/webserv",
-            "args": ["config/webserv.conf"],
+            "args": ["src/config/webserv.conf"],
             "cwd": "${workspaceFolder}"
-        }
+        },
     ]
 }

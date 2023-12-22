@@ -31,20 +31,19 @@ void    ConfigParse::parseFile(const char* file) {
 void    ConfigParse::_parse(const std::string& source) {
     //Lexer             lexer(source);
     //std::list<Token>    tokens;
-    Token   token;
-    Expr*   expr = NULL;
+    //Token   token;
+    //Expr*   expr = NULL;
 
     try {
-        Lexer lexer("   \n   server");
-        Token token = lexer.scan();
+        //Lexer lexer("\nserver");
+        //Token token = lexer.scan();
 
+        //std::cout << "type: |" << Lexer::keywordsValues[token.getType()] << "|\n";
+        //std::cout << "lexeme: |" << token.getLexeme() << "|\n";
+        //std::cout << "line: |" << token.getLine() << "|\n";
+        Parser  parser(source);
 
-        std::cout << "type: |" << Lexer::keywordsValues[token.getType()] << "|\n";
-        std::cout << "lexeme: |" << token.getLexeme() << "|\n";
-        std::cout << "line: |" << token.getLine() << "|\n";
-        //Parser  parser(tokens);
-
-        //expr = parser.parse();
+        parser.parse();
         //if (expr == NULL)
         //    throw std::runtime_error("no information has found.");
         //AstPrinter      ap;
@@ -52,9 +51,9 @@ void    ConfigParse::_parse(const std::string& source) {
 
         //ap.print(*expr, svconf);
         //std::cout << '\n';
-        delete expr;
+        //delete expr;
     } catch (const std::exception& e) {
-        delete expr;
+        //delete expr;
         std::cerr << e.what() << std::endl;
     }
 }

@@ -52,7 +52,7 @@ public:
     static std::map<std::string, TokenType> keywords;
     static std::map<TokenType, std::string> keywordsValues;
 
-//private:
+private:
     Lexer(const Lexer& lexer);
     Lexer&  operator=(const Lexer& lexer);
 
@@ -63,7 +63,7 @@ public:
     int         _line;
     Token       _token;
 
-    void    scanToken();
+    Token   scanToken();
     void    setToken(TokenType type);
     void    setToken(TokenType type, const std::string& text);
     char    peek();
