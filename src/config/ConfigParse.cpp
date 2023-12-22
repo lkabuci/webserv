@@ -1,13 +1,11 @@
 #include "ConfigParse.hpp"
+#include "Extractor.hpp"
 #include "ConfigInfo.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
-#include "AstPrinter.hpp"
-#include "ServerConfig.hpp"
-#include "Token.hpp"
-#include "Visitor.hpp"
-#include <iostream>
-#include <list>
+#include <cstddef>
+#include <map>
+#include <string>
 
 void    fatal(const std::string &msg, int exit_status) {
     std::cerr << msg << std::endl;
@@ -41,9 +39,9 @@ void    ConfigParse::_parse(const std::string& source) {
         //std::cout << "type: |" << Lexer::keywordsValues[token.getType()] << "|\n";
         //std::cout << "lexeme: |" << token.getLexeme() << "|\n";
         //std::cout << "line: |" << token.getLine() << "|\n";
-        Parser  parser(source);
+        //Parser  parser(source);
 
-        parser.parse();
+        //parser.parse();
         //if (expr == NULL)
         //    throw std::runtime_error("no information has found.");
         //AstPrinter      ap;
