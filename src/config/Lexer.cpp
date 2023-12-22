@@ -240,8 +240,8 @@ bool    Lexer::isAtEnd() const {
 }
 
 void    Lexer::reserve() {
-    keywords["server"] = SERVER_CONTEXT;
-    keywords["location"] = LOCATION_CONTEXT;
+    keywords["server"] = SERVER;
+    keywords["location"] = LOCATION;
     keywords["listen"] = LISTEN;
     keywords["server_name"] = SERVER_NAME;
     keywords["client_max_body_size"] = CLIENT_MAX_BODY_SIZE;
@@ -253,8 +253,8 @@ void    Lexer::reserve() {
     keywords["allow_methods"] = ALLOW_METHODS;
     keywords["end"] = END;
 
-    keywordsValues[SERVER_CONTEXT] = "server";
-    keywordsValues[LOCATION_CONTEXT] = "location";
+    keywordsValues[SERVER] = "server";
+    keywordsValues[LOCATION] = "location";
     keywordsValues[LISTEN] = "listen";
     keywordsValues[SERVER_NAME] = "server_name";
     keywordsValues[CLIENT_MAX_BODY_SIZE] = "client_max_body_size";

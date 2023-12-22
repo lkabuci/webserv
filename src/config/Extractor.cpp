@@ -1,17 +1,21 @@
 #include "Extractor.hpp"
 
-size_t  Extractor::port_number(Parameter &expr) {
-    std::vector<std::string>    parameters = expr.getParams();
+Extractor::Extractor(const std::vector<std::string>& info, const Token& token)
+    : _info(info)
+    , _token(token)
+{
+}
 
-    if (parameters.size() != 1)
-        throw std::runtime_error("Invalid port number");
-    std::stringstream   ss(parameters[0]);
-    int                 port = 0;
+size_t  Extractor::port_number() {
+    if (_info.size() != 1)
+        throw RunTimeException(_token, "Invalid port number.");
+    std::stringstream   ss(_info[0]);
+    int                 port;
 
-    if (!(ss >> port) || port < 0 || port < 1024 || port > 49151)
-        throw std::runtime_error("Invalid port number");
+    if (!(ss >> port))
+        throw RunTimeException(_token, "Invalid port number.");
     if (port < 1024 || port > 49151)
-        throw std::runtime_error("Invalid range of the port number:"
-                                " 1024 <= port <= 49151");
+        throw RunTimeException(_token, "port number should be in the registered"
+                                " ports: 1024 to 49151.");
     return port;
 }

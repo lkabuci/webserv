@@ -13,6 +13,7 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <exception>
+#include <set>
 #include "TokenType.hpp"
 
 #define USGERR 64

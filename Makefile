@@ -2,7 +2,7 @@ GREEN = \033[38;2;0;153;0m
 NC = \033[0m # No Color
 
 CXX			= c++
-CXXFLAGS	= #-Wall -Wextra -Werror -std=c++98 -g
+CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 RM			= rm -rf
 
 NAME		= webserv

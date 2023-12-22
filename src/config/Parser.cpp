@@ -18,18 +18,20 @@ void    Parser::statement() {
 }
 
 void    Parser::serverContext() {
-    consume(SERVER_CONTEXT, "Expect a server context.");
+    consume(SERVER, "Expect a server context.");
     block();
+    std::cout << "------> EXIT FROM SERVER BLOCK\n";
 }
 
 void    Parser::block() {
     consume(LEFT_BRACE, "Expect a left brace after the server context.");
+    std::cout << "------> SERVER BLOCK\n";
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
         if (matchServerDirective()) {
-            parameter();
+            parameter(SERVER);
             if (peek().getLine() != previous().getLine() || !match(SEMICOLON))
                 throw ParseException(peek(), "Expect a ';' after statement.");
-        } else if (match(LOCATION_CONTEXT)) {
+        } else if (match(LOCATION)) {
             locationContext();
         } else {
             throw ParseException(peek(), "Invalid statement.");
@@ -40,24 +42,30 @@ void    Parser::block() {
 
 void    Parser::locationContext() {
     consume(PARAMETER, "Expect a path.");
+    std::cout << "\n\t------> LOCATION BLOCK\n";
     std::vector<std::string>    params;
 
     do {
         params.push_back(previous().getLexeme());
     }   while (match(PARAMETER));
+    std::cout << "\t\tADD ";
+    for (size_t i = 0; i < params.size(); ++i)
+        std::cout << " " << params[i];
+    std::cout << ". To the parameter of location\n";
     consume(LEFT_BRACE, "Expect a left brace '{' after statement.");
     if (!matchLocationDirective())
         throw ParseException(peek(), "Expect statement.");
     Token   token;
     do {
-        parameter();
+        parameter(LOCATION);
         if (peek().getLine() != previous().getLine() || !match(SEMICOLON))
             throw ParseException(peek(), "Expect a ';' after statement.");
     }   while (matchLocationDirective());
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
+    std::cout << "\t------> EXIT FROM LOCATION BLOCK\n\n";
 }
 
-void    Parser::parameter() {
+void    Parser::parameter(TokenType type) {
     Token   prev = previous();
 
     if (!check(PARAMETER))
@@ -67,6 +75,17 @@ void    Parser::parameter() {
 
     while (match(PARAMETER))
         params.push_back(previous().getLexeme());
+    if (type == SERVER) {
+        std::cout << "\tADD " << prev.getLexeme() << ":";
+        for (size_t i = 0; i < params.size(); ++i)
+            std::cout << " " << params[i];
+        std::cout << ". To the server block\n";
+    } else {
+        std::cout << "\t\tADD " << prev.getLexeme() << ":";
+        for (size_t i = 0; i < params.size(); ++i)
+            std::cout << " " << params[i];
+        std::cout << ". To the location block\n";
+    }
 }
 
 bool    Parser::matchServerDirective() {

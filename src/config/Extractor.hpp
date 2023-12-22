@@ -4,19 +4,27 @@
 #define __EXTRACTOR_HPP__
 
 #include "Expr.hpp"
+#include "RunTimeException.hpp"
 
 class   Extractor {
 public:
-    static size_t                           port_number(Parameter& expr);
-    static std::vector<std::string>         server_name(Parameter& expr);
-    static size_t                       max_client_body_size(Parameter& expr);
-    static std::map<uint16_t, std::string>  error_page(Parameter& expr);
-    static std::vector<std::string>         index_files(Parameter& expr);
-    static std::string                      root_dir(Parameter& expr);
-    static bool                             autoindex(Parameter& expr);
+    Extractor(const std::vector<std::string>& info, const Token& token);
+
+    size_t                          port_number();
+    std::vector<std::string>        server_name();
+    size_t                          client_max_body_size();
+    std::set<std::string>           index();
+    std::set<std::string>           root();
+    std::map<size_t, std::string>   error_page();
+    std::map<size_t, std::string>   return_page();
+    bool                            autoindex();
 
 private:
-    Extractor();
+    Extractor(const Extractor&);
+    Extractor&  operator=(const Extractor&);
+
+    std::vector<std::string>    _info;
+    Token                       _token;
 };
 
 #endif

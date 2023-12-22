@@ -55,7 +55,7 @@ public:
     void    serverContext();
     void    block();
     void    locationContext();
-    void    parameter();
+    void    parameter(TokenType type);
     void    serverDirective();
 
     bool    matchLocationDirective();
