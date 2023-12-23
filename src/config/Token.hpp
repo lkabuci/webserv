@@ -40,9 +40,9 @@ public:
 
     Token&  operator=(const Token& token);
 
-    const TokenType&    getType() const;
-    const std::string&  getLexeme() const;
-    const int&          getLine() const;
+    const TokenType&    type() const;
+    const std::string&  lexeme() const;
+    const int&          line() const;
 
 private:
     TokenType   _type;

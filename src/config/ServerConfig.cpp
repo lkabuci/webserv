@@ -1,41 +1,33 @@
-//#include "ServerConfig.hpp"
-//#include "LocationConfig.hpp"
+#include "ServerConfig.hpp"
 
-//ServerConfig::ServerConfig() : ConfigInfo() {}
+ServerConfig::ServerConfig() : ConfigInfo() {}
 
-//ServerConfig::ServerConfig(const std::vector<LocationConfig>& locations,
-//                            const size_t& port, const std::string& serverName,
-//                            const size_t& clientMaxBodySize,
-//                            const std::vector<std::string>& errorPage,
-//                            const std::vector<std::string>& indexFile,
-//                            const std::string& rootDir,
-//                            bool autoIndex)
-//    : ConfigInfo(port, serverName, clientMaxBodySize, errorPage, indexFile,
-//                rootDir, autoIndex)
-//    , _location(locations)
-//{
-//}
+ServerConfig::ServerConfig(const size_t& port, const std::set<std::string>& name,
+                    const size_t& size, const std::set<std::string>& indx,
+                    const std::set<std::string>& root_dir,
+                    const std::map<size_t, std::string>& error_page,
+                    const std::map<size_t, std::string>& return_page,
+                    bool auto_index)
+    : ConfigInfo(port, name, size, indx, root_dir, error_page, return_page,
+                auto_index)
+{
+}
 
-//ServerConfig::ServerConfig(const ServerConfig& lconfig)
-//    : ConfigInfo(lconfig)
-//    , _location(lconfig._location)
-//{
-//}
+ServerConfig::ServerConfig(const ServerConfig& svconf) : ConfigInfo(svconf) {}
 
-//ServerConfig::~ServerConfig() {}
+ServerConfig::~ServerConfig() {}
 
-//ServerConfig& ServerConfig::operator=(const ServerConfig& lconfig) {
-//    if (this == &lconfig)
-//        return *this;
-//    ConfigInfo::operator=(lconfig);
-//    _location = lconfig._location;
-//    return *this;
-//}
+ServerConfig&   ServerConfig::operator=(const ServerConfig& svconf) {
+    if (this == &svconf)
+        return *this;
+    ConfigInfo::operator=(svconf);
+    return *this;
+}
 
-//std::vector<LocationConfig>& ServerConfig::getLocations() {
-//    return _location;
-//}
+std::vector<LocationConfig>&    ServerConfig::getLocations() {
+    return _locations;
+}
 
-//void    ServerConfig::addLocation(const LocationConfig& location) {
-//    _location.push_back(location);
-//}
+void    ServerConfig::addLocation(const LocationConfig& lconf) {
+    _locations.push_back(lconf);
+}

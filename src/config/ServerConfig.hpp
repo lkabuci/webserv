@@ -1,30 +1,30 @@
-//#ifndef __SERVER_CONFIG_HPP__
-//#define __SERVER_CONFIG_HPP__
+#pragma once
 
-//#include "ConfigInfo.hpp"
-//#include "LocationConfig.hpp"
+#ifndef __SERVER_CONFIG_HPP__
+#define __SERVER_CONFIG_HPP__
 
-//class ServerConfig : public ConfigInfo {
-//public:
-//    ServerConfig();
-//    ServerConfig(const std::vector<LocationConfig>& locations,
-//                const size_t& port, const std::string& serverName,
-//                const size_t& clientMaxBodySize,
-//                const std::vector<std::string>& errorPage,
-//                const std::vector<std::string>& indexFile,
-//                const std::string& rootDir,
-//                bool autoIndex);
-//    ServerConfig(const ServerConfig& svconfig);
-//    virtual ~ServerConfig();
+#include "ConfigInfo.hpp"
+#include "LocationConfig.hpp"
 
-//    ServerConfig&   operator=(const ServerConfig& svconfig);
+class ServerConfig : public ConfigInfo {
+public:
+    ServerConfig();
+    ServerConfig(const size_t& port, const std::set<std::string>& name,
+                const size_t& size, const std::set<std::string>& indx,
+                const std::set<std::string>& root_dir,
+                const std::map<size_t, std::string>& error_page,
+                const std::map<size_t, std::string>& return_page,
+                bool auto_index);
+    ServerConfig(const ServerConfig& svconfig);
+    virtual ~ServerConfig();
 
-//    std::vector<LocationConfig>& getLocations();
+    ServerConfig&   operator=(const ServerConfig& svconfig);
 
-//    void    addLocation(const LocationConfig& location);
+    void                        addLocation(const LocationConfig& lconf);
+    std::vector<LocationConfig>& getLocations();
 
-//private:
-//    std::vector<LocationConfig> _location;
-//};
+private:
+    std::vector<LocationConfig> _locations;
+};
 
-//#endif
+#endif

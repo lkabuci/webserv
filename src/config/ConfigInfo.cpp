@@ -1,114 +1,106 @@
-//#include "ConfigInfo.hpp"
+#include "ConfigInfo.hpp"
 
-//ConfigInfo::ConfigInfo()
-//    : _port(5050)
-//    , _serverName("_")
-//    , _clientMaxBodySize(1)
-//    , _errorPage()
-//    , _rootDir(".")
-//    , _autoIndex(false)
-//{
-//    _indexFiles.push_back("index.html");
-//}
+ConfigInfo::ConfigInfo() {}
 
-//ConfigInfo::ConfigInfo(const size_t& port, const std::string& serverName,
-//                    const size_t& clientMaxBodySize,
-//                    const std::vector<std::string>& errorPage,
-//                    const std::vector<std::string>& indexFiles,
-//                    const std::string& rootDir,
-//                    bool autoIndex)
-//    : _port(port)
-//    , _serverName(serverName)
-//    , _clientMaxBodySize(clientMaxBodySize)
-//    , _errorPage(errorPage)
-//    , _indexFiles(indexFiles)
-//    , _rootDir(rootDir)
-//    , _autoIndex(autoIndex)
-//{
-//}
+ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
+                    const size_t& size, const std::set<std::string>& indx,
+                    const std::set<std::string>& root_dir,
+                    const std::map<size_t, std::string>& error_page,
+                    const std::map<size_t, std::string>& return_page,
+                    bool auto_index)
+    : _port(port)
+    , _server_name(name)
+    , _client_max_body_size(size)
+    , _index(indx)
+    , _root(root_dir)
+    , _error_page(error_page)
+    , _return(return_page)
+    , _autoindex(auto_index)
+{
+}
 
-//ConfigInfo::ConfigInfo(const ConfigInfo& svconfig)
-//    : _port(svconfig._port)
-//    , _serverName(svconfig._serverName)
-//    , _clientMaxBodySize(svconfig._clientMaxBodySize)
-//    , _errorPage(svconfig._errorPage)
-//    , _indexFiles(svconfig._indexFiles)
-//    , _rootDir(svconfig._rootDir)
-//    , _autoIndex(svconfig._autoIndex)
-//{
-//}
+ConfigInfo::ConfigInfo(const ConfigInfo& conf)
+    : _port(conf._port)
+    , _server_name(conf._server_name)
+    , _client_max_body_size(conf._client_max_body_size)
+    , _index(conf._index)
+    , _root(conf._root)
+    , _error_page(conf._error_page)
+    , _return(conf._return)
+    , _autoindex(conf._autoindex)
+{
+}
 
-//ConfigInfo::~ConfigInfo() {}
+ConfigInfo::~ConfigInfo() {}
 
-//ConfigInfo&   ConfigInfo::operator=(const ConfigInfo &svconfig) {
-//    if (this == & svconfig)
-//        return *this;
-//    _port = svconfig._port;
-//    _serverName = svconfig._serverName;
-//    _clientMaxBodySize = svconfig._clientMaxBodySize;
-//    _errorPage = svconfig._errorPage;
-//    _indexFiles = svconfig._indexFiles;
-//    _rootDir = svconfig._rootDir;
-//    _autoIndex = svconfig._autoIndex;
-//    return *this;
-//}
+ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
+    if (this == &conf)
+        return *this;
+    _port = conf._port;
+    _server_name = conf._server_name;
+    _client_max_body_size = conf._client_max_body_size;
+    _index = conf._index;
+    _root = conf._root;
+    _error_page = conf._error_page;
+    _return = conf._return;
+    _autoindex = conf._autoindex;
+    return *this;
+}
 
-//void    ConfigInfo::setPort(const size_t &port) {
-//    _port = port;
-//}
+const size_t&   ConfigInfo::port_number() const { return _port; }
 
-//void    ConfigInfo::setServerName(const std::string& serverName) {
-//    _serverName = serverName;
-//}
+const std::set<std::string>&    ConfigInfo::server_name() const {
+    return _server_name;
+}
 
-//void    ConfigInfo::setClientMaxBodySize(const size_t &size) {
-//    _clientMaxBodySize = size;
-//}
+const size_t&   ConfigInfo::client_max_body_size() const {
+    return _client_max_body_size;
+}
 
-//void    ConfigInfo::setErrorPage(const std::vector<std::string> &errorPage) {
-//    _errorPage = errorPage;
-//}
+const std::set<std::string>&    ConfigInfo::index() const { return _index; }
 
-//void    ConfigInfo::setIndexFiles(const std::vector<std::string> &indexFiles) {
-//    _indexFiles = indexFiles;
-//}
+const std::set<std::string>&    ConfigInfo::root() const { return _root; }
 
-//void    ConfigInfo::setRootDir(const std::string &rootDir) {
-//    _rootDir = rootDir;
-//}
+const std::map<size_t, std::string>&    ConfigInfo::error_page() const {
+    return _error_page;
+}
 
-//void    ConfigInfo::setAutoIndexOn() {
-//    _autoIndex = true;
-//}
+const std::map<size_t, std::string>&    ConfigInfo::return_page() const {
+    return _return;
+}
 
-//void    ConfigInfo::setAutoIndexOff() {
-//    _autoIndex = false;
-//}
+const bool& ConfigInfo::autoindex() const { return _autoindex; }
 
-//const size_t&   ConfigInfo::getPort() const {
-//    return _port;
-//}
+void    ConfigInfo::set_port_number(const size_t& port) {
+    _port = port;
+}
 
-//const std::string&  ConfigInfo::getServerName() const {
-//    return _serverName;
-//}
+void    ConfigInfo::set_server_name(const std::set<std::string>& name) {
+    _server_name = name;
+}
 
-//const size_t    ConfigInfo::getClientMaxBodySize() const {
-//    return _clientMaxBodySize;
-//}
+void    ConfigInfo::set_client_max_body_size(const size_t& size) {
+    _client_max_body_size = size;
+}
 
-//const std::vector<std::string>& ConfigInfo::getErrorPage() const {
-//    return _errorPage;
-//}
+void    ConfigInfo::set_index(const std::set<std::string>& indx) {
+    _index = indx;
+}
 
-//const std::vector<std::string>& ConfigInfo::getIndexFiles() const {
-//    return _indexFiles;
-//}
+void    ConfigInfo::set_root(const std::set<std::string>& root_dir) {
+    _root = root_dir;
+}
 
-//const std::string&  ConfigInfo::getRootDir() const {
-//    return _rootDir;
-//}
+void    ConfigInfo::set_error_page(const std::map<size_t, std::string>& errpage)
+{
+    _error_page = errpage;
+}
 
-//const bool&  ConfigInfo::getAutoIndex() const {
-//    return _autoIndex;
-//}
+void    ConfigInfo::set_return(const std::map<size_t, std::string>& return_page)
+{
+    _return = return_page;
+}
+
+void    ConfigInfo::set_autoindex(bool auto_index) {
+    _autoindex = auto_index;
+}

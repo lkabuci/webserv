@@ -1,37 +1,26 @@
-//#include "LocationConfig.hpp"
-//#include "ConfigInfo.hpp"
+#include "LocationConfig.hpp"
 
-//LocationConfig::LocationConfig() : ConfigInfo() {}
+LocationConfig::LocationConfig() : ConfigInfo() {}
 
-//LocationConfig::LocationConfig(const size_t& port, const std::string& serverName,
-//                               const size_t& clientMaxBodySize,
-//                               const std::vector<std::string>& errorPage,
-//                               const std::vector<std::string>& indexFile,
-//                               const std::string& rootDir,
-//                               bool autoIndex,
-//                               const std::vector<std::string>& returnDirective)
-//    : ConfigInfo(port, serverName, clientMaxBodySize, errorPage, indexFile,
-//                rootDir, autoIndex)
-//    , _return(returnDirective)
-//{
-//}
+LocationConfig::LocationConfig(const size_t& port,
+                    const std::set<std::string>& name,
+                    const size_t& size, const std::set<std::string>& indx,
+                    const std::set<std::string>& root_dir,
+                    const std::map<size_t, std::string>& error_page,
+                    const std::map<size_t, std::string>& return_page,
+                    bool auto_index)
+    : ConfigInfo(port, name, size, indx, root_dir, error_page, return_page,
+                auto_index)
+{
+}
 
-//LocationConfig::LocationConfig(const LocationConfig& lconfig)
-//    : ConfigInfo(lconfig)
-//    , _return(lconfig._return)
-//{
-//}
+LocationConfig::LocationConfig(const LocationConfig& svconf) : ConfigInfo(svconf) {}
 
-//LocationConfig::~LocationConfig() {}
+LocationConfig::~LocationConfig() {}
 
-//LocationConfig& LocationConfig::operator=(const LocationConfig& lconfig) {
-//    if (this == &lconfig)
-//        return *this;
-//    ConfigInfo::operator=(lconfig);
-//    _return = lconfig._return;
-//    return *this;
-//}
-
-//const std::vector<std::string>& LocationConfig::getReturnDirective() const {
-//    return _return;
-//}
+LocationConfig&   LocationConfig::operator=(const LocationConfig& svconf) {
+    if (this == &svconf)
+        return *this;
+    ConfigInfo::operator=(svconf);
+    return *this;
+}

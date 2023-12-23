@@ -91,9 +91,9 @@ Token&  Token::operator=(const Token& token) {
     return *this;
 }
 
-const TokenType&    Token::getType() const { return _type; }
+const TokenType&    Token::type() const { return _type; }
 
-const std::string&  Token::getLexeme() const { return _lexeme; }
+const std::string&  Token::lexeme() const { return _lexeme; }
 
-const int&  Token::getLine() const { return _line; }
+const int&  Token::line() const { return _line; }
 

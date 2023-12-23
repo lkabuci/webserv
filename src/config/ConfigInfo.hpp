@@ -1,49 +1,51 @@
-//#pragma once
+#pragma once
 
-//#ifndef __CONFIG_INFO_HPP__
-//#define __CONFIG_INFO_HPP__
+#ifndef __CONFIG_INFO_HPP__
+#define __CONFIG_INFO_HPP__
 
-//#include "common.hpp"
+#include "common.hpp"
 
-//class ConfigInfo {
-//public:
-//    ConfigInfo();
-//    ConfigInfo(const size_t& port, const std::string& serverName,
-//                const size_t& clientMaxBodySize,
-//                const std::vector<std::string>& errorPage,
-//                const std::vector<std::string>& indexFiles,
-//                const std::string& rootDir,
-//                bool autoIndex);
-//    ConfigInfo(const ConfigInfo& svconfig);
-//    virtual ~ConfigInfo();
+class   ConfigInfo {
+public:
+    ConfigInfo();
+    ConfigInfo(const size_t& port, const std::set<std::string>& name,
+            const size_t& size, const std::set<std::string>& indx,
+            const std::set<std::string>& root_dir,
+            const std::map<size_t, std::string>& error_page,
+            const std::map<size_t, std::string>& return_page,
+            bool auto_index);
+    ConfigInfo(const ConfigInfo& conf);
+    virtual ~ConfigInfo() = 0;
 
-//    ConfigInfo&   operator=(const ConfigInfo& svconfig);
+    ConfigInfo& operator=(const ConfigInfo& conf);
 
-//    void    setPort(const size_t& port);
-//    void    setServerName(const std::string& serverName);
-//    void    setClientMaxBodySize(const size_t& size);
-//    void    setErrorPage(const std::vector<std::string>& errorPage);
-//    void    setIndexFiles(const std::vector<std::string>& indexFiles);
-//    void    setRootDir(const std::string& rootDir);
-//    void    setAutoIndexOn();
-//    void    setAutoIndexOff();
+    const size_t&                           port_number() const;
+    const std::set<std::string>&            server_name() const;
+    const size_t&                           client_max_body_size() const;
+    const std::set<std::string>&            index() const;
+    const std::set<std::string>&            root() const;
+    const std::map<size_t, std::string>&    error_page() const;
+    const std::map<size_t, std::string>&    return_page() const;
+    const bool&                             autoindex() const;
 
-//    const size_t&                   getPort() const;
-//    const std::string&              getServerName() const;
-//    const size_t                    getClientMaxBodySize() const;
-//    const std::vector<std::string>& getErrorPage() const;
-//    const std::vector<std::string>& getIndexFiles() const;
-//    const std::string&              getRootDir() const;
-//    const bool&                     getAutoIndex() const;
+    void    set_port_number(const size_t& port);
+    void    set_server_name(const std::set<std::string>& name);
+    void    set_client_max_body_size(const size_t& size);
+    void    set_index(const std::set<std::string>& indx);
+    void    set_root(const std::set<std::string>& root_dir);
+    void    set_error_page(const std::map<size_t, std::string>& errpage);
+    void    set_return(const std::map<size_t, std::string>& return_page);
+    void    set_autoindex(bool auto_index);
 
-//protected:
-//    size_t                      _port;
-//    std::string                 _serverName;
-//    size_t                      _clientMaxBodySize;
-//    std::vector<std::string>    _errorPage;
-//    std::vector<std::string>    _indexFiles;
-//    std::string                 _rootDir;
-//    bool                        _autoIndex;
-//};
+protected:
+    size_t                          _port;
+    std::set<std::string>           _server_name;
+    size_t                          _client_max_body_size;
+    std::set<std::string>           _index;
+    std::set<std::string>           _root;
+    std::map<size_t, std::string>   _error_page;
+    std::map<size_t, std::string>   _return;
+    bool                            _autoindex;
+};
 
-//#endif
+#endif

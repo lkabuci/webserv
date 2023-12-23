@@ -3,7 +3,6 @@
 #ifndef __EXTRACTOR_HPP__
 #define __EXTRACTOR_HPP__
 
-#include "Expr.hpp"
 #include "RunTimeException.hpp"
 
 class   Extractor {
