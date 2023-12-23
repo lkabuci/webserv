@@ -1,4 +1,5 @@
 #include "Parser.hpp"
+#include "Env.hpp"
 
 Parser::Parser(const std::string& source) : _lexer(source) {
     _token = _lexer.scan();
@@ -20,12 +21,13 @@ void    Parser::statement() {
 void    Parser::serverContext() {
     consume(SERVER, "Expect a server context.");
     block();
-    std::cout << "------> EXIT FROM SERVER BLOCK\n";
+    //std::cout << "------> EXIT FROM SERVER BLOCK\n";
 }
 
 void    Parser::block() {
     consume(LEFT_BRACE, "Expect a left brace after the server context.");
-    std::cout << "------> SERVER BLOCK\n";
+    Env::create(SERVER);
+    //std::cout << "------> SERVER BLOCK\n";
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
         if (matchServerDirective()) {
             parameter(SERVER);
@@ -42,16 +44,18 @@ void    Parser::block() {
 
 void    Parser::locationContext() {
     consume(PARAMETER, "Expect a path.");
-    std::cout << "\n\t------> LOCATION BLOCK\n";
+    //std::cout << "\n\t------> LOCATION BLOCK\n";
     std::vector<std::string>    params;
 
+    Env::create(LOCATION);
     do {
         params.push_back(previous().lexeme());
     }   while (match(PARAMETER));
-    std::cout << "\t\tADD ";
-    for (size_t i = 0; i < params.size(); ++i)
-        std::cout << " " << params[i];
-    std::cout << ". To the parameter of location\n";
+    Env::add(PARAMETER);
+    //std::cout << "\t\tADD ";
+    //for (size_t i = 0; i < params.size(); ++i)
+    //    std::cout << " " << params[i];
+    //std::cout << ". To the parameter of location\n";
     consume(LEFT_BRACE, "Expect a left brace '{' after statement.");
     if (!matchLocationDirective())
         throw ParseException(peek(), "Expect statement.");
@@ -62,7 +66,7 @@ void    Parser::locationContext() {
             throw ParseException(peek(), "Expect a ';' after statement.");
     }   while (matchLocationDirective());
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
-    std::cout << "\t------> EXIT FROM LOCATION BLOCK\n\n";
+    //std::cout << "\t------> EXIT FROM LOCATION BLOCK\n\n";
 }
 
 void    Parser::parameter(TokenType type) {
@@ -76,15 +80,17 @@ void    Parser::parameter(TokenType type) {
     while (match(PARAMETER))
         params.push_back(previous().lexeme());
     if (type == SERVER) {
-        std::cout << "\tADD " << prev.lexeme() << ":";
-        for (size_t i = 0; i < params.size(); ++i)
-            std::cout << " " << params[i];
-        std::cout << ". To the server block\n";
+        Env::put(params, prev);
+        //std::cout << "\tADD " << prev.lexeme() << ":";
+        //for (size_t i = 0; i < params.size(); ++i)
+        //    std::cout << " " << params[i];
+        //std::cout << ". To the server block\n";
     } else {
-        std::cout << "\t\tADD " << prev.lexeme() << ":";
-        for (size_t i = 0; i < params.size(); ++i)
-            std::cout << " " << params[i];
-        std::cout << ". To the location block\n";
+        Env::put(params, prev);
+        //std::cout << "\t\tADD " << prev.lexeme() << ":";
+        //for (size_t i = 0; i < params.size(); ++i)
+        //    std::cout << " " << params[i];
+        //std::cout << ". To the location block\n";
     }
 }
 

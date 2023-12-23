@@ -1,4 +1,5 @@
 #include "ConfigParse.hpp"
+#include "Parser.hpp"
 #include "Env.hpp"
 #include <iostream>
 #include <string>
@@ -29,35 +30,13 @@ void    ConfigParse::_parse(const std::string& source) {
     //Expr*   expr = NULL;
 
     try {
-        Env& env = Env::getInstance();
-        env.create(SERVER);
-        std::vector<std::string> value = {"8080"};
-        Token token(LISTEN, "8080", 1);
-        env.put(value, token);
-        env.add(SERVER);
-        std::vector<ServerConfig> configs = env.get();
+        Parser  parser(source);
 
-        std::cout << "server: " << configs.size() << '\n';
-        std::cout << "port: " << configs[0].port_number() << '\n';
-        //Env&    env = Env::getInstance();
-
-        //env.create(SERVER);
-        //env.create(LOCATION);
-        //env.add(LOCATION);
-        //std::vector<ServerConfig> configs = env.get();
-
-        //std::cout << "server: " << configs.size() << '\n';
-        //std::cout << "location: " << configs[0].getLocations().size() << '\n';
-
-        //Lexer lexer("\nserver");
-        //Token token = lexer.scan();
-
-        //std::cout << "type: |" << Lexer::keywordsValues[token.getType()] << "|\n";
-        //std::cout << "lexeme: |" << token.getLexeme() << "|\n";
-        //std::cout << "line: |" << token.getLine() << "|\n";
-        //Parser  parser(source);
-
-        //parser.parse();
+        parser.parse();
+        std::vector<ServerConfig>   svconfs = Env::get();
+        for (size_t i = 0; i < svconfs.size(); ++i) {
+            std::cout << "port: " << svconfs[i].port_number();
+        }
         //if (expr == NULL)
         //    throw std::runtime_error("no information has found.");
         //AstPrinter      ap;

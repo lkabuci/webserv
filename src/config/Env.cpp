@@ -52,6 +52,9 @@ void    Env::put(const std::vector<std::string> &value, const Token &token) {
         case AUTOINDEX:
             _ptr->set_autoindex(extract.autoindex());
             break;
+        case PARAMETER:
+            (static_cast<LocationConfig*>(_ptr))->addPath(value);
+            break;
         default:
             throw RunTimeException(token, "Invalid Directive.");
     }

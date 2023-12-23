@@ -6,7 +6,8 @@
 class LocationConfig : public ConfigInfo {
 public:
     LocationConfig();
-    LocationConfig(const size_t& port, const std::set<std::string>& name,
+    LocationConfig(const std::set<std::string>& paths, const size_t& port,
+                const std::set<std::string>& name,
                 const size_t& size, const std::set<std::string>& indx,
                 const std::set<std::string>& root_dir,
                 const std::map<size_t, std::string>& error_page,
@@ -16,6 +17,13 @@ public:
     virtual ~LocationConfig();
 
     LocationConfig&   operator=(const LocationConfig& svconfig);
+
+    const std::set<std::string>&    getPaths() const;
+    void                            addPath(const std::string& path);
+    void                        addPath(const std::vector<std::string>& paths);
+
+private:
+    std::set<std::string>   _paths;
 };
 
 #endif
