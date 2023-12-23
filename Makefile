@@ -3,6 +3,7 @@ NC = \033[0m # No Color
 
 CXX			= c++
 CXXFLAGS	=# -Wall -Wextra -Werror -std=c++98 -g
+CXXFLAGS	= -g
 RM			= rm -rf
 
 NAME		= webserv

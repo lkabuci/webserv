@@ -5,7 +5,6 @@
 
 #include "ServerConfig.hpp"
 #include "Token.hpp"
-#include "Extractor.hpp"
 
 class   Env {
 public:
@@ -14,9 +13,10 @@ public:
     static void create(TokenType type);
     static void put(const std::vector<std::string>& value, const Token& token);
     static void add(TokenType type);
-    static void remove();
 
     static std::vector<ServerConfig>    get();
+
+    static Env& getInstance();
 
 private:
     Env();

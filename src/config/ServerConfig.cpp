@@ -13,7 +13,11 @@ ServerConfig::ServerConfig(const size_t& port, const std::set<std::string>& name
 {
 }
 
-ServerConfig::ServerConfig(const ServerConfig& svconf) : ConfigInfo(svconf) {}
+ServerConfig::ServerConfig(const ServerConfig& svconf)
+    : ConfigInfo(svconf)
+    , _locations(svconf._locations)
+{
+}
 
 ServerConfig::~ServerConfig() {}
 
@@ -21,6 +25,7 @@ ServerConfig&   ServerConfig::operator=(const ServerConfig& svconf) {
     if (this == &svconf)
         return *this;
     ConfigInfo::operator=(svconf);
+    _locations = svconf._locations;
     return *this;
 }
 

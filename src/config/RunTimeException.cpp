@@ -4,8 +4,8 @@
 RunTimeException::RunTimeException(const Token& token,
                                 const std::string& message)
 {
-    _errMsg = "[line " + ConfigParse::toString(token.getLine()) + "] at '"
-            + token.getLexeme() + "': " + message;
+    _errMsg = "[line " + ConfigParse::toString(token.line()) + "] at '"
+            + token.lexeme() + "': " + message;
 }
 
 RunTimeException::~RunTimeException() throw() {}

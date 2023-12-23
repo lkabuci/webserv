@@ -1,15 +1,23 @@
 #include "Env.hpp"
+#include "ServerConfig.hpp"
+#include "Extractor.hpp"
+
+ConfigInfo*                 Env::_ptr = NULL;
+ConfigInfo*                 Env::_prev = NULL;
+std::vector<ServerConfig>   Env::_svconfs;
+
+Env::Env() {}
 
 Env::~Env() {
-    delete _prev;
-    _prev = NULL;
     delete _ptr;
     _ptr = NULL;
 }
 
 void    Env::create(TokenType type) {
-    if (type == SERVER)
+    if (type == SERVER) {
+        delete _ptr;
         _ptr = new ServerConfig();
+    }
     else {
         _prev = _ptr;
         _ptr = new LocationConfig();
@@ -53,21 +61,20 @@ void    Env::add(TokenType type) {
     if (type == SERVER)
         _svconfs.push_back(*(static_cast<ServerConfig*>(_ptr)));
     else {
-        (static_cast<ServerConfig*>(_prev))->addLocation(
-                                        *(static_cast<LocationConfig*>(_ptr)));
-        _svconfs.push_back(*(static_cast<ServerConfig*>(_prev)));
+        if (_svconfs.empty())
+            _svconfs.push_back(*(static_cast<ServerConfig*>(_prev)));
+        _svconfs.back().addLocation(*(static_cast<LocationConfig*>(_ptr)));
         delete _ptr;
         _ptr = _prev;
     }
 }
 
-void    Env::remove() {
-    delete _prev;
-    _prev = NULL;
-    delete _ptr;
-    _ptr = NULL;
-}
-
 std::vector<ServerConfig>   Env::get() {
     return _svconfs;
+}
+
+Env& Env::getInstance() {
+    static Env  instance;
+
+    return instance;
 }

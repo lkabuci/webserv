@@ -2,12 +2,12 @@
 #include "ConfigParse.hpp"
 
 ParseException::ParseException(Token token, const std::string& message) {
-    if (token.getType() == END) {
-        _errorMsg = "[line " + ConfigParse::toString(token.getLine())
+    if (token.type() == END) {
+        _errorMsg = "[line " + ConfigParse::toString(token.line())
                     + "] at end: " + message;
     } else {
-        _errorMsg = "[line " + ConfigParse::toString(token.getLine()) + "] at '"
-                    + token.getLexeme() + "': " + message;
+        _errorMsg = "[line " + ConfigParse::toString(token.line()) + "] at '"
+                    + token.lexeme() + "': " + message;
     }
 }
 

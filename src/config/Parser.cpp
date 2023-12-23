@@ -29,7 +29,7 @@ void    Parser::block() {
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
         if (matchServerDirective()) {
             parameter(SERVER);
-            if (peek().getLine() != previous().getLine() || !match(SEMICOLON))
+            if (peek().line() != previous().line() || !match(SEMICOLON))
                 throw ParseException(peek(), "Expect a ';' after statement.");
         } else if (match(LOCATION)) {
             locationContext();
@@ -46,7 +46,7 @@ void    Parser::locationContext() {
     std::vector<std::string>    params;
 
     do {
-        params.push_back(previous().getLexeme());
+        params.push_back(previous().lexeme());
     }   while (match(PARAMETER));
     std::cout << "\t\tADD ";
     for (size_t i = 0; i < params.size(); ++i)
@@ -58,7 +58,7 @@ void    Parser::locationContext() {
     Token   token;
     do {
         parameter(LOCATION);
-        if (peek().getLine() != previous().getLine() || !match(SEMICOLON))
+        if (peek().line() != previous().line() || !match(SEMICOLON))
             throw ParseException(peek(), "Expect a ';' after statement.");
     }   while (matchLocationDirective());
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
@@ -74,14 +74,14 @@ void    Parser::parameter(TokenType type) {
     std::vector<std::string>    params;
 
     while (match(PARAMETER))
-        params.push_back(previous().getLexeme());
+        params.push_back(previous().lexeme());
     if (type == SERVER) {
-        std::cout << "\tADD " << prev.getLexeme() << ":";
+        std::cout << "\tADD " << prev.lexeme() << ":";
         for (size_t i = 0; i < params.size(); ++i)
             std::cout << " " << params[i];
         std::cout << ". To the server block\n";
     } else {
-        std::cout << "\t\tADD " << prev.getLexeme() << ":";
+        std::cout << "\t\tADD " << prev.lexeme() << ":";
         for (size_t i = 0; i < params.size(); ++i)
             std::cout << " " << params[i];
         std::cout << ". To the location block\n";
@@ -89,7 +89,7 @@ void    Parser::parameter(TokenType type) {
 }
 
 bool    Parser::matchServerDirective() {
-    switch (peek().getType()) {
+    switch (peek().type()) {
         case LISTEN:
         case SERVER_NAME:
         case CLIENT_MAX_BODY_SIZE:
@@ -105,7 +105,7 @@ bool    Parser::matchServerDirective() {
 }
 
 bool    Parser::matchLocationDirective() {
-    switch (peek().getType()) {
+    switch (peek().type()) {
         case AUTOINDEX:
         case RETURN:
         case ALLOW_METHODS:
@@ -143,7 +143,7 @@ void    Parser::advance() {
 }
 
 bool    Parser::check(TokenType type) {
-    return peek().getType() == type;
+    return peek().type() == type;
 }
 
 Token&  Parser::peek() {
@@ -151,5 +151,5 @@ Token&  Parser::peek() {
 }
 
 bool    Parser::isAtEnd() const {
-    return _token.getType() == END;
+    return _token.type() == END;
 }

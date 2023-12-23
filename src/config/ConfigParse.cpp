@@ -1,10 +1,6 @@
 #include "ConfigParse.hpp"
-#include "Extractor.hpp"
-#include "ConfigInfo.hpp"
-#include "Lexer.hpp"
-#include "Parser.hpp"
-#include <cstddef>
-#include <map>
+#include "Env.hpp"
+#include <iostream>
 #include <string>
 
 void    fatal(const std::string &msg, int exit_status) {
@@ -33,6 +29,26 @@ void    ConfigParse::_parse(const std::string& source) {
     //Expr*   expr = NULL;
 
     try {
+        Env& env = Env::getInstance();
+        env.create(SERVER);
+        std::vector<std::string> value = {"8080"};
+        Token token(LISTEN, "8080", 1);
+        env.put(value, token);
+        env.add(SERVER);
+        std::vector<ServerConfig> configs = env.get();
+
+        std::cout << "server: " << configs.size() << '\n';
+        std::cout << "port: " << configs[0].port_number() << '\n';
+        //Env&    env = Env::getInstance();
+
+        //env.create(SERVER);
+        //env.create(LOCATION);
+        //env.add(LOCATION);
+        //std::vector<ServerConfig> configs = env.get();
+
+        //std::cout << "server: " << configs.size() << '\n';
+        //std::cout << "location: " << configs[0].getLocations().size() << '\n';
+
         //Lexer lexer("\nserver");
         //Token token = lexer.scan();
 

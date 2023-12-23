@@ -24,7 +24,7 @@ void    AstPrinter::visitLocationContextExpr(LocationContext& expr,
 
 void    AstPrinter::visitDirectiveExpr(Directive& expr,
                                     __attribute__((unused)) ConfigInfo& conf) {
-    parenthesize(conf, expr.getOperator().getLexeme(), 1, expr.getRightExpr());
+    parenthesize(conf, expr.getOperator().lexeme(), 1, expr.getRightExpr());
 }
 
 void    AstPrinter::visitParameterExpr(Parameter& expr,
