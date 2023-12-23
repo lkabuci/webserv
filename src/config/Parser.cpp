@@ -3,9 +3,11 @@
 #include "Token.hpp"
 #include "TokenType.hpp"
 
-Parser::Parser(const std::string& source) : _lexer(source) {
-    _token = _lexer.scan();
-    _prev = _token;
+Parser::Parser(const std::string& source)
+    : _lexer(source),
+    , _token(_lexer.scan())
+    , _prev(_token)
+{
 }
 
 void    Parser::parse() {
