@@ -1,5 +1,7 @@
 #include "Parser.hpp"
 #include "Env.hpp"
+#include "Token.hpp"
+#include "TokenType.hpp"
 
 Parser::Parser(const std::string& source) : _lexer(source) {
     _token = _lexer.scan();
@@ -21,13 +23,11 @@ void    Parser::statement() {
 void    Parser::serverContext() {
     consume(SERVER, "Expect a server context.");
     block();
-    //std::cout << "------> EXIT FROM SERVER BLOCK\n";
 }
 
 void    Parser::block() {
     consume(LEFT_BRACE, "Expect a left brace after the server context.");
     Env::create(SERVER);
-    //std::cout << "------> SERVER BLOCK\n";
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
         if (matchServerDirective()) {
             parameter(SERVER);
@@ -40,22 +40,19 @@ void    Parser::block() {
         }
     }
     consume(RIGHT_BRACE, "Expect end brace '}' after expression.");
+    Env::add(SERVER);
 }
 
 void    Parser::locationContext() {
     consume(PARAMETER, "Expect a path.");
-    //std::cout << "\n\t------> LOCATION BLOCK\n";
+    Token                       prev = previous();
     std::vector<std::string>    params;
 
     Env::create(LOCATION);
     do {
         params.push_back(previous().lexeme());
     }   while (match(PARAMETER));
-    Env::add(PARAMETER);
-    //std::cout << "\t\tADD ";
-    //for (size_t i = 0; i < params.size(); ++i)
-    //    std::cout << " " << params[i];
-    //std::cout << ". To the parameter of location\n";
+    Env::put(params, prev);
     consume(LEFT_BRACE, "Expect a left brace '{' after statement.");
     if (!matchLocationDirective())
         throw ParseException(peek(), "Expect statement.");
@@ -66,7 +63,7 @@ void    Parser::locationContext() {
             throw ParseException(peek(), "Expect a ';' after statement.");
     }   while (matchLocationDirective());
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
-    //std::cout << "\t------> EXIT FROM LOCATION BLOCK\n\n";
+    Env::add(LOCATION);
 }
 
 void    Parser::parameter(TokenType type) {
@@ -81,16 +78,8 @@ void    Parser::parameter(TokenType type) {
         params.push_back(previous().lexeme());
     if (type == SERVER) {
         Env::put(params, prev);
-        //std::cout << "\tADD " << prev.lexeme() << ":";
-        //for (size_t i = 0; i < params.size(); ++i)
-        //    std::cout << " " << params[i];
-        //std::cout << ". To the server block\n";
     } else {
         Env::put(params, prev);
-        //std::cout << "\t\tADD " << prev.lexeme() << ":";
-        //for (size_t i = 0; i < params.size(); ++i)
-        //    std::cout << " " << params[i];
-        //std::cout << ". To the location block\n";
     }
 }
 

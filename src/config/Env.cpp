@@ -1,4 +1,5 @@
 #include "Env.hpp"
+#include "LocationConfig.hpp"
 #include "ServerConfig.hpp"
 #include "Extractor.hpp"
 
@@ -64,9 +65,9 @@ void    Env::add(TokenType type) {
     if (type == SERVER)
         _svconfs.push_back(*(static_cast<ServerConfig*>(_ptr)));
     else {
-        if (_svconfs.empty())
-            _svconfs.push_back(*(static_cast<ServerConfig*>(_prev)));
-        _svconfs.back().addLocation(*(static_cast<LocationConfig*>(_ptr)));
+        (static_cast<ServerConfig*>(_prev))->addLocation(
+                                        *(static_cast<LocationConfig*>(_ptr))
+                                        );
         delete _ptr;
         _ptr = _prev;
     }

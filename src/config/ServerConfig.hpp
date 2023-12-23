@@ -23,6 +23,8 @@ public:
     void                        addLocation(const LocationConfig& lconf);
     std::vector<LocationConfig>& getLocations();
 
+    virtual void    display() const;
+
 private:
     std::vector<LocationConfig> _locations;
 };

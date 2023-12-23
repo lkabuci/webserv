@@ -37,6 +37,8 @@ public:
     void    set_return(const std::map<size_t, std::string>& return_page);
     void    set_autoindex(bool auto_index);
 
+    virtual void    display() const;
+
 protected:
     size_t                          _port;
     std::set<std::string>           _server_name;

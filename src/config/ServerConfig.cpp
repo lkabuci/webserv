@@ -1,4 +1,7 @@
 #include "ServerConfig.hpp"
+#include "ConfigInfo.hpp"
+#include <cstddef>
+#include <string>
 
 ServerConfig::ServerConfig() : ConfigInfo() {}
 
@@ -35,4 +38,18 @@ std::vector<LocationConfig>&    ServerConfig::getLocations() {
 
 void    ServerConfig::addLocation(const LocationConfig& lconf) {
     _locations.push_back(lconf);
+}
+
+void    ServerConfig::display() const {
+    ConfigInfo::display();
+    std::cout << "----> Location Block\n";
+    for (size_t i = 0; i < _locations.size(); ++i) {
+        std::cout << "path:";
+        for (std::set<std::string>::const_iterator it = _locations[i].getPaths().begin();
+                it != _locations[i].getPaths().end(); ++it)
+            std::cout << " " << *it;
+        std::cout << '\n';
+        _locations[i].display();
+    }
+    std::cout << "--------------------\n";
 }

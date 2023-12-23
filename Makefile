@@ -20,9 +20,6 @@ INCLUDE		= include/webserv.h
 INCLUDE		+= $(shell find src -type f -name "*.hpp")
 all:	$(NAME)
 
-r:
-	@echo $(SRCS)
-
 $(NAME): $(OBJECTS)
 	@echo $(CXX) $^ -o $@
 	@$(CXX) $^ -fsanitize=address -o $@

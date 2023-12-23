@@ -34,19 +34,12 @@ void    ConfigParse::_parse(const std::string& source) {
 
         parser.parse();
         std::vector<ServerConfig>   svconfs = Env::get();
+        std::cout << "size: " << svconfs.size() << '\n';
         for (size_t i = 0; i < svconfs.size(); ++i) {
-            std::cout << "port: " << svconfs[i].port_number();
+            std::cout << "------------ SERVER " << i + 1 << "\n";
+            svconfs[i].display();
         }
-        //if (expr == NULL)
-        //    throw std::runtime_error("no information has found.");
-        //AstPrinter      ap;
-        //ServerConfig    svconf;
-
-        //ap.print(*expr, svconf);
-        //std::cout << '\n';
-        //delete expr;
     } catch (const std::exception& e) {
-        //delete expr;
         std::cerr << e.what() << std::endl;
     }
 }
