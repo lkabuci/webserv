@@ -3,8 +3,6 @@
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include <cctype>
-#include <ratio>
-#include <string>
 
 std::map<std::string, TokenType>    Lexer::keywords;
 std::map<TokenType, std::string>    Lexer::keywordsValues;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #ifndef __CONFIG_INFO_HPP__
 #define __CONFIG_INFO_HPP__
 

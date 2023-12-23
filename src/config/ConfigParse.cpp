@@ -1,8 +1,6 @@
 #include "ConfigParse.hpp"
 #include "Parser.hpp"
 #include "Env.hpp"
-#include <iostream>
-#include <string>
 
 void    fatal(const std::string &msg, int exit_status) {
     std::cerr << msg << std::endl;
@@ -24,11 +22,6 @@ void    ConfigParse::parseFile(const char* file) {
 }
 
 void    ConfigParse::_parse(const std::string& source) {
-    //Lexer             lexer(source);
-    //std::list<Token>    tokens;
-    //Token   token;
-    //Expr*   expr = NULL;
-
     try {
         Parser parser(source);
 

@@ -1,7 +1,5 @@
 #include "ServerConfig.hpp"
 #include "ConfigInfo.hpp"
-#include <cstddef>
-#include <string>
 
 ServerConfig::ServerConfig() : ConfigInfo() {}
 

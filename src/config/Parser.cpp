@@ -101,6 +101,7 @@ bool    Parser::matchLocationDirective() {
         case RETURN:
         case ALLOW_METHODS:
         case ROOT:
+        case INDEX:
         case ERROR_PAGE:
         case CLIENT_MAX_BODY_SIZE:
             advance();

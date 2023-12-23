@@ -38,15 +38,17 @@ std::set<std::string>    Extractor::server_name() {
 }
 
 size_t  Extractor::client_max_body_size() {
-    if (_info.size() != 2)
+    if (_info.size() != 1)
         throw RunTimeException(_token, "Invalid value.");
-    std::stringstream   ss(_info[0]);
+    std::string    info = _info[0];
+    if (info[info.length() - 1] != 'm')
+        throw RunTimeException(_token, "Invalid size.");
+    info.pop_back();
+    std::stringstream   ss(info);
     int                 size;
 
     if (!(ss >> size) || size < 0)
         throw RunTimeException(_token, "Invalid value.");
-    if (_info[1].size() != 1 || _info[1][0] != 'm')
-        throw RunTimeException(_token, "Invalid size.");
     return size;
 }
 

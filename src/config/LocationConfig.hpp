@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef __LOCATION_CONFIG_HPP__
 #define __LOCATION_CONFIG_HPP__
 
