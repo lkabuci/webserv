@@ -1,5 +1,6 @@
 #include "ConfigInfo.hpp"
 #include <cstddef>
+#include <set>
 #include <string>
 
 ConfigInfo::ConfigInfo()
@@ -15,6 +16,7 @@ ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
                     const std::set<std::string>& root_dir,
                     const std::map<size_t, std::string>& error_page,
                     const std::map<size_t, std::string>& return_page,
+                    const std::set<std::string>& methods,
                     bool auto_index)
     : _port(port)
     , _server_name(name)
@@ -23,6 +25,7 @@ ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
     , _root(root_dir)
     , _error_page(error_page)
     , _return(return_page)
+    , _allow_methods(methods)
     , _autoindex(auto_index)
 {
 }
@@ -35,6 +38,7 @@ ConfigInfo::ConfigInfo(const ConfigInfo& conf)
     , _root(conf._root)
     , _error_page(conf._error_page)
     , _return(conf._return)
+    , _allow_methods(conf._allow_methods)
     , _autoindex(conf._autoindex)
 {
 }
@@ -51,6 +55,7 @@ ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
     _root = conf._root;
     _error_page = conf._error_page;
     _return = conf._return;
+    _allow_methods = conf._allow_methods;
     _autoindex = conf._autoindex;
     return *this;
 }
@@ -75,6 +80,10 @@ const std::map<size_t, std::string>&    ConfigInfo::error_page() const {
 
 const std::map<size_t, std::string>&    ConfigInfo::return_page() const {
     return _return;
+}
+
+const std::set<std::string>&    ConfigInfo::allow_methods() const {
+    return _allow_methods;
 }
 
 const bool& ConfigInfo::autoindex() const { return _autoindex; }
@@ -107,6 +116,10 @@ void    ConfigInfo::set_error_page(const std::map<size_t, std::string>& errpage)
 void    ConfigInfo::set_return(const std::map<size_t, std::string>& return_page)
 {
     _return.insert(return_page.begin(), return_page.end());
+}
+
+void    ConfigInfo::set_allow_methods(const std::set<std::string>& methods) {
+    _allow_methods.insert(methods.begin(), methods.end());
 }
 
 void    ConfigInfo::set_autoindex(bool auto_index) {
@@ -148,6 +161,13 @@ void    ConfigInfo::display() const {
         for (std::map<size_t, std::string>::const_iterator it = _return.begin();
                 it != _return.end(); ++it)
             std::cout << " " << it->first << " : " << it->second << '\n';
+    }
+    if (!_allow_methods.empty()) {
+        std::cout << "allow_methods:";
+        for (std::set<std::string>::const_iterator it = _allow_methods.begin();
+            it != _allow_methods.end(); ++it)
+            std::cout << " " << *it;
+        std::cout << '\n';
     }
     std::cout << "autoindex: " << _autoindex << '\n';
 }

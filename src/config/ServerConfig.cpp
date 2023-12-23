@@ -10,9 +10,10 @@ ServerConfig::ServerConfig(const size_t& port, const std::set<std::string>& name
                     const std::set<std::string>& root_dir,
                     const std::map<size_t, std::string>& error_page,
                     const std::map<size_t, std::string>& return_page,
+                    const std::set<std::string>& methods,
                     bool auto_index)
     : ConfigInfo(port, name, size, indx, root_dir, error_page, return_page,
-                auto_index)
+                methods, auto_index)
 {
 }
 
@@ -36,7 +37,11 @@ std::vector<LocationConfig>&    ServerConfig::getLocations() {
     return _locations;
 }
 
-void    ServerConfig::addLocation(const LocationConfig& lconf) {
+void    ServerConfig::addLocation(LocationConfig lconf) {
+    if (lconf.index().empty())
+        lconf.set_index(_index);
+    if (lconf.allow_methods().empty())
+        lconf.set_allow_methods(_allow_methods);
     _locations.push_back(lconf);
 }
 

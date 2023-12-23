@@ -30,7 +30,7 @@ void    ConfigParse::_parse(const std::string& source) {
     //Expr*   expr = NULL;
 
     try {
-        Parser  parser(source);
+        Parser parser(source);
 
         parser.parse();
         std::vector<ServerConfig>   svconfs = Env::get();

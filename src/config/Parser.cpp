@@ -31,8 +31,6 @@ void    Parser::block() {
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
         if (matchServerDirective()) {
             parameter(SERVER);
-            if (peek().line() != previous().line() || !match(SEMICOLON))
-                throw ParseException(peek(), "Expect a ';' after statement.");
         } else if (match(LOCATION)) {
             locationContext();
         } else {
@@ -54,14 +52,9 @@ void    Parser::locationContext() {
     }   while (match(PARAMETER));
     Env::put(params, prev);
     consume(LEFT_BRACE, "Expect a left brace '{' after statement.");
-    if (!matchLocationDirective())
-        throw ParseException(peek(), "Expect statement.");
     Token   token;
-    do {
+    while (matchLocationDirective())
         parameter(LOCATION);
-        if (peek().line() != previous().line() || !match(SEMICOLON))
-            throw ParseException(peek(), "Expect a ';' after statement.");
-    }   while (matchLocationDirective());
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
     Env::add(LOCATION);
 }
@@ -76,6 +69,8 @@ void    Parser::parameter(TokenType type) {
 
     while (match(PARAMETER))
         params.push_back(previous().lexeme());
+    if (peek().line() != previous().line() || !match(SEMICOLON))
+        throw ParseException(peek(), "Expect a ';' after statement.");
     if (type == SERVER) {
         Env::put(params, prev);
     } else {
@@ -90,6 +85,7 @@ bool    Parser::matchServerDirective() {
         case CLIENT_MAX_BODY_SIZE:
         case ROOT:
         case INDEX:
+        case ALLOW_METHODS:
         case ERROR_PAGE:
             advance();
             return true;

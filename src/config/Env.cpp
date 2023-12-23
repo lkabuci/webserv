@@ -50,6 +50,9 @@ void    Env::put(const std::vector<std::string> &value, const Token &token) {
         case RETURN:
             _ptr->set_return(extract.return_page());
             break;
+        case ALLOW_METHODS:
+            _ptr->set_allow_methods(extract.allow_methods());
+            break;
         case AUTOINDEX:
             _ptr->set_autoindex(extract.autoindex());
             break;

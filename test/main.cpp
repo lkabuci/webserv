@@ -1,6 +1,6 @@
 //#include <iostream>
 //#include "gtest/gtest.h"
-
+//
 //int main(int argc, char **argv)
 //{
 //    ::testing::InitGoogleTest(&argc, argv);
@@ -12,4 +12,4 @@
 //        std::cout << "FAILED" << std::endl;
 //    return 0;
 //}
-
+//

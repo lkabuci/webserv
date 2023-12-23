@@ -16,9 +16,11 @@ public:
     std::set<std::string>           root();
     std::map<size_t, std::string>   error_page();
     std::map<size_t, std::string>   return_page();
+    std::set<std::string>           allow_methods();
     bool                            autoindex();
 
 private:
+    static std::vector<std::string>    _allow_methods;
     Extractor(const Extractor&);
     Extractor&  operator=(const Extractor&);
 

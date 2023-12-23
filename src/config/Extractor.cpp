@@ -1,14 +1,17 @@
 #include "Extractor.hpp"
 #include "RunTimeException.hpp"
-#include <cstddef>
-#include <sstream>
-#include <string>
-#include <vector>
+#include <algorithm>
+
+std::vector<std::string>    Extractor::_allow_methods;
 
 Extractor::Extractor(const std::vector<std::string>& info, const Token& token)
     : _info(info)
     , _token(token)
 {
+    _allow_methods.push_back("GET");
+    _allow_methods.push_back("POST");
+    _allow_methods.push_back("DELETE");
+    _allow_methods.push_back("PUT");
 }
 
 size_t  Extractor::port_number() {
@@ -17,11 +20,11 @@ size_t  Extractor::port_number() {
     std::stringstream   ss(_info[0]);
     int                 port;
 
-    if (!(ss >> port))
+    if (!(ss >> port) || port < 0)
         throw RunTimeException(_token, "Invalid port number.");
-    if (port < 1024 || port > 49151)
-        throw RunTimeException(_token, "port number should be in the registered"
-                                " ports: 1024 to 49151.");
+    //if (port < 1024 || port > 49151)
+    //    throw RunTimeException(_token, "port number should be in the registered"
+    //                            " ports: 1024 to 49151.");
     return port;
 }
 
@@ -100,6 +103,24 @@ std::map<size_t, std::string>   Extractor::return_page() {
         ss.clear();
     }
     return return_page;
+}
+
+std::set<std::string>   Extractor::allow_methods() {
+    if (_info.empty())
+        throw RunTimeException(_token, "allow_methods can't be empty.");
+    if (_info.size() > 4)
+        throw RunTimeException(_token, "only GET, POST, DELETE and PUT"
+                                " are allowed.");
+    std::set<std::string>   allow_methods;
+
+    for (size_t i = 0; i < _info.size(); ++i) {
+        if (std::find(_allow_methods.begin(), _allow_methods.end(),
+                      _info[i]) == _allow_methods.end())
+            throw RunTimeException(_token, _info[i] + " is not a valid "
+                                    "method.");
+    }
+    allow_methods.insert(_info.begin(), _info.end());
+    return allow_methods;
 }
 
 bool    Extractor::autoindex() {

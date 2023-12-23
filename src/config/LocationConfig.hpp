@@ -12,6 +12,7 @@ public:
                 const std::set<std::string>& root_dir,
                 const std::map<size_t, std::string>& error_page,
                 const std::map<size_t, std::string>& return_page,
+                const std::set<std::string>& methods,
                 bool auto_index);
     LocationConfig(const LocationConfig& svconfig);
     virtual ~LocationConfig();

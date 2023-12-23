@@ -8,9 +8,10 @@ LocationConfig::LocationConfig(const std::set<std::string>& paths,
                     const std::set<std::string>& root_dir,
                     const std::map<size_t, std::string>& error_page,
                     const std::map<size_t, std::string>& return_page,
+                    const std::set<std::string>& methods,
                     bool auto_index)
     : ConfigInfo(port, name, size, indx, root_dir, error_page, return_page,
-                auto_index)
+                methods, auto_index)
     , _paths(paths)
 {
 }
@@ -23,11 +24,11 @@ LocationConfig::LocationConfig(const LocationConfig& svconf)
 
 LocationConfig::~LocationConfig() {}
 
-LocationConfig&   LocationConfig::operator=(const LocationConfig& svconf) {
-    if (this == &svconf)
+LocationConfig&   LocationConfig::operator=(const LocationConfig& lconf) {
+    if (this == &lconf)
         return *this;
-    ConfigInfo::operator=(svconf);
-    _paths = svconf._paths;
+    ConfigInfo::operator=(lconf);
+    _paths = lconf._paths;
     return *this;
 }
 

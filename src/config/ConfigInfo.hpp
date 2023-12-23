@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+#include <vector>
 #ifndef __CONFIG_INFO_HPP__
 #define __CONFIG_INFO_HPP__
 
@@ -13,6 +15,7 @@ public:
             const std::set<std::string>& root_dir,
             const std::map<size_t, std::string>& error_page,
             const std::map<size_t, std::string>& return_page,
+            const std::set<std::string>& methods,
             bool auto_index);
     ConfigInfo(const ConfigInfo& conf);
     virtual ~ConfigInfo() = 0;
@@ -26,6 +29,7 @@ public:
     const std::set<std::string>&            root() const;
     const std::map<size_t, std::string>&    error_page() const;
     const std::map<size_t, std::string>&    return_page() const;
+    const std::set<std::string>&            allow_methods() const;
     const bool&                             autoindex() const;
 
     void    set_port_number(const size_t& port);
@@ -35,11 +39,13 @@ public:
     void    set_root(const std::set<std::string>& root_dir);
     void    set_error_page(const std::map<size_t, std::string>& errpage);
     void    set_return(const std::map<size_t, std::string>& return_page);
+    void    set_allow_methods(const std::set<std::string>& methods);
     void    set_autoindex(bool auto_index);
 
     virtual void    display() const;
 
 protected:
+    static std::vector<std::string> _methods;
     size_t                          _port;
     std::set<std::string>           _server_name;
     size_t                          _client_max_body_size;
@@ -47,6 +53,7 @@ protected:
     std::set<std::string>           _root;
     std::map<size_t, std::string>   _error_page;
     std::map<size_t, std::string>   _return;
+    std::set<std::string>           _allow_methods;
     bool                            _autoindex;
 };
 
