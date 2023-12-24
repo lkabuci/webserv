@@ -20,26 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62dcf110-1346-49b9-bafe-b4f1dad31770" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/ConfigInfo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ConfigInfo.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/ConfigInfo.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ConfigInfo.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/ConfigParse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ConfigParse.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Env.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Env.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Extractor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Extractor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Extractor.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Extractor.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Lexer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Lexer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/LocationConfig.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/LocationConfig.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/LocationConfig.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/LocationConfig.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Parser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Parser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Parser.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Parser.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/ServerConfig.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ServerConfig.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/ServerConfig.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ServerConfig.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/webserv.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/webserv.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Parser_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/Parser_test.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests" beforeDir="false" afterPath="$PROJECT_DIR$/tests" afterDir="false" />
-    </list>
+    <list default="true" id="62dcf110-1346-49b9-bafe-b4f1dad31770" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

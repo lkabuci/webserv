@@ -4,7 +4,7 @@
 #include "TokenType.hpp"
 
 Parser::Parser(const std::string& source)
-    : _lexer(source),
+    : _lexer(source)
     , _token(_lexer.scan())
     , _prev(_token)
 {
