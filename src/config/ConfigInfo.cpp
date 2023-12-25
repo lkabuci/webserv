@@ -1,8 +1,8 @@
 #include "ConfigInfo.hpp"
 
 ConfigInfo::ConfigInfo()
-    : _port(8000), _server_name({"-"}), _client_max_body_size(100),
-      _autoindex(false) {}
+    : _port(8000), _client_max_body_size(100),
+      _autoindex(false) {_server_name.insert("-");}
 
 ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
                        const size_t& size, const std::set<std::string>& indx,

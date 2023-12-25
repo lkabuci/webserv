@@ -2,8 +2,7 @@ GREEN = \033[38;2;0;153;0m
 NC = \033[0m # No Color
 
 CXX			= c++
-CXXFLAGS	=# -Wall -Wextra -Werror -std=c++98 -g
-CXXFLAGS	= -g
+CXXFLAGS	= -Wall -std=c++98 # -Wextra -Werror -std=c++98 -g
 RM			= rm -rf
 
 NAME		= webserv
@@ -22,7 +21,7 @@ all:	$(NAME)
 
 $(NAME): $(OBJECTS)
 	@echo $(CXX) $^ -o $@
-	@$(CXX) $^ -fsanitize=address -o $@
+	@$(CXX) $^ -o $@
 
 $(OBJECTS): | $(BUILD_DIR)
 
