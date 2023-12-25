@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include "../include/webserv.h"
 #include <iostream>
 
 int main(int argc, char** argv) {

@@ -16,6 +16,5 @@ RUN cmake ../googletest/ \
     && rm -rf ../googletest
 
 WORKDIR /app
-COPY . .
 
-CMD ["make", "tests"]
+CMD ["make", "-f", "Makefile-test"]

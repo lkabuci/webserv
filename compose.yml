@@ -2,6 +2,7 @@ version: '3'
 
 services:
   webserv:
+    tty: true
     build: .
     volumes:
-      - .:/app
+    - .:/app
