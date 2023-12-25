@@ -1,0 +1,17 @@
+program             ::=  stmt
+
+stmt                ::=  serverContext serverContext*
+
+serverContext       ::=  "server" block
+
+block               ::= "{" (serverDirecitve param+ ";" | locationContext)* "}"
+
+locationContext     ::= "listen" param+ "{" (locationDirective param+ ";")+ "}"
+
+serverDirecitve     ::= "listen" | "server_name" | "client_max_body_size"
+                        | "root" | "error_page"
+
+locationDirective   ::= "autoindex" | "return" | "allow_methods" | "root"
+                        | "error_page" | "client_max_body_size"
+
+param               ::= ANY_PRINTABLE
