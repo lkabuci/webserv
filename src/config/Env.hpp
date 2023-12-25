@@ -21,8 +21,8 @@ class Env {
     // private:
     Env();
 
-    static ConfigInfo* _ptr;
-    static ConfigInfo* _prev;
+    static ConfigInfo*               _ptr;
+    static ConfigInfo*               _prev;
     static std::vector<ServerConfig> _svconfs;
 };
 

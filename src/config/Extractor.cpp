@@ -16,7 +16,7 @@ size_t Extractor::port_number() {
     if (_info.size() != 1)
         throw RunTimeException(_token, "Invalid port number.");
     std::stringstream ss(_info[0]);
-    int port;
+    int               port;
 
     if (!(ss >> port) || port < 0)
         throw RunTimeException(_token, "Invalid port number.");
@@ -38,9 +38,10 @@ size_t Extractor::client_max_body_size() {
     std::string info = _info[0];
     if (info[info.length() - 1] != 'm')
         throw RunTimeException(_token, "Invalid size.");
-    info.pop_back();
+    info.erase(info.end() - 1);
+    // info.pop_back();
     std::stringstream ss(info);
-    int size;
+    int               size;
 
     if (!(ss >> size) || size < 0)
         throw RunTimeException(_token, "Invalid value.");
@@ -70,9 +71,9 @@ std::map<size_t, std::string> Extractor::error_page() {
         throw RunTimeException(_token, "Invalid error_page.");
 
     std::map<size_t, std::string> error_page;
-    std::string path = _info[_info.size() - 1];
-    std::stringstream ss;
-    int code;
+    std::string                   path = _info[_info.size() - 1];
+    std::stringstream             ss;
+    int                           code;
 
     for (size_t i = 0; i < _info.size() - 1; ++i) {
         ss << _info[i];
@@ -87,10 +88,10 @@ std::map<size_t, std::string> Extractor::error_page() {
 std::map<size_t, std::string> Extractor::return_page() {
     if (_info.size() < 2)
         throw RunTimeException(_token, "Invalid return_page.");
-    std::stringstream ss;
+    std::stringstream             ss;
     std::map<size_t, std::string> return_page;
-    std::string path = _info[_info.size() - 1];
-    int code;
+    std::string                   path = _info[_info.size() - 1];
+    int                           code;
 
     for (size_t i = 0; i < _info.size() - 1; i++) {
         ss << _info[i];

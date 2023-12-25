@@ -1,12 +1,13 @@
 #include "ConfigInfo.hpp"
 
 ConfigInfo::ConfigInfo()
-    : _port(8000), _client_max_body_size(100),
-      _autoindex(false) {_server_name.insert("-");}
+    : _port(8000), _client_max_body_size(100), _autoindex(false) {
+    _server_name.insert("-");
+}
 
 ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
                        const size_t& size, const std::set<std::string>& indx,
-                       const std::set<std::string>& root_dir,
+                       const std::set<std::string>&         root_dir,
                        const std::map<size_t, std::string>& error_page,
                        const std::map<size_t, std::string>& return_page,
                        const std::set<std::string>& methods, bool auto_index)
@@ -37,7 +38,9 @@ ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
     return *this;
 }
 
-const size_t& ConfigInfo::port_number() const { return _port; }
+const size_t& ConfigInfo::port_number() const {
+    return _port;
+}
 
 const std::set<std::string>& ConfigInfo::server_name() const {
     return _server_name;
@@ -47,9 +50,13 @@ const size_t& ConfigInfo::client_max_body_size() const {
     return _client_max_body_size;
 }
 
-const std::set<std::string>& ConfigInfo::index() const { return _index; }
+const std::set<std::string>& ConfigInfo::index() const {
+    return _index;
+}
 
-const std::set<std::string>& ConfigInfo::root() const { return _root; }
+const std::set<std::string>& ConfigInfo::root() const {
+    return _root;
+}
 
 const std::map<size_t, std::string>& ConfigInfo::error_page() const {
     return _error_page;
@@ -63,9 +70,13 @@ const std::set<std::string>& ConfigInfo::allow_methods() const {
     return _allow_methods;
 }
 
-const bool& ConfigInfo::autoindex() const { return _autoindex; }
+const bool& ConfigInfo::autoindex() const {
+    return _autoindex;
+}
 
-void ConfigInfo::set_port_number(const size_t& port) { _port = port; }
+void ConfigInfo::set_port_number(const size_t& port) {
+    _port = port;
+}
 
 void ConfigInfo::set_server_name(const std::set<std::string>& name) {
     _server_name = name;
@@ -95,7 +106,9 @@ void ConfigInfo::set_allow_methods(const std::set<std::string>& methods) {
     _allow_methods.insert(methods.begin(), methods.end());
 }
 
-void ConfigInfo::set_autoindex(bool auto_index) { _autoindex = auto_index; }
+void ConfigInfo::set_autoindex(bool auto_index) {
+    _autoindex = auto_index;
+}
 
 void ConfigInfo::display() const {
     std::cout << "port_number: " << _port << '\n';

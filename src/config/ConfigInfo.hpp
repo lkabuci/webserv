@@ -10,7 +10,7 @@ class ConfigInfo {
     ConfigInfo();
     ConfigInfo(const size_t& port, const std::set<std::string>& name,
                const size_t& size, const std::set<std::string>& indx,
-               const std::set<std::string>& root_dir,
+               const std::set<std::string>&         root_dir,
                const std::map<size_t, std::string>& error_page,
                const std::map<size_t, std::string>& return_page,
                const std::set<std::string>& methods, bool auto_index);
@@ -19,15 +19,15 @@ class ConfigInfo {
 
     ConfigInfo& operator=(const ConfigInfo& conf);
 
-    const size_t& port_number() const;
-    const std::set<std::string>& server_name() const;
-    const size_t& client_max_body_size() const;
-    const std::set<std::string>& index() const;
-    const std::set<std::string>& root() const;
+    const size_t&                        port_number() const;
+    const std::set<std::string>&         server_name() const;
+    const size_t&                        client_max_body_size() const;
+    const std::set<std::string>&         index() const;
+    const std::set<std::string>&         root() const;
     const std::map<size_t, std::string>& error_page() const;
     const std::map<size_t, std::string>& return_page() const;
-    const std::set<std::string>& allow_methods() const;
-    const bool& autoindex() const;
+    const std::set<std::string>&         allow_methods() const;
+    const bool&                          autoindex() const;
 
     void set_port_number(const size_t& port);
     void set_server_name(const std::set<std::string>& name);
@@ -43,15 +43,15 @@ class ConfigInfo {
 
   protected:
     static std::vector<std::string> _methods;
-    size_t _port;
-    std::set<std::string> _server_name;
-    size_t _client_max_body_size;
-    std::set<std::string> _index;
-    std::set<std::string> _root;
-    std::map<size_t, std::string> _error_page;
-    std::map<size_t, std::string> _return;
-    std::set<std::string> _allow_methods;
-    bool _autoindex;
+    size_t                          _port;
+    std::set<std::string>           _server_name;
+    size_t                          _client_max_body_size;
+    std::set<std::string>           _index;
+    std::set<std::string>           _root;
+    std::map<size_t, std::string>   _error_page;
+    std::map<size_t, std::string>   _return;
+    std::set<std::string>           _allow_methods;
+    bool                            _autoindex;
 };
 
 #endif

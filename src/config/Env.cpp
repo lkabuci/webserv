@@ -3,8 +3,8 @@
 #include "LocationConfig.hpp"
 #include "ServerConfig.hpp"
 
-ConfigInfo* Env::_ptr = NULL;
-ConfigInfo* Env::_prev = NULL;
+ConfigInfo*               Env::_ptr = NULL;
+ConfigInfo*               Env::_prev = NULL;
 std::vector<ServerConfig> Env::_svconfs;
 
 Env::Env() {}
@@ -74,7 +74,9 @@ void Env::add(TokenType type) {
     }
 }
 
-std::vector<ServerConfig> Env::get() { return _svconfs; }
+std::vector<ServerConfig> Env::get() {
+    return _svconfs;
+}
 
 Env& Env::getInstance() {
     static Env instance;

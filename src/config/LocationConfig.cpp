@@ -26,7 +26,9 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& lconf) {
     return *this;
 }
 
-const std::set<std::string>& LocationConfig::getPaths() const { return _paths; }
+const std::set<std::string>& LocationConfig::getPaths() const {
+    return _paths;
+}
 
 void LocationConfig::addPath(const std::string& path) {
     _paths.insert(_paths.end(), path);

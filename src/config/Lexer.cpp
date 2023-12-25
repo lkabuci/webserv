@@ -67,7 +67,7 @@ void Lexer::_parameter() {
         advance();
 
     std::string text = _source.substr(_start, _current - _start);
-    TokenType type;
+    TokenType   type;
 
     if (keywords.find(text) != keywords.end())
         type = keywords[text];
@@ -114,7 +114,9 @@ char Lexer::peek() {
     return _source.at(_current);
 }
 
-bool Lexer::isAtEnd() const { return _current >= _length; }
+bool Lexer::isAtEnd() const {
+    return _current >= _length;
+}
 
 void Lexer::reserve() {
     keywords["server"] = SERVER;

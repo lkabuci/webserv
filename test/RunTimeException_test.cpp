@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 
 TEST(RunTimeExceptionTest, ConstructorEndToken) {
-    Token token(END, "", 1);
+    Token            token(END, "", 1);
     RunTimeException exception(token, "Unexpected end of file");
 
     // Check if the error message is correctly formatted
@@ -12,7 +12,7 @@ TEST(RunTimeExceptionTest, ConstructorEndToken) {
 }
 
 TEST(RunTimeExceptionTest, ConstructorOtherToken) {
-    Token token(SERVER, "server", 2);
+    Token            token(SERVER, "server", 2);
     RunTimeException exception(token, "Unexpected token");
 
     // Check if the error message is correctly formatted
@@ -20,7 +20,7 @@ TEST(RunTimeExceptionTest, ConstructorOtherToken) {
 }
 
 TEST(RunTimeExceptionTest, What) {
-    Token token(SERVER, "server", 2);
+    Token            token(SERVER, "server", 2);
     RunTimeException exception(token, "Unexpected token");
 
     // Check if the what function correctly returns the error message

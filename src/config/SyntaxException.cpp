@@ -13,11 +13,13 @@ SyntaxException::SyntaxException(int line, const std::string& message) {
     _errorMsg = std::string("[line ") + toString(line) + "] Error: " + message;
 }
 
-const char* SyntaxException::what() const throw() { return _errorMsg.c_str(); }
+const char* SyntaxException::what() const throw() {
+    return _errorMsg.c_str();
+}
 
 std::string SyntaxException::toString(int nbr) {
     std::stringstream ss;
-    std::string str;
+    std::string       str;
 
     ss << std::dec << nbr;
     ss >> str;

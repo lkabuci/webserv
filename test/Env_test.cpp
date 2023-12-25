@@ -45,7 +45,7 @@ TEST(EnvTest, Put) {
 
     env.create(SERVER);
     std::vector<std::string> value = {"8080"};
-    Token token(LISTEN, "listen", 1);
+    Token                    token(LISTEN, "listen", 1);
     env.put(value, token);
 
     // Check if the port number is correctly set

@@ -29,15 +29,15 @@ class Parser {
     void parameter(TokenType type);
     void serverDirective();
 
-    bool matchLocationDirective();
-    bool matchServerDirective();
-    bool check(TokenType type);
-    void advance();
+    bool   matchLocationDirective();
+    bool   matchServerDirective();
+    bool   check(TokenType type);
+    void   advance();
     Token& peek();
     Token& previous();
-    bool match(TokenType type);
-    void consume(TokenType type, const std::string& message);
-    bool isAtEnd() const;
+    bool   match(TokenType type);
+    void   consume(TokenType type, const std::string& message);
+    bool   isAtEnd() const;
 };
 
 #endif

@@ -25,7 +25,9 @@ ServerConfig& ServerConfig::operator=(const ServerConfig& svconf) {
     return *this;
 }
 
-std::vector<LocationConfig>& ServerConfig::getLocations() { return _locations; }
+std::vector<LocationConfig>& ServerConfig::getLocations() {
+    return _locations;
+}
 
 void ServerConfig::addLocation(LocationConfig lconf) {
     if (lconf.index().empty())
