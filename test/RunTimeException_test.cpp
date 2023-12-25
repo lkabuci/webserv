@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
 #include "../src/config/RunTimeException.hpp"
 #include "../src/config/Token.hpp"
 #include "../src/config/TokenType.hpp"
+#include "gtest/gtest.h"
 
 TEST(RunTimeExceptionTest, ConstructorEndToken) {
     Token token(END, "", 1);

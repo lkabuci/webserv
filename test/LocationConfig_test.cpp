@@ -1,7 +1,7 @@
 // FILEPATH: /home/essam/CLionProjects/webserv/test/LocationConfig_test.cpp
 
-#include "gtest/gtest.h"
 #include "../src/config/LocationConfig.hpp"
+#include "gtest/gtest.h"
 
 TEST(LocationConfigTest, DefaultConstructor) {
     LocationConfig config;
@@ -31,7 +31,8 @@ TEST(LocationConfigTest, ParameterizedConstructor) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    LocationConfig config(paths, port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    LocationConfig config(paths, port, name, size, indx, root_dir, error_page,
+                          return_page, methods, auto_index);
 
     // Check if the values are correctly set
     EXPECT_EQ(config.getPaths(), paths);
@@ -58,7 +59,8 @@ TEST(LocationConfigTest, CopyConstructor) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page,
+                           return_page, methods, auto_index);
     LocationConfig config2(config1);
 
     // Check if the values are correctly copied
@@ -77,7 +79,8 @@ TEST(LocationConfigTest, AssignmentOperator) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page,
+                           return_page, methods, auto_index);
     LocationConfig config2;
     config2 = config1;
 
@@ -108,11 +111,12 @@ TEST(LocationConfigTest, AddPaths) {
 
     // Check if the paths are correctly added
     EXPECT_EQ(config.getPaths().size(), 2);
-    EXPECT_EQ(config.getPaths(), std::set<std::string>(paths.begin(), paths.end()));
+    EXPECT_EQ(config.getPaths(),
+              std::set<std::string>(paths.begin(), paths.end()));
 }
 
-#include "gtest/gtest.h"
 #include "../src/config/LocationConfig.hpp"
+#include "gtest/gtest.h"
 
 TEST(LocationConfigTest, SetPortNumber) {
     LocationConfig config;

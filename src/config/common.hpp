@@ -3,21 +3,21 @@
 #ifndef __COMMON_HPP__
 #define __COMMON_HPP__
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <list>
-#include <map>
-#include <vector>
+#include "TokenType.hpp"
 #include <cstdarg>
 #include <cstdlib>
 #include <exception>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <map>
 #include <set>
-#include "TokenType.hpp"
+#include <sstream>
+#include <string>
+#include <vector>
 
 #define USGERR 64
 
-void    fatal(const std::string& msg, int exit_status);
+void fatal(const std::string& msg, int exit_status);
 
 #endif

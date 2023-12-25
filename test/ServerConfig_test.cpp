@@ -1,7 +1,7 @@
 // FILEPATH: /home/essam/CLionProjects/webserv/test/ServerConfig_test.cpp
 
-#include "gtest/gtest.h"
 #include "../src/config/ServerConfig.hpp"
+#include "gtest/gtest.h"
 
 TEST(ServerConfigTest, DefaultConstructor) {
     ServerConfig config;
@@ -30,7 +30,8 @@ TEST(ServerConfigTest, ParameterizedConstructor) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    ServerConfig config(port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    ServerConfig config(port, name, size, indx, root_dir, error_page,
+                        return_page, methods, auto_index);
 
     // Check if the values are correctly set
     EXPECT_EQ(config.port_number(), port);
@@ -56,7 +57,8 @@ TEST(ServerConfigTest, CopyConstructor) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    ServerConfig config1(port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    ServerConfig config1(port, name, size, indx, root_dir, error_page,
+                         return_page, methods, auto_index);
     ServerConfig config2(config1);
 
     // Check if the values are correctly copied
@@ -74,7 +76,8 @@ TEST(ServerConfigTest, AssignmentOperator) {
     std::set<std::string> methods = {"GET"};
     bool auto_index = false;
 
-    ServerConfig config1(port, name, size, indx, root_dir, error_page, return_page, methods, auto_index);
+    ServerConfig config1(port, name, size, indx, root_dir, error_page,
+                         return_page, methods, auto_index);
     ServerConfig config2;
     config2 = config1;
 

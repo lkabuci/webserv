@@ -4,17 +4,11 @@
 #include "TokenType.hpp"
 
 Parser::Parser(const std::string& source)
-    : _lexer(source)
-    , _token(_lexer.scan())
-    , _prev(_token)
-{
-}
+    : _lexer(source), _token(_lexer.scan()), _prev(_token) {}
 
-void    Parser::parse() {
-    statement();
-}
+void Parser::parse() { statement(); }
 
-void    Parser::statement() {
+void Parser::statement() {
     serverContext();
 
     while (!isAtEnd()) {
@@ -22,12 +16,12 @@ void    Parser::statement() {
     }
 }
 
-void    Parser::serverContext() {
+void Parser::serverContext() {
     consume(SERVER, "Expect a server context.");
     block();
 }
 
-void    Parser::block() {
+void Parser::block() {
     consume(LEFT_BRACE, "Expect a left brace after the server context.");
     Env::create(SERVER);
     while (!isAtEnd() && !check(RIGHT_BRACE)) {
@@ -43,31 +37,31 @@ void    Parser::block() {
     Env::add(SERVER);
 }
 
-void    Parser::locationContext() {
+void Parser::locationContext() {
     consume(PARAMETER, "Expect a path.");
-    Token                       prev = previous();
-    std::vector<std::string>    params;
+    Token prev = previous();
+    std::vector<std::string> params;
 
     Env::create(LOCATION);
     do {
         params.push_back(previous().lexeme());
-    }   while (match(PARAMETER));
+    } while (match(PARAMETER));
     Env::put(params, prev);
     consume(LEFT_BRACE, "Expect a left brace '{' after statement.");
-    Token   token;
+    Token token;
     while (matchLocationDirective())
         parameter(LOCATION);
     consume(RIGHT_BRACE, "Expect end brace '}' after statement.");
     Env::add(LOCATION);
 }
 
-void    Parser::parameter(TokenType type) {
-    Token   prev = previous();
+void Parser::parameter(TokenType type) {
+    Token prev = previous();
 
     if (!check(PARAMETER))
         throw ParseException(peek(), "Expect parameter for the directive.");
 
-    std::vector<std::string>    params;
+    std::vector<std::string> params;
 
     while (match(PARAMETER))
         params.push_back(previous().lexeme());
@@ -80,70 +74,64 @@ void    Parser::parameter(TokenType type) {
     }
 }
 
-bool    Parser::matchServerDirective() {
+bool Parser::matchServerDirective() {
     switch (peek().type()) {
-        case LISTEN:
-        case SERVER_NAME:
-        case CLIENT_MAX_BODY_SIZE:
-        case ROOT:
-        case INDEX:
-        case ALLOW_METHODS:
-        case ERROR_PAGE:
-            advance();
-            return true;
-        default:
-            break;
+    case LISTEN:
+    case SERVER_NAME:
+    case CLIENT_MAX_BODY_SIZE:
+    case ROOT:
+    case INDEX:
+    case ALLOW_METHODS:
+    case ERROR_PAGE:
+        advance();
+        return true;
+    default:
+        break;
     }
     return false;
 }
 
-bool    Parser::matchLocationDirective() {
+bool Parser::matchLocationDirective() {
     switch (peek().type()) {
-        case AUTOINDEX:
-        case RETURN:
-        case ALLOW_METHODS:
-        case ROOT:
-        case INDEX:
-        case ERROR_PAGE:
-        case CLIENT_MAX_BODY_SIZE:
-            advance();
-            return true;
-        default:
-            break;
+    case AUTOINDEX:
+    case RETURN:
+    case ALLOW_METHODS:
+    case ROOT:
+    case INDEX:
+    case ERROR_PAGE:
+    case CLIENT_MAX_BODY_SIZE:
+        advance();
+        return true;
+    default:
+        break;
     }
     return false;
 }
 
-void    Parser::consume(TokenType type, const std::string& message) {
+void Parser::consume(TokenType type, const std::string& message) {
     if (match(type))
         return;
     throw ParseException(_prev, message);
 }
 
-bool    Parser::match(TokenType type) {
+bool Parser::match(TokenType type) {
     if (!check(type))
         return false;
     advance();
     return true;
 }
 
-Token&  Parser::previous() { return _prev; }
+Token& Parser::previous() { return _prev; }
 
-void    Parser::advance() {
+void Parser::advance() {
     if (isAtEnd())
         return;
     _prev = _token;
     _token = _lexer.scan();
 }
 
-bool    Parser::check(TokenType type) {
-    return peek().type() == type;
-}
+bool Parser::check(TokenType type) { return peek().type() == type; }
 
-Token&  Parser::peek() {
-    return _token;
-}
+Token& Parser::peek() { return _token; }
 
-bool    Parser::isAtEnd() const {
-    return _token.type() == END;
-}
+bool Parser::isAtEnd() const { return _token.type() == END; }

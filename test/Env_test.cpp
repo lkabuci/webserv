@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
 #include "../src/config/Env.hpp"
 #include "../src/config/TokenType.hpp"
+#include "gtest/gtest.h"
 
 TEST(EnvTest, SingletonTest) {
     Env& env1 = Env::getInstance();

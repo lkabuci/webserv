@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
 #include "../src/config/Extractor.hpp"
 #include "../src/config/RunTimeException.hpp"
+#include "gtest/gtest.h"
 
 TEST(ExtractorTest, PortNumber) {
     std::vector<std::string> info = {"8080"};

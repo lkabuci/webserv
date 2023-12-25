@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
 #include "../src/config/Lexer.hpp"
 #include "../src/config/Token.hpp"
 #include "../src/config/TokenType.hpp"
+#include "gtest/gtest.h"
 
 TEST(LexerTest, Constructor) {
     Lexer lexer("server { listen 80; }");

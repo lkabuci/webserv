@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "../src/config/ConfigParse.hpp"
+#include "gtest/gtest.h"
 #include <fstream>
 
 TEST(ConfigParseTest, DefaultConstructor) {
@@ -28,21 +28,26 @@ TEST(ConfigParseTest, ParseFile) {
 TEST(ConfigParseTest, ParseFileNonExistent) {
     ConfigParse configParse;
 
-    // Check if the parseFile function throws an exception for a non-existent file
-    EXPECT_EXIT(configParse.parseFile("non_existent.txt"), ::testing::ExitedWithCode(1), "Can't open file: non_existent.txt");
+    // Check if the parseFile function throws an exception for a non-existent
+    // file
+    EXPECT_EXIT(configParse.parseFile("non_existent.txt"),
+                ::testing::ExitedWithCode(1),
+                "Can't open file: non_existent.txt");
 }
 
 TEST(ConfigParseTest, Parse) {
     ConfigParse configParse;
 
-    // Check if the _parse function doesn't throw an exception for a valid source string
+    // Check if the _parse function doesn't throw an exception for a valid
+    // source string
     EXPECT_NO_THROW(configParse._parse("server { listen 80; }"));
 }
 
 TEST(ConfigParseTest, ParseInvalid) {
     ConfigParse configParse;
 
-    // Check if the _parse function throws an exception for an invalid source string
+    // Check if the _parse function throws an exception for an invalid source
+    // string
     EXPECT_NO_THROW(configParse._parse("server { listen; }"));
 }
 

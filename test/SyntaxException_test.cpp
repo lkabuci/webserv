@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "../src/config/SyntaxException.hpp"
+#include "gtest/gtest.h"
 
 TEST(SyntaxExceptionTest, ConstructorWithChar) {
     SyntaxException exception(1, "Unexpected character", 'a');

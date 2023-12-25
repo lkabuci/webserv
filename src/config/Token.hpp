@@ -5,25 +5,25 @@
 
 #include "common.hpp"
 
-class   Token {
-public:
+class Token {
+  public:
     Token();
     Token(const TokenType& type, const std::string& lexeme, const int& line);
     Token(const Token& token);
     ~Token();
 
-    Token&  operator=(const Token& token);
+    Token& operator=(const Token& token);
 
-    const TokenType&    type() const;
-    const std::string&  lexeme() const;
-    const int&          line() const;
+    const TokenType& type() const;
+    const std::string& lexeme() const;
+    const int& line() const;
 
-private:
-    TokenType   _type;
+  private:
+    TokenType _type;
     std::string _lexeme;
-    int         _line;
+    int _line;
 };
 
-std::ostream&   operator<<(std::ostream& os, const Token& token);
+std::ostream& operator<<(std::ostream& os, const Token& token);
 
 #endif
