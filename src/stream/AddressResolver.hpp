@@ -11,8 +11,8 @@ class AddressResolver {
 
   private:
     struct addrinfo* _addresses;
-    const char*      _port;
     const char*      _ip;
+    const char*      _port;
 
     void fillAddressInfo();
 

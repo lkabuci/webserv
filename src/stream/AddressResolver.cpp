@@ -6,7 +6,7 @@
 #include <vector>
 
 AddressResolver::AddressResolver(const char* ip, const char* port)
-    : _ip(ip), _port(port), _addresses(NULL) {
+    : _addresses(NULL), _ip(ip), _port(port) {
     fillAddressInfo();
 }
 

@@ -14,7 +14,7 @@
 #include <vector>
 
 Socket::Socket(const char* ip, const char* port)
-    : _addresses(ip, port), _sockfd(-1), _ip(ip), _port(port) {
+    : _sockfd(-1), _ip(ip), _port(port), _addresses(ip, port) {
     initializeSocket();
     _addresses.~AddressResolver();
     _ip = const_cast<char*>(ServerHelper::GetIPAddressFromSockAddr(_sockfd));

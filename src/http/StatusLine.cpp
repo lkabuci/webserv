@@ -20,7 +20,6 @@ StatusLine StatusLine::deserialize(const std::string& statusLine) {
     std::string       buffer;
     HTTP::METHOD      method;
     HTTP::VERSION     version;
-    HTTP::STATUS_CODE status_code;
     std::string       reason_phrase;
     std::string       uri;
 
