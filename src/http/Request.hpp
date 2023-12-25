@@ -10,11 +10,11 @@ class Request {
 
   public:
     Request(StatusLine, std::vector<Header>&);
-    std::string serialize() const;
+    std::string    serialize() const;
     static Request deserialize(const std::string& request);
 
   private:
-    StatusLine _status_line;
+    StatusLine          _status_line;
     std::vector<Header> _headers;
 };
 

@@ -4,7 +4,8 @@
 namespace {
 
 TEST(StatusLineTest, SerializationTest) {
-    StatusLine statusLine(HTTP::METHOD::GET, "/example", HTTP::VERSION::HTTP_1_1);
+    StatusLine  statusLine(HTTP::METHOD::GET, "/example",
+                           HTTP::VERSION::HTTP_1_1);
     std::string serialized = statusLine.serliaze();
 
     EXPECT_EQ("GET /example HTTP/1.1", serialized);
@@ -12,7 +13,7 @@ TEST(StatusLineTest, SerializationTest) {
 
 TEST(StatusLineTest, DeserializationTest) {
     std::string input = "PUT /test HTTP/2.0";
-    StatusLine deserialized = StatusLine::deserialize(input);
+    StatusLine  deserialized = StatusLine::deserialize(input);
 
     EXPECT_EQ(HTTP::METHOD::PUT, deserialized.getMethod());
     EXPECT_EQ("/test", deserialized.getURI());

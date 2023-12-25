@@ -9,7 +9,7 @@ TEST(HeaderTest, Serialization) {
 
 TEST(HeaderTest, ValidHeaderDeserialization) {
     std::string validHeader = "Accept-Language: en-US";
-    Header deserialized = Header::deserialize(validHeader);
+    Header      deserialized = Header::deserialize(validHeader);
 
     EXPECT_EQ("Accept-Language", deserialized.getKey());
     EXPECT_EQ("en-US", deserialized.getValue());
@@ -29,7 +29,7 @@ TEST(HeaderTest, EmptyHeaderDeserialization) {
 
 TEST(HeaderTest, HeaderWithoutValueDeserialization) {
     std::string headerWithoutValue = "NoValue:";
-    Header deserialized = Header::deserialize(headerWithoutValue);
+    Header      deserialized = Header::deserialize(headerWithoutValue);
 
     EXPECT_EQ("NoValue", deserialized.getKey());
     EXPECT_EQ("", deserialized.getValue());
@@ -37,7 +37,7 @@ TEST(HeaderTest, HeaderWithoutValueDeserialization) {
 
 TEST(HeaderTest, HeaderWithSpacesDeserialization) {
     std::string headerWithSpaces = "   KeyWithSpaces  : ValueWithSpaces   ";
-    Header deserialized = Header::deserialize(headerWithSpaces);
+    Header      deserialized = Header::deserialize(headerWithSpaces);
 
     EXPECT_EQ("KeyWithSpaces", deserialized.getKey());
     EXPECT_EQ("ValueWithSpaces", deserialized.getValue());

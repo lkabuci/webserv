@@ -1,6 +1,7 @@
 #include "MIMEType.hpp"
-#include "HttpUtils.hpp"
+#include "../http/HttpUtils.hpp"
 #include <cctype>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
@@ -23,8 +24,8 @@ MIMEType::MIMEType(const std::string& path) {
 }
 
 void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
-    std::ifstream file(mimeTypesFilePath);
-    std::string line;
+    std::ifstream file(mimeTypesFilePath.c_str());
+    std::string   line;
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open the mime.types file. Check if "
                                  "the file exists and has proper permissions.");
@@ -40,7 +41,7 @@ void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
 
         std::vector<std::string> mime_line =
             getMimeLineInfo(HttpUtils::trim(line));
-        for (int i = 1; i < mime_line.size(); ++i) {
+        for (size_t i = 1; i < mime_line.size(); ++i) {
             _mimeTypes.insert(std::pair<std::string, std::string>(
                 mime_line[i], mime_line[0]));
         }
@@ -58,7 +59,7 @@ MIMEType::getMimeTypeForExtension(const std::string& extension) const {
 }
 
 std::vector<std::string> MIMEType::getMimeLineInfo(std::string line) {
-    std::string buffer;
+    std::string              buffer;
     std::vector<std::string> lineInfo;
 
     std::stringstream ss(line);

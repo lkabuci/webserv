@@ -6,11 +6,11 @@
 
 #include <map>
 class MIMEType {
-public:
+  public:
     MIMEType(const std::string& path = "");
     std::string getMimeTypeForExtension(const std::string& extension) const;
 
-private:
+  private:
     std::map<std::string, std::string> _mimeTypes;
     void parseMimeTypesFile(const std::string& mimeTypesFilePath);
     std::vector<std::string> getMimeLineInfo(std::string line);

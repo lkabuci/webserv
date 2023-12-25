@@ -10,18 +10,17 @@ class StatusLine {
   public:
     StatusLine();
     StatusLine(HTTP::METHOD, const std::string&, HTTP::VERSION);
-    std::string serliaze() const;
+    std::string       serliaze() const;
     static StatusLine deserialize(const std::string& status_line);
 
-    const HTTP::METHOD getMethod() const;
-    const std::string getURI() const;
+    const HTTP::METHOD  getMethod() const;
+    const std::string   getURI() const;
     const HTTP::VERSION getVersion() const;
 
   private:
-    HTTP::METHOD _method;
-    std::string _uri;
+    HTTP::METHOD  _method;
+    std::string   _uri;
     HTTP::VERSION _version;
-
 };
 
 #endif // __STATUS_LINE_HPP__
