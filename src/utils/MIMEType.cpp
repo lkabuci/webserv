@@ -1,6 +1,7 @@
 #include "MIMEType.hpp"
 #include "../http/HttpUtils.hpp"
 #include <cctype>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
@@ -40,7 +41,7 @@ void MIMEType::parseMimeTypesFile(const std::string& mimeTypesFilePath) {
 
         std::vector<std::string> mime_line =
             getMimeLineInfo(HttpUtils::trim(line));
-        for (int i = 1; i < mime_line.size(); ++i) {
+        for (size_t i = 1; i < mime_line.size(); ++i) {
             _mimeTypes.insert(std::pair<std::string, std::string>(
                 mime_line[i], mime_line[0]));
         }

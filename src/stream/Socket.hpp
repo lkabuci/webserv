@@ -12,7 +12,9 @@ class Socket {
   public:
     Socket(const char* ip, const char* port);
     ~Socket();
-    int getSocketfd() const;
+    int         getSocketfd() const;
+    const char* getIP() const;
+    const char* getPort() const;
 
   private:
     int                   _sockfd;

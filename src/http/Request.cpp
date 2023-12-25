@@ -2,6 +2,7 @@
 #include "HTTP.hpp"
 #include "Header.hpp"
 #include "StatusLine.hpp"
+#include <cstddef>
 #include <istream>
 #include <sstream>
 #include <stdexcept>
@@ -20,7 +21,7 @@ Request::Request(StatusLine status_line, std::vector<Header>& headers)
 std::string Request::serialize() const {
     std::stringstream request;
     request << _status_line.serliaze() << CRLF;
-    for (int i = 0; i < _headers.size(); ++i) {
+    for (size_t i = 0; i < _headers.size(); ++i) {
         request << _headers[i].serialize() << CRLF;
     }
     request << CRLF;

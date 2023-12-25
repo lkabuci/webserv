@@ -9,14 +9,6 @@ enum METHOD { GET, POST, PUT, DELETE };
 
 enum VERSION { HTTP_1_0, HTTP_1_1, HTTP_2_0 };
 
-/*
-    Informational responses (100 – 199)
-    Successful responses (200 – 299)
-    Redirection messages (300 – 399)
-    Client error responses (400 – 499)
-    Server error responses (500 – 599)
-*/
-
 enum STATUS_CODE {
     OK = 200,
     CREATED = 201,

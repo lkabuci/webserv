@@ -23,6 +23,14 @@ Socket::Socket(const char* ip, const char* port)
     std::cout << "Successfully listening on " << _ip << ":" << _port << "\n";
 }
 
+const char* Socket::getIP() const {
+    return _ip;
+}
+
+const char* Socket::getPort() const {
+    return _port;
+}
+
 void Socket::initializeSocket() {
     struct addrinfo* addresses =
         const_cast<struct addrinfo*>(_addresses.getAddresses());
