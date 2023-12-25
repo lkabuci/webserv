@@ -24,6 +24,7 @@ public:
     const std::set<std::string>&    getPaths() const;
     void                            addPath(const std::string& path);
     void                        addPath(const std::vector<std::string>& paths);
+    friend bool operator==(const LocationConfig& l1, const LocationConfig& l2);
 
 private:
     std::set<std::string>   _paths;

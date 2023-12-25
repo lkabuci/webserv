@@ -56,3 +56,16 @@ void    ServerConfig::display() const {
     }
     std::cout << "--------------------\n";
 }
+
+bool    operator==(const ServerConfig& s1, const ServerConfig& s2) {
+    return s1._port == s2._port &&
+        s1._server_name == s2._server_name &&
+        s1._client_max_body_size == s2._client_max_body_size &&
+        s1._index == s2._index &&
+        s1._root == s2._root &&
+        s1._error_page == s2._error_page &&
+        s1._return == s2._return &&
+        s1._allow_methods == s2._allow_methods &&
+        s1._autoindex == s2._autoindex &&
+        s1._locations == s2._locations;
+}

@@ -1,7 +1,7 @@
 #include "ConfigInfo.hpp"
 
 ConfigInfo::ConfigInfo()
-    : _port(1024)
+    : _port(8000)
     , _server_name({"-"})
     , _client_max_body_size(100)
     , _autoindex(false)

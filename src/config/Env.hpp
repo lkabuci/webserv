@@ -18,7 +18,7 @@ public:
 
     static Env& getInstance();
 
-private:
+//private:
     Env();
 
     static ConfigInfo*                  _ptr;

@@ -87,7 +87,8 @@ void    Lexer::skipWhiteSpaces() {
 }
 
 bool    Lexer::isParameterChar(char c) {
-    return !std::isspace(c) && c != '{' && c != '}' && c != '#' && c != ';';
+    return !std::isspace(c) && c != '{' && c != '}' && c != '#' && c != ';' &&
+            c != '\'' && c != '"';
 }
 
 char    Lexer::advance() {

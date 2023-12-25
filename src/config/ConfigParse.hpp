@@ -15,7 +15,7 @@ public:
 
     static std::string  toString(int n);
 
-private:
+//private:
     ConfigParse(const ConfigParse&);
     ConfigParse&    operator=(const ConfigParse&);
 

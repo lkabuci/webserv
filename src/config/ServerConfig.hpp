@@ -26,8 +26,10 @@ public:
 
     virtual void    display() const;
 
+    friend bool    operator==(const ServerConfig& s1, const ServerConfig& s2);
 private:
     std::vector<LocationConfig> _locations;
 };
+
 
 #endif
