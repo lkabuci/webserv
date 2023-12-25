@@ -32,9 +32,9 @@ enum STATUS_CODE {
 };
 
 std::string toString(VERSION version);
-VERSION toVersion(const std::string& version);
+VERSION     toVersion(const std::string& version);
 std::string toString(METHOD method);
-METHOD toMethod(const std::string& method);
+METHOD      toMethod(const std::string& method);
 
 } // namespace HTTP
 

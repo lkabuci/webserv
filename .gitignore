@@ -4,3 +4,4 @@ a.out*
 launch.json
 gtest/
 tests
+.idea/

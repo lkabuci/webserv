@@ -17,19 +17,25 @@ std::string StatusLine::serliaze() const {
 
 StatusLine StatusLine::deserialize(const std::string& statusLine) {
     std::stringstream ss(statusLine);
-    std::string buffer;
-    HTTP::METHOD method;
-    HTTP::VERSION version;
+    std::string       buffer;
+    HTTP::METHOD      method;
+    HTTP::VERSION     version;
     HTTP::STATUS_CODE status_code;
-    std::string reason_phrase;
-    std::string uri;
+    std::string       reason_phrase;
+    std::string       uri;
 
     int count = 0;
     while (std::getline(ss, buffer, ' ')) {
         switch (count) {
-        case 0: method = HTTP::toMethod(buffer); break;
-        case 1: uri = buffer; break;
-        case 2: version = HTTP::toVersion(buffer); break;
+        case 0:
+            method = HTTP::toMethod(buffer);
+            break;
+        case 1:
+            uri = buffer;
+            break;
+        case 2:
+            version = HTTP::toVersion(buffer);
+            break;
         }
         count++;
     }

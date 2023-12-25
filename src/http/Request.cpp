@@ -29,11 +29,11 @@ std::string Request::serialize() const {
 
 // NOTE: split by /r/n instead of \n
 Request Request::deserialize(const std::string& request) {
-    StatusLine status_line;
+    StatusLine          status_line;
     std::vector<Header> headers;
-    std::string buffer;
-    std::istringstream ss(request);
-    int size = 0;
+    std::string         buffer;
+    std::istringstream  ss(request);
+    int                 size = 0;
 
     while (std::getline(ss, buffer)) {
         if (size == 0) {

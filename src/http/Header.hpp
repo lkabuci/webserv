@@ -3,20 +3,20 @@
 
 #define CRLF "\r\n"
 
+#include <algorithm>
 #include <sstream>
 #include <string>
-#include <algorithm>
 
 class Header {
   public:
     Header(const std::string& key, const std::string& value);
-    std::string serialize() const;
+    std::string   serialize() const;
     static Header deserialize(const std::string& header);
 
     const std::string& getKey() const;
     const std::string& getValue() const;
-    void setKey(const std::string&);
-    void setValue(const std::string&);
+    void               setKey(const std::string&);
+    void               setValue(const std::string&);
 
   private:
     std::string _key;

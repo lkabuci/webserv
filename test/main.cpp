@@ -1,9 +1,8 @@
-#include <iostream>
 #include "../include/webserv.h"
 #include "gtest/gtest.h"
+#include <iostream>
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     std::cout << "RUNNING TESTS ..." << std::endl;
     int ret{RUN_ALL_TESTS()};

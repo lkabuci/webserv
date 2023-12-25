@@ -30,4 +30,4 @@ TEST(HTTPTest, StringToMethod) {
     EXPECT_EQ(HTTP::DELETE, HTTP::toMethod("DELETE"));
     EXPECT_THROW(HTTP::toMethod("InvalidMethod"), std::runtime_error);
 }
-}
+} // namespace

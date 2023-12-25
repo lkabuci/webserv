@@ -1,6 +1,8 @@
 #pragma once
 
+#include "../helpers/ServerHelper.hpp"
 #include "AddressResolver.hpp"
+#include <netdb.h>
 #define BACKLOG 10
 
 // TODO: add the correct address ip and port number that we binded
@@ -13,14 +15,14 @@ class Socket {
     int getSocketfd() const;
 
   private:
-    int _sockfd;
-    const char* _ip;
-    const char* _port;
+    int                   _sockfd;
+    const char*           _ip;
+    const char*           _port;
     const AddressResolver _addresses;
 
     Socket(const Socket&);
     Socket& operator=(const Socket&);
-    void initializeSocket();
-    void configureSocket();
-    void bindSocket(int index);
+    void    initializeSocket();
+    void    configureSocket();
+    void    bindSocket(const struct addrinfo);
 };

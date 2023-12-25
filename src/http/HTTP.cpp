@@ -6,9 +6,12 @@
 
 std::string HTTP::toString(HTTP::VERSION version) {
     switch (version) {
-    case HTTP::HTTP_1_0: return "HTTP/1.0";
-    case HTTP::HTTP_1_1: return "HTTP/1.1";
-    case HTTP::HTTP_2_0: return "HTTP/2.0";
+    case HTTP::HTTP_1_0:
+        return "HTTP/1.0";
+    case HTTP::HTTP_1_1:
+        return "HTTP/1.1";
+    case HTTP::HTTP_2_0:
+        return "HTTP/2.0";
     }
     throw std::runtime_error("Unsupported version");
 }
@@ -28,10 +31,14 @@ HTTP::VERSION HTTP::toVersion(const std::string& version) {
 
 std::string HTTP::toString(HTTP::METHOD method) {
     switch (method) {
-    case HTTP::GET: return "GET";
-    case HTTP::POST: return "POST";
-    case HTTP::PUT: return "PUT";
-    case HTTP::DELETE: return "DELETE";
+    case HTTP::GET:
+        return "GET";
+    case HTTP::POST:
+        return "POST";
+    case HTTP::PUT:
+        return "PUT";
+    case HTTP::DELETE:
+        return "DELETE";
     }
     throw std::runtime_error("Unsupported method");
 }

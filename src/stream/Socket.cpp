@@ -1,9 +1,14 @@
 #include "Socket.hpp"
+#include "AddressResolver.hpp"
+#include <cerrno>
+#include <cstdio>
 #include <cstdlib>
 #include <exception>
 #include <fcntl.h>
 #include <iostream>
 #include <netdb.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
@@ -11,61 +16,66 @@
 Socket::Socket(const char* ip, const char* port)
     : _addresses(ip, port), _sockfd(-1), _ip(ip), _port(port) {
     initializeSocket();
+    _addresses.~AddressResolver();
+    _ip = const_cast<char*>(ServerHelper::GetIPAddressFromSockAddr(_sockfd));
+    _port =
+        const_cast<char*>(ServerHelper::GetPortAddressFromSockAddr(_sockfd));
     std::cout << "Successfully listening on " << _ip << ":" << _port << "\n";
 }
 
 void Socket::initializeSocket() {
-    int i = 0;
-    for (; i < _addresses.getAddresses().size(); ++i) {
-        const struct addrinfo currentAddress = _addresses.getAddresses()[i];
-        if ((_sockfd =
-                 socket(currentAddress.ai_family, currentAddress.ai_socktype,
-                        currentAddress.ai_protocol)) == -1)
+    struct addrinfo* addresses =
+        const_cast<struct addrinfo*>(_addresses.getAddresses());
+    for (struct addrinfo* address = addresses; address;
+         address = address->ai_next) {
+        if ((_sockfd = socket(address->ai_family, address->ai_socktype,
+                              address->ai_protocol)) == -1) {
+            std::perror("server socket");
             continue;
+        }
         try {
             configureSocket();
-            bindSocket(i);
+            bindSocket(*address);
         } catch (const std::exception& ex) {
-            std::cerr << ex.what() << std::endl;
+            std::cout << ex.what() << std::endl;
             close(_sockfd);
             continue;
         }
-        break;
+        return;
     }
-    if (i == _addresses.getAddresses().size()) {
-        std::cerr << "Error: could not bind address for "
-                  << std::string(_ip) + ":" << std::string(_port) << ".\n";
-        std::exit(EXIT_FAILURE);
-    }
+    std::cerr << "Error: could not bind address for " << std::string(_ip) + ":"
+              << std::string(_port) << ".\n";
+    std::exit(EXIT_FAILURE);
 }
 
-Socket::~Socket() { close(_sockfd); }
+Socket::~Socket() {
+    close(_sockfd);
+}
 
-int Socket::getSocketfd() const { return _sockfd; }
+int Socket::getSocketfd() const {
+    return _sockfd;
+}
 
 void Socket::configureSocket() {
     if (fcntl(_sockfd, F_SETFL, O_NONBLOCK, FD_CLOEXEC) < 0) {
         throw std::runtime_error("Failed to configure socket");
-        ;
     }
     int option = 1;
-    if (setsockopt(_sockfd, SOL_SOCKET, SO_REUSEADDR, (void*)&option,
-                   (socklen_t)sizeof(option)) < 0) {
+    if (setsockopt(_sockfd, SOL_SOCKET, SO_REUSEADDR, &option,
+                   sizeof(option)) == -1) {
         throw std::runtime_error("Failed to set socket option");
     }
 }
 
-void Socket::bindSocket(int index) {
-    const struct sockaddr* address =
-        (struct sockaddr*)_addresses.getAddresses()[index].ai_addr;
-    const socklen_t addressLen =
-        (socklen_t)_addresses.getAddresses()[index].ai_addrlen;
-    const int bret = bind(_sockfd, address, addressLen);
+void Socket::bindSocket(const struct addrinfo address) {
+    const int bret = bind(_sockfd, address.ai_addr, address.ai_addrlen);
     if (bret < 0) {
-        throw std::runtime_error("Failed to bind on socket");
+        throw std::runtime_error("Failed to bind on socket: " +
+                                 std::string(strerror(errno)));
     }
     const int lret = listen(_sockfd, BACKLOG);
     if (lret < 0) {
-        throw std::runtime_error("Failed to listen on socket");
+        throw std::runtime_error("Failed to listen on socket: " +
+                                 std::string(strerror(errno)));
     }
 }
