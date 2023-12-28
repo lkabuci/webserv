@@ -36,9 +36,9 @@ file(GLOB_RECURSE TEST_SOURCES test/*.cpp)
 file(GLOB_RECURSE ALL_SOURCES src/*.cpp)
 list(REMOVE_ITEM ALL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-add_executable(unit_tests_target ${TEST_SOURCES} ${ALL_SOURCES})
-target_link_libraries(unit_tests_target PRIVATE gtest pthread)
-target_compile_options(unit_tests_target PRIVATE -Wall)
+add_executable(unit_tests ${TEST_SOURCES} ${ALL_SOURCES})
+target_link_libraries(unit_tests PRIVATE gtest pthread)
+target_compile_options(unit_tests PRIVATE -Wall)
 
-add_test(NAME unit_tests COMMAND unit_tests_target)
+add_test(NAME unit_tests COMMAND unit_tests)
 
