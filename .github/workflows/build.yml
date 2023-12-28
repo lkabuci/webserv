@@ -1,0 +1,31 @@
+name: CMake Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and install Google Test
+      run: |
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -S.
+        cmake --build build
+        sudo cmake --install build
+
+    - name: Configure CMake and build
+      run: |
+        cmake -B build/ -DBUILD_TESTS=ON
+        make -C build/
+        ./build/unit_tests
