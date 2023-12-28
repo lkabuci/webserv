@@ -6,7 +6,7 @@ namespace {
 TEST(StatusLineTest, SerializationTest) {
     StatusLine  statusLine(HTTP::METHOD::GET, "/example",
                            HTTP::VERSION::HTTP_1_1);
-    std::string serialized = statusLine.serliaze();
+    std::string serialized = statusLine.serialize();
 
     EXPECT_EQ("GET /example HTTP/1.1", serialized);
 }

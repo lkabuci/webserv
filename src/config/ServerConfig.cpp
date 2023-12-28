@@ -5,11 +5,11 @@ ServerConfig::ServerConfig() : ConfigInfo() {}
 
 ServerConfig::ServerConfig(
     const size_t& port, const std::set<std::string>& name, const size_t& size,
-    const std::set<std::string>& indx, const std::set<std::string>& root_dir,
+    const std::set<std::string>& index, const std::set<std::string>& root_dir,
     const std::map<size_t, std::string>& error_page,
     const std::map<size_t, std::string>& return_page,
     const std::set<std::string>& methods, bool auto_index)
-    : ConfigInfo(port, name, size, indx, root_dir, error_page, return_page,
+    : ConfigInfo(port, name, size, index, root_dir, error_page, return_page,
                  methods, auto_index) {}
 
 ServerConfig::ServerConfig(const ServerConfig& svconf)

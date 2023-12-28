@@ -2,7 +2,6 @@
 #include <map>
 #include <stdexcept>
 #include <string>
-#include <vector>
 
 std::string HTTP::toString(HTTP::VERSION version) {
     switch (version) {

@@ -1,3 +1,4 @@
+.cache/
 webserv
 build/
 a.out*
