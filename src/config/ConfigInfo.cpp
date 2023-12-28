@@ -6,13 +6,13 @@ ConfigInfo::ConfigInfo()
 }
 
 ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
-                       const size_t& size, const std::set<std::string>& indx,
+                       const size_t& size, const std::set<std::string>& index,
                        const std::set<std::string>&         root_dir,
                        const std::map<size_t, std::string>& error_page,
                        const std::map<size_t, std::string>& return_page,
                        const std::set<std::string>& methods, bool auto_index)
     : _port(port), _server_name(name), _client_max_body_size(size),
-      _index(indx), _root(root_dir), _error_page(error_page),
+      _index(index), _root(root_dir), _error_page(error_page),
       _return(return_page), _allow_methods(methods), _autoindex(auto_index) {}
 
 ConfigInfo::ConfigInfo(const ConfigInfo& conf)
@@ -86,8 +86,8 @@ void ConfigInfo::set_client_max_body_size(const size_t& size) {
     _client_max_body_size = size;
 }
 
-void ConfigInfo::set_index(const std::set<std::string>& indx) {
-    _index.insert(indx.begin(), indx.end());
+void ConfigInfo::set_index(const std::set<std::string>& index) {
+    _index.insert(index.begin(), index.end());
 }
 
 void ConfigInfo::set_root(const std::set<std::string>& root_dir) {

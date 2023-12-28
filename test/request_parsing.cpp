@@ -32,17 +32,17 @@ TEST(HttpVersion, abnormal) {
 
 TEST(StatusLine, normal) {
     StatusLine statusLine(HTTP::GET, "/index.html", HTTP::HTTP_1_1);
-    EXPECT_EQ(statusLine.serliaze(), "GET /index.html HTTP/1.1");
+    EXPECT_EQ(statusLine.serialize(), "GET /index.html HTTP/1.1");
 }
 
 TEST(StatusLine, abnormal) {
     StatusLine statusLine(HTTP::GET, "/index.html", HTTP::HTTP_1_1);
-    EXPECT_NE(statusLine.serliaze(), "GET /index.html HTTP/1.0");
+    EXPECT_NE(statusLine.serialize(), "GET /index.html HTTP/1.0");
 }
 
 TEST(StatusLine, deserialize) {
     StatusLine statusLine = StatusLine::deserialize("GET /index.html HTTP/1.1");
-    EXPECT_EQ(statusLine.serliaze(), "GET /index.html HTTP/1.1");
+    EXPECT_EQ(statusLine.serialize(), "GET /index.html HTTP/1.1");
 }
 
 TEST(StatusLine, deserialize_abnormal) {

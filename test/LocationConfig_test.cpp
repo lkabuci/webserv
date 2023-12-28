@@ -24,14 +24,14 @@ TEST(LocationConfigTest, ParameterizedConstructor) {
     size_t                        port = 8080;
     std::set<std::string>         name = {"name"};
     size_t                        size = 1024;
-    std::set<std::string>         indx = {"index.html"};
+    std::set<std::string>         index = {"index.html"};
     std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
     std::set<std::string>         methods = {"GET"};
     bool                          auto_index = false;
 
-    LocationConfig config(paths, port, name, size, indx, root_dir, error_page,
+    LocationConfig config(paths, port, name, size, index, root_dir, error_page,
                           return_page, methods, auto_index);
 
     // Check if the values are correctly set
@@ -39,7 +39,7 @@ TEST(LocationConfigTest, ParameterizedConstructor) {
     EXPECT_EQ(config.port_number(), port);
     EXPECT_EQ(config.server_name(), name);
     EXPECT_EQ(config.client_max_body_size(), size);
-    EXPECT_EQ(config.index(), indx);
+    EXPECT_EQ(config.index(), index);
     EXPECT_EQ(config.root(), root_dir);
     EXPECT_EQ(config.error_page(), error_page);
     EXPECT_EQ(config.return_page(), return_page);
@@ -52,16 +52,16 @@ TEST(LocationConfigTest, CopyConstructor) {
     size_t                        port = 8080;
     std::set<std::string>         name = {"name"};
     size_t                        size = 1024;
-    std::set<std::string>         indx = {"index.html"};
+    std::set<std::string>         index = {"index.html"};
     std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
     std::set<std::string>         methods = {"GET"};
     bool                          auto_index = false;
 
-    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page,
+    LocationConfig config1(paths, port, name, size, index, root_dir, error_page,
                            return_page, methods, auto_index);
-    LocationConfig config2(config1);
+    const LocationConfig& config2(config1);
 
     // Check if the values are correctly copied
     EXPECT_EQ(config2, config1);
@@ -72,14 +72,14 @@ TEST(LocationConfigTest, AssignmentOperator) {
     size_t                        port = 8080;
     std::set<std::string>         name = {"name"};
     size_t                        size = 1024;
-    std::set<std::string>         indx = {"index.html"};
+    std::set<std::string>         index = {"index.html"};
     std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
     std::set<std::string>         methods = {"GET"};
     bool                          auto_index = false;
 
-    LocationConfig config1(paths, port, name, size, indx, root_dir, error_page,
+    LocationConfig config1(paths, port, name, size, index, root_dir, error_page,
                            return_page, methods, auto_index);
     LocationConfig config2;
     config2 = config1;
@@ -115,9 +115,6 @@ TEST(LocationConfigTest, AddPaths) {
               std::set<std::string>(paths.begin(), paths.end()));
 }
 
-#include "../src/config/LocationConfig.hpp"
-#include "gtest/gtest.h"
-
 TEST(LocationConfigTest, SetPortNumber) {
     LocationConfig config;
     size_t         port = 8080;
@@ -150,12 +147,12 @@ TEST(LocationConfigTest, SetClientMaxBodySize) {
 
 TEST(LocationConfigTest, SetIndex) {
     LocationConfig        config;
-    std::set<std::string> indx = {"home.html"};
+    std::set<std::string> index = {"home.html"};
 
-    config.set_index(indx);
+    config.set_index(index);
 
     // Check if the index is correctly set
-    EXPECT_EQ(config.index(), indx);
+    EXPECT_EQ(config.index(), index);
 }
 
 TEST(LocationConfigTest, SetRoot) {
@@ -204,6 +201,6 @@ TEST(LocationConfigTest, SetAutoindex) {
 
     config.set_autoindex(auto_index);
 
-    // Check if the autoindex flag is correctly set
+    // Check if the auto index flag is correctly set
     EXPECT_EQ(config.autoindex(), auto_index);
 }

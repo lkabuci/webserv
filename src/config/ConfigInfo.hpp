@@ -9,7 +9,7 @@ class ConfigInfo {
   public:
     ConfigInfo();
     ConfigInfo(const size_t& port, const std::set<std::string>& name,
-               const size_t& size, const std::set<std::string>& indx,
+               const size_t& size, const std::set<std::string>& index,
                const std::set<std::string>&         root_dir,
                const std::map<size_t, std::string>& error_page,
                const std::map<size_t, std::string>& return_page,
@@ -32,7 +32,7 @@ class ConfigInfo {
     void set_port_number(const size_t& port);
     void set_server_name(const std::set<std::string>& name);
     void set_client_max_body_size(const size_t& size);
-    void set_index(const std::set<std::string>& indx);
+    void set_index(const std::set<std::string>& index);
     void set_root(const std::set<std::string>& root_dir);
     void set_error_page(const std::map<size_t, std::string>& errpage);
     void set_return(const std::map<size_t, std::string>& return_page);
