@@ -2,10 +2,11 @@
 
 #include "Demultiplexer.hpp"
 #include "Dispatcher.hpp"
+#include "../../include/webserv.h"
 
 class EventLoop {
   public:
-    EventLoop(int serverSocket);
+    explicit EventLoop(int serverSocket);
 
     void start();
 

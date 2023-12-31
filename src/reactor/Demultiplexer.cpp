@@ -14,3 +14,7 @@ int Demultiplexer::pollEvents() {
 std::vector<pollfd>& Demultiplexer::getDescriptors() {
     return _fds;
 }
+
+//std::vector<Client> &Demultiplexer::getClients() {
+//    return _clients;
+//}

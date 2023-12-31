@@ -13,6 +13,13 @@ const char* Client::getClientAddress() const {
     return address;
 }
 
+const pollfd& Client::getPfd() const {
+    return _pfd;
+}
+
+void Client::setPfd(const pollfd& pfd) {
+    _pfd = pfd;
+}
 int Client::getSockFd() const {
     return _pfd.fd;
 }

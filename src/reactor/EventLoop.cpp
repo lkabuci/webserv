@@ -12,6 +12,6 @@ void EventLoop::start() {
         }
         std::vector<pollfd>& fds = _demultiplexer.getDescriptors();
         _dispatcher.acceptConnection(fds);
-        _dispatcher.processData(fds);
+        Dispatcher::processData(fds);
     }
 }

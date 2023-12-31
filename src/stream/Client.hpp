@@ -12,12 +12,14 @@
 class Client {
   public:
     explicit Client(struct sockaddr_storage&, int);
-    const char* getClientAddress() const;
-    int         getSockFd() const;
-    short       getEvent() const;
-    short       getRevent() const;
-    void        setRevent(short);
-    void        setEvent(short);
+    const char*   getClientAddress() const;
+    int           getSockFd() const;
+    short         getEvent() const;
+    short         getRevent() const;
+    void          setRevent(short);
+    void          setEvent(short);
+    const pollfd& getPfd() const;
+    void          setPfd(const pollfd& pfd);
 
   private:
     struct sockaddr_storage& _sockAddr;
