@@ -16,7 +16,6 @@
 Socket::Socket(const char* ip, const char* port)
     : _sockfd(-1), _ip(ip), _port(port), _addresses(ip, port) {
     initializeSocket();
-    _addresses.~AddressResolver();
     _ip = const_cast<char*>(ServerHelper::GetIPAddressFromSockAddr(_sockfd));
     _port =
         const_cast<char*>(ServerHelper::GetPortAddressFromSockAddr(_sockfd));
@@ -75,7 +74,7 @@ void Socket::configureSocket() {
     }
 }
 
-void Socket::bindSocket(const struct addrinfo address) {
+void Socket::bindSocket(const struct addrinfo address) const {
     const int bret = bind(_sockfd, address.ai_addr, address.ai_addrlen);
     if (bret < 0) {
         throw std::runtime_error("Failed to bind on socket: " +
