@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../include/webserv.h"
 #include <arpa/inet.h>
 #include <cstdio>
 #include <cstring>
@@ -8,6 +7,8 @@
 #include <netinet/in.h>
 #include <poll.h>
 #include <sys/socket.h>
+
+#define PORT_LEN 6
 
 class Client {
   public:

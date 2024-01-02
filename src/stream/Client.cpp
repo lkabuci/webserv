@@ -15,14 +15,14 @@ Client::Client(const Client& other)
 }
 
 Client::~Client() {
-    std::cout << "closing client " << _pfd.fd << std::endl;
+    std::cout << "removing client: (" << _pfd.fd << ") \"" << getClientAddress()
+              << "\"" << std::endl;
     close(_pfd.fd);
 }
 
 Client& Client::operator=(const Client& other) {
     if (this != &other) {
         _sockAddr = other._sockAddr;
-        // _sockfd = other._sockfd;
         const_cast<int&>(_sockfd) = other._sockfd;
         _pfd = other._pfd;
         std::memcpy(_ip, other._ip, sizeof _ip);

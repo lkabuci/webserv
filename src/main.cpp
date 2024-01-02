@@ -15,23 +15,26 @@
  * to -1, and every period of time run through all of them and remove the
  * ones that have negative values
  */
- /*
-    TODO: add loger as well, it will behave like nginx
-    we can have the builder design pattern for loger
-    base class Loger
-    derived classes: ConnectionLoger, ErrorLoger, AccessLoger
-    at the end it should be like this when calling it
-    * Error Logs (error level):
-        2024/01/02 12:34:56 [error] 1234#1234: *56789 open() "/path/to/file" failed (2: No such file or directory)
-        [date] [time] [level] [ip] [port] [message]
-    * Access Logs (info level):
-        192.168.1.100 - - [02/Jan/2024:12:34:56 +0000] "GET /example HTTP/1.1" 200 1234 "-" "Mozilla/5.0 ..."
+/*
+   TODO: add logger as well, it will behave like nginx
+   we can have the builder design pattern for logger
+   base class Logger
+   derived classes: ConnectionLoger, ErrorLoger, AccessLoger
+   at the end it should be like this when calling it
+   * Error Logs (error level):
+       2024/01/02 12:34:56 [error] 1234#1234: *56789 open() "/path/to/file"
+   failed (2: No such file or directory)
+        [date] [time] [level] [ip] [port]
+   [message]
+   * Access Logs (info level):
+       192.168.1.100 - - [02/Jan/2024:12:34:56 +0000] "GET /example HTTP/1.1"
+   200 1234 "-" "Mozilla/5.0 ..."
         [ip] [date] [time] [request] [status] [size] [user_agent]
-    * Info Logs (info level):
-        2024/01/02 12:34:56 [info] 1234#1234: *56789 client closed connection (time=0.123)
-        2024/01/02 12:34:56 [info] 1234#1234: *56789 client
+   * Info Logs (info level):
+       2024/01/02 12:34:56 [info] 1234#1234: *56789 client closed connection
+   (time=0.123) 2024/01/02 12:34:56 [info] 1234#1234: *56789 client
         [date] [time] [level] [ip] [port] [message]
- */
+*/
 bool isServerRunning = true;
 
 void act(int signum) {

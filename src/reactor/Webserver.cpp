@@ -1,4 +1,5 @@
 #include "Webserver.hpp"
+#include "../../include/webserv.h"
 #include <cstring>
 #include <iostream>
 #include <sys/poll.h>
@@ -15,7 +16,6 @@ Webserver::Webserver(std::vector<int>& serverSockets)
 }
 
 void Webserver::start() {
-    std::cout << "starting servers" << std::endl;
     while (isServerRunning) {
         int ret = poll(_pollfds.data(), _pollfds.size(), -1);
         if (ret == -1) {
@@ -24,10 +24,8 @@ void Webserver::start() {
             // std::exit(EXIT_FAILURE);
         }
         // we are on the server side of the connection
-        std::cout << "sizeof pollfds: " << _pollfds.size() << std::endl;
         for (size_t i = 0; i < _nbrOfServers; i++) {
             if (_pollfds[i].revents & POLLIN) {
-                std::cout << "inside server " << i << std::endl;
                 // accept connection
                 sockaddr_storage clientAddr;
                 socklen_t        clientAddrLen = sizeof clientAddr;
@@ -43,15 +41,12 @@ void Webserver::start() {
             }
         }
         // we are on the client side of the connection
-        std::cout << "sizeof pollfds: " << _pollfds.size() << std::endl;
         for (size_t i = _nbrOfServers; i < _pollfds.size(); i++) {
             if (_pollfds[i].revents & POLLHUP) {
-                std::cout << "client closed connection" << std::endl;
                 removeClient(i - _nbrOfServers);
                 continue;
             }
             if (_pollfds[i].revents & POLLIN) {
-                std::cout << "Yes we can read data from " << i << std::endl;
                 // read data from a client
                 char _buffer[BUFFER_SIZE];
                 std::memset(_buffer, 0, BUFFER_SIZE);
@@ -63,7 +58,6 @@ void Webserver::start() {
                 }
                 if (ret == 0) {
                     // client closed connection
-                    std::cout << "client closed connection" << std::endl;
                     removeClient(i - _nbrOfServers);
                     continue;
                 }
@@ -75,9 +69,6 @@ void Webserver::start() {
 }
 
 void Webserver::removeClient(size_t ClientIndex) {
-    std::cout << "removing client: (" << _clients[ClientIndex]->getSockFd()
-              << ")\"" << _clients[ClientIndex]->getClientAddress() << "\""
-              << std::endl;
     delete _clients[ClientIndex];
     _clients.erase(_clients.begin() + ClientIndex);
     _pollfds.erase(_pollfds.begin() + _nbrOfServers + ClientIndex);
@@ -86,7 +77,6 @@ void Webserver::removeClient(size_t ClientIndex) {
 Webserver::~Webserver() {
     // close servers
     for (size_t i = 0; i < _nbrOfServers; i++) {
-        std::cout << "closing server " << _pollfds[i].fd << std::endl;
         close(_pollfds[i].fd);
     }
     // close clients

@@ -1,6 +1,7 @@
 #pragma once
-#include "../../include/webserv.h"
-#include "Dispatcher.hpp"
+
+#include "../stream/Client.hpp"
+#include <cstdio>
 #include <poll.h>
 #include <sys/poll.h>
 #include <vector>
