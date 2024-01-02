@@ -71,12 +71,11 @@ void Dispatcher::processData(std::vector<pollfd>& fds) {
 
 void Dispatcher::addClientSocketToPollList(std::vector<pollfd>& fds,
                                            std::vector<Client>& clients,
-                                           sockaddr_storage&    addr,
-                                           int                  socket) {
+                                           sockaddr_storage& addr, int socket) {
 
     Client client(addr, socket);
     fds.push_back(client.getPfd());
-//    clients.push_back(client);
+    //    clients.push_back(client);
     std::cout << "+ New Client Joined: " << client.getClientAddress() << "\n";
 
     // now how can I keep track of the client classes;

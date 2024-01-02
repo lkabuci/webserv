@@ -1,9 +1,34 @@
 #include "Client.hpp"
+#include <unistd.h>
 
 Client::Client(struct sockaddr_storage& addr, int sockfd)
     : _sockAddr(addr), _sockfd(sockfd), _pfd(), _ip(), _port() {
     initClient();
     fillIpPort();
+}
+
+Client::Client(const Client& other)
+    : _sockAddr(other._sockAddr), _sockfd(other._sockfd), _pfd(other._pfd),
+      _ip(), _port() {
+    std::memcpy(_ip, other._ip, sizeof _ip);
+    std::memcpy(_port, other._port, sizeof _port);
+}
+
+Client::~Client() {
+    std::cout << "closing client " << _pfd.fd << std::endl;
+    close(_pfd.fd);
+}
+
+Client& Client::operator=(const Client& other) {
+    if (this != &other) {
+        _sockAddr = other._sockAddr;
+        // _sockfd = other._sockfd;
+        const_cast<int&>(_sockfd) = other._sockfd;
+        _pfd = other._pfd;
+        std::memcpy(_ip, other._ip, sizeof _ip);
+        std::memcpy(_port, other._port, sizeof _port);
+    }
+    return *this;
 }
 
 const char* Client::getClientAddress() const {
@@ -13,7 +38,7 @@ const char* Client::getClientAddress() const {
     return address;
 }
 
-const pollfd& Client::getPfd() const {
+pollfd Client::getPfd() const {
     return _pfd;
 }
 

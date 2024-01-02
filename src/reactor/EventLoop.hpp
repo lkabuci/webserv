@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../../include/webserv.h"
 #include "Demultiplexer.hpp"
 #include "Dispatcher.hpp"
-#include "../../include/webserv.h"
 
 class EventLoop {
   public:

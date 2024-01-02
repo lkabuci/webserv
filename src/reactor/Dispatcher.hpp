@@ -12,8 +12,7 @@ class Dispatcher {
   public:
     explicit Dispatcher(int serverSocket);
 
-    void        acceptConnection(std::vector<pollfd>&)
-    const;
+    void        acceptConnection(std::vector<pollfd>&) const;
     static void processData(std::vector<pollfd>& fds);
 
   private:

@@ -11,10 +11,10 @@ class Demultiplexer {
 
     int                  pollEvents();
     std::vector<pollfd>& getDescriptors();
-//    std::vector<Client>& getClients();
+    //    std::vector<Client>& getClients();
 
   private:
-    int                 _serverSocket;
-//    std::vector<Client> _clients;
+    int _serverSocket;
+    //    std::vector<Client> _clients;
     std::vector<pollfd> _fds;
 };

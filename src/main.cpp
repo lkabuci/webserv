@@ -1,6 +1,10 @@
 #include "../include/webserv.h"
+#include "config/ServerConfig.hpp"
+#include "reactor/Webserver.hpp"
+#include "stream/Socket.hpp"
 
 #include <csignal>
+#include <vector>
 /*
  * the server fds they will be first pushed to the list vector<struct pollfds>
  * <pollfds> (server1, server2, server3, ..., servern)
@@ -10,6 +14,23 @@
  * should remove it's fd from the list of pollfds, or maybe just setting it
  * to -1, and every period of time run through all of them and remove the
  * ones that have negative values
+ */
+ /*
+    TODO: add loger as well, it will behave like nginx
+    we can have the builder design pattern for loger
+    base class Loger
+    derived classes: ConnectionLoger, ErrorLoger, AccessLoger
+    at the end it should be like this when calling it
+    * Error Logs (error level):
+        2024/01/02 12:34:56 [error] 1234#1234: *56789 open() "/path/to/file" failed (2: No such file or directory)
+        [date] [time] [level] [ip] [port] [message]
+    * Access Logs (info level):
+        192.168.1.100 - - [02/Jan/2024:12:34:56 +0000] "GET /example HTTP/1.1" 200 1234 "-" "Mozilla/5.0 ..."
+        [ip] [date] [time] [request] [status] [size] [user_agent]
+    * Info Logs (info level):
+        2024/01/02 12:34:56 [info] 1234#1234: *56789 client closed connection (time=0.123)
+        2024/01/02 12:34:56 [info] 1234#1234: *56789 client
+        [date] [time] [level] [ip] [port] [message]
  */
 bool isServerRunning = true;
 
@@ -24,7 +45,7 @@ int main(int argc, char* argv[]) {
     std::memset(&sa, 0, sizeof sa);
 
     sa.sa_handler = act;
-    sigemptyset (&sa.sa_mask);
+    sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
     sigaction(SIGINT, &sa, NULL);
     if (argc != 2) {
@@ -32,14 +53,19 @@ int main(int argc, char* argv[]) {
         std::exit(USGERR);
     }
     ConfigParse cp;
-
     cp.parseFile(argv[1]);
+
     Socket server("0.0.0.0", "2222");
+    Socket server2("0.0.0.0", "3333");
+    Socket server3("0.0.0.0", "4444");
 
-    int serverSocket = server.getSocketfd();
+    std::vector<int> serverSockets(3);
+    serverSockets[0] = server.getSocketfd();
+    serverSockets[1] = server2.getSocketfd();
+    serverSockets[2] = server3.getSocketfd();
 
-    EventLoop eventLoop(serverSocket);
-    eventLoop.start();
+    Webserver webserver(serverSockets);
+    webserver.start();
 
     return 0;
 }
