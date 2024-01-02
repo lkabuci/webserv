@@ -23,9 +23,9 @@ void ConfigParse::parseFile(const char* file) {
 
 void ConfigParse::_parse(const std::string& source) {
     try {
-        // Parser parser(source);
+        Parser parser(source);
 
-        // parser.parse();
+        parser.parse();
         // std::vector<ServerConfig>   svconfs = Env::get();
         // std::cout << "size: " << svconfs.size() << '\n';
         // for (size_t i = 0; i < svconfs.size(); ++i) {
@@ -40,12 +40,6 @@ void ConfigParse::_parse(const std::string& source) {
         // env.add(SERVER);
 
         // std::cout << "size: " << env.get().size() << '\n';
-        Env& env = Env::getInstance();
-
-        env.create(SERVER);
-        env.add(SERVER);
-
-        std::cout << "Size: " << env.get().size() << '\n';
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

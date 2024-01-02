@@ -8,7 +8,8 @@
 class ConfigInfo {
   public:
     ConfigInfo();
-    ConfigInfo(const size_t& port, const std::set<std::string>& name,
+    ConfigInfo(const std::string& ip, const std::string& port,
+               const std::set<std::string>& name,
                const size_t& size, const std::set<std::string>& indx,
                const std::set<std::string>& root_dir,
                const std::map<size_t, std::string>& error_page,
@@ -19,7 +20,9 @@ class ConfigInfo {
 
     ConfigInfo& operator=(const ConfigInfo& conf);
 
-    const size_t& port_number() const;
+    //const size_t& port_number() const;
+    const std::string&  ip() const;
+    const std::string&  port() const;
     const std::set<std::string>& server_name() const;
     const size_t& client_max_body_size() const;
     const std::set<std::string>& index() const;
@@ -29,7 +32,9 @@ class ConfigInfo {
     const std::set<std::string>& allow_methods() const;
     const bool& autoindex() const;
 
-    void set_port_number(const size_t& port);
+    //void set_port_number(const size_t& port);
+    void set_ip(const std::string& ip);
+    void set_port(const std::string& port);
     void set_server_name(const std::set<std::string>& name);
     void set_client_max_body_size(const size_t& size);
     void set_index(const std::set<std::string>& indx);
@@ -43,7 +48,9 @@ class ConfigInfo {
 
   protected:
     static std::vector<std::string> _methods;
-    size_t _port;
+    std::string                   _ip;
+    std::string                   _port;
+    //size_t _port;
     std::set<std::string> _server_name;
     size_t _client_max_body_size;
     std::set<std::string> _index;

@@ -3,8 +3,8 @@
 #include "LocationConfig.hpp"
 #include "ServerConfig.hpp"
 
-ConfigInfo* Env::_ptr = NULL;
-ConfigInfo* Env::_prev = NULL;
+ConfigInfo*               Env::_ptr = NULL;
+ConfigInfo*               Env::_prev = NULL;
 std::vector<ServerConfig> Env::_svconfs;
 
 Env::Env() {}
@@ -25,11 +25,14 @@ void Env::create(TokenType type) {
 }
 
 void Env::put(const std::vector<std::string>& value, const Token& token) {
-    Extractor extract(value, token);
+    Extractor                extract(value, token);
+    std::vector<std::string> ipport;
 
     switch (token.type()) {
     case LISTEN:
-        _ptr->set_port_number(extract.port_number());
+        ipport = extract.ip_port();
+        _ptr->set_ip(ipport[0]);
+        _ptr->set_port(ipport[1]);
         break;
     case SERVER_NAME:
         _ptr->set_server_name(extract.server_name());
@@ -74,7 +77,9 @@ void Env::add(TokenType type) {
     }
 }
 
-std::vector<ServerConfig> Env::get() { return _svconfs; }
+std::vector<ServerConfig> Env::get() {
+    return _svconfs;
+}
 
 Env& Env::getInstance() {
     static Env instance;

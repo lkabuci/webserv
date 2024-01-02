@@ -6,7 +6,9 @@
 Parser::Parser(const std::string& source)
     : _lexer(source), _token(_lexer.scan()), _prev(_token) {}
 
-void Parser::parse() { statement(); }
+void Parser::parse() {
+    statement();
+}
 
 void Parser::statement() {
     serverContext();
@@ -39,7 +41,7 @@ void Parser::block() {
 
 void Parser::locationContext() {
     consume(PARAMETER, "Expect a path.");
-    Token prev = previous();
+    Token                    prev = previous();
     std::vector<std::string> params;
 
     Env::create(LOCATION);
@@ -121,7 +123,9 @@ bool Parser::match(TokenType type) {
     return true;
 }
 
-Token& Parser::previous() { return _prev; }
+Token& Parser::previous() {
+    return _prev;
+}
 
 void Parser::advance() {
     if (isAtEnd())
@@ -130,8 +134,14 @@ void Parser::advance() {
     _token = _lexer.scan();
 }
 
-bool Parser::check(TokenType type) { return peek().type() == type; }
+bool Parser::check(TokenType type) {
+    return peek().type() == type;
+}
 
-Token& Parser::peek() { return _token; }
+Token& Parser::peek() {
+    return _token;
+}
 
-bool Parser::isAtEnd() const { return _token.type() == END; }
+bool Parser::isAtEnd() const {
+    return _token.type() == END;
+}
