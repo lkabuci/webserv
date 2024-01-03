@@ -1,7 +1,7 @@
 #include "ConfigParse.hpp"
 #include "Env.hpp"
 #include "Parser.hpp"
-#include "Servers.hpp"
+#include "../stream/Servers.hpp"
 
 void fatal(const std::string& msg, int exit_status) {
     std::cerr << msg << std::endl;

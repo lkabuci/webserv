@@ -3,7 +3,7 @@
 #ifndef __SERVER_HPP__
 #define __SERVER_HPP__
 
-#include "ServerConfig.hpp"
+#include "../config/ServerConfig.hpp"
 
 class Server {
   public:
