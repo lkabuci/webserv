@@ -3,7 +3,9 @@
 #define BUFFER_SIZE 4096
 #define PORT_LEN 6
 
-extern bool isServerRunning;
+#include <csignal>
+
+extern volatile sig_atomic_t isServerRunning;
 
 #include "../src/config/ConfigInfo.hpp"
 #include "../src/config/ConfigParse.hpp"

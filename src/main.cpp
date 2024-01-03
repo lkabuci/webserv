@@ -1,25 +1,16 @@
 #include "../include/webserv.h"
-#include "config/ServerConfig.hpp"
 #include "reactor/Reactor.hpp"
 #include "reactor/ServerEventHandler.hpp"
-#include "reactor/Webserver.hpp"
-#include "stream/Socket.hpp"
 
+#include "utils/SignalHandler.hpp"
 #include <csignal>
 #include <vector>
 
-bool isServerRunning = true;
-
-void act(int signum) {
-    std::cout << "Received SIGINT\n";
-    isServerRunning = false;
-}
+volatile sig_atomic_t isServerRunning = true;
 
 int main(int argc, char* argv[]) {
     std::cout << "pid: " << getpid() << "\n";
-    struct sigaction sa;
-    std::memset(&sa, 0, sizeof sa);
-
+    SignalHandler signalHandler;
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " [config_file]" << std::endl;
         std::exit(USGERR);
@@ -37,6 +28,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Start the Reactor event loop
+    // note that this only approach for testing and run the reactor this
+    // structure will be changed later on
     std::vector<int> serverSockets;
     for (size_t i = 0; i < servers.size(); ++i) {
         serverSockets.push_back(servers[i]->getSocket());
