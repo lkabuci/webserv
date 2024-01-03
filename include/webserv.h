@@ -1,5 +1,11 @@
-#ifndef WEBSERV_H
-#define WEBSERV_H
+#pragma once
+
+#define BUFFER_SIZE 4096
+#define PORT_LEN 6
+
+#include <csignal>
+
+extern volatile sig_atomic_t isServerRunning;
 
 #include "../src/config/ConfigInfo.hpp"
 #include "../src/config/ConfigParse.hpp"
@@ -20,11 +26,8 @@
 #include "../src/http/HttpUtils.hpp"
 #include "../src/http/Request.hpp"
 #include "../src/http/StatusLine.hpp"
-#include "../src/reactor/Demultiplexer.hpp"
-#include "../src/reactor/Dispatcher.hpp"
-#include "../src/reactor/EventLoop.hpp"
+#include "../src/reactor/Webserver.hpp"
 #include "../src/stream/AddressResolver.hpp"
+#include "../src/stream/Client.hpp"
 #include "../src/stream/Socket.hpp"
 #include "../src/utils/MIMEType.hpp"
-
-#endif

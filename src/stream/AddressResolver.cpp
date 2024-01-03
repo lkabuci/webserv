@@ -30,4 +30,5 @@ void AddressResolver::fillAddressInfo() {
 
 AddressResolver::~AddressResolver() {
     freeaddrinfo(_addresses);
+    _addresses = NULL;
 }

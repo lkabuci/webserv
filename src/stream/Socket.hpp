@@ -26,5 +26,5 @@ class Socket {
     Socket& operator=(const Socket&);
     void    initializeSocket();
     void    configureSocket();
-    void    bindSocket(const struct addrinfo);
+    void    bindSocket(const struct addrinfo) const;
 };

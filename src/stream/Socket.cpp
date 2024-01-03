@@ -72,7 +72,7 @@ void Socket::configureSocket() {
     }
 }
 
-void Socket::bindSocket(const struct addrinfo address) {
+void Socket::bindSocket(const struct addrinfo address) const {
     const int bret = bind(_sockfd, address.ai_addr, address.ai_addrlen);
     if (bret < 0) {
         throw std::runtime_error("Failed to bind on socket: " +

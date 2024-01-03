@@ -8,7 +8,7 @@ void fatal(const std::string& msg, int exit_status) {
     std::exit(exit_status);
 }
 
-ConfigParse::ConfigParse() {}
+ConfigParse::ConfigParse() : _servers() {}
 
 void ConfigParse::parseFile(const char* file) {
     std::ifstream infile(file);
@@ -24,9 +24,7 @@ void ConfigParse::parseFile(const char* file) {
 
 void ConfigParse::_parse(const std::string& source) {
     try {
-        Parser  parser(source);
-        Servers servers;
-
+        Parser parser(source);
         parser.parse();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
@@ -41,8 +39,9 @@ Servers& ConfigParse::getServers() {
 void ConfigParse::_setServers() {
     std::vector<ServerConfig> svconfs = Env::get();
 
-    for (size_t i = 0; i < svconfs.size(); ++i)
-        _servers.add(Server(svconfs[i]));
+    for (size_t i = 0; i < svconfs.size(); ++i) {
+        _servers.add(new Server(svconfs[i]));
+    }
 }
 
 std::string ConfigParse::toString(int n) {

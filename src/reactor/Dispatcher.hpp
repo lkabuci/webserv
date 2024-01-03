@@ -1,18 +1,14 @@
 #pragma once
 
 #include <iostream>
-#include <netinet/in.h>
 #include <poll.h>
-#include <sys/socket.h>
 #include <vector>
+
+#include "IEventHandler.hpp"
 
 class Dispatcher {
   public:
-    explicit Dispatcher(int serverSocket);
-
-    void acceptConnection(std::vector<pollfd>& fds);
-    void processData(std::vector<pollfd>& fds);
-
-  private:
-    int _serverSocket;
+    static void
+    dispatchEvents(const std::vector<pollfd>&         fds,
+                   const std::vector<IEventHandler*>& eventHandlers);
 };
