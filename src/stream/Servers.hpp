@@ -10,10 +10,10 @@ class Servers {
     Servers();
     ~Servers();
 
-    void                add(Server* server);
+    void                 add(Server* server);
     std::vector<Server*> get();
-    size_t              size() const;
-    Server*             operator[](size_t i);
+    size_t               size() const;
+    Server*              operator[](size_t i);
 
   private:
     std::vector<Server*> _servers;

@@ -1,7 +1,6 @@
 #include "Servers.hpp"
 
-Servers::Servers() {
-}
+Servers::Servers() {}
 
 void Servers::add(Server* server) {
     _servers.push_back(server);
@@ -15,13 +14,13 @@ size_t Servers::size() const {
     return _servers.size();
 }
 
-Server *Servers::operator[](size_t i) {
+Server* Servers::operator[](size_t i) {
     return _servers[i];
 }
 
 Servers::~Servers() {
-    for (std::vector<Server*>::iterator it = _servers.begin(); it != _servers
-    .end(); ++it) {
-       delete *it;
+    for (std::vector<Server*>::iterator it = _servers.begin();
+         it != _servers.end(); ++it) {
+        delete *it;
     }
 }

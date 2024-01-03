@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     Reactor& reactor = Reactor::getInstance();
     for (size_t i = 0; i < servers.size(); ++i) {
         ServerEventHandler* serverHandler =
-                new ServerEventHandler(servers[i]->getSocket());
+            new ServerEventHandler(servers[i]->getSocket());
         reactor.registerHandler(serverHandler, servers[i]->getSocket());
     }
 
