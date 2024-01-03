@@ -57,10 +57,6 @@ void Socket::initializeSocket() {
     std::exit(EXIT_FAILURE);
 }
 
-Socket::~Socket() {
-    //close(_sockfd);
-}
-
 int Socket::getSocketfd() const {
     return _sockfd;
 }

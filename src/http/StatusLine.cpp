@@ -44,14 +44,14 @@ StatusLine StatusLine::deserialize(const std::string& statusLine) {
     return StatusLine(method, uri, version);
 }
 
-const HTTP::METHOD StatusLine::getMethod() const {
+const HTTP::METHOD& StatusLine::getMethod() const {
     return _method;
 }
 
-const std::string StatusLine::getURI() const {
+const std::string& StatusLine::getURI() const {
     return _uri;
 }
 
-const HTTP::VERSION StatusLine::getVersion() const {
+const HTTP::VERSION& StatusLine::getVersion() const {
     return _version;
 }
