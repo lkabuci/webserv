@@ -69,8 +69,7 @@ void Env::put(const std::vector<std::string>& value, const Token& token) {
 void Env::add(TokenType type) {
     if (type == SERVER) {
         _svconfs.push_back(*(static_cast<ServerConfig*>(_ptr)));
-    }
-    else {
+    } else {
         (static_cast<ServerConfig*>(_prev))
             ->addLocation(*(static_cast<LocationConfig*>(_ptr)));
         delete _ptr;

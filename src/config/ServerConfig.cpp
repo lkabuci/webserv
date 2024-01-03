@@ -16,7 +16,7 @@ ServerConfig::ServerConfig(const std::string& ip, const std::string& port,
                  methods, auto_index) {}
 
 ServerConfig::ServerConfig(const ServerConfig& svconf)
-    : ConfigInfo(svconf), _locations(svconf._locations){}
+    : ConfigInfo(svconf), _locations(svconf._locations) {}
 
 ServerConfig::~ServerConfig() {}
 

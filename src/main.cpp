@@ -27,17 +27,7 @@ int main(int argc, char* argv[]) {
     ConfigParse cp;
 
     cp.parseFile(argv[1]);
-    Socket server("0.0.0.0", "2222");
-
-    Reactor& reactor = Reactor::getInstance();
-    for (size_t i = 0; i < serverSockets.size(); ++i) {
-        ServerEventHandler* serverHandler =
-            new ServerEventHandler(serverSockets[i]);
-        reactor.registerHandler(serverHandler, serverSockets[i]);
-    }
-
-    // Start the Reactor event loop
-    reactor.run(serverSockets);
+    Servers servers = cp.getServers();
 
     return EXIT_SUCCESS;
 }

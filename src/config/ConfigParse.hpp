@@ -3,6 +3,7 @@
 #ifndef __CONFIG_PARSE_HPP__
 #define __CONFIG_PARSE_HPP__
 
+#include "../stream/Servers.hpp"
 #include "Lexer.hpp"
 #include "SyntaxException.hpp"
 #include "Token.hpp"
@@ -19,7 +20,13 @@ class ConfigParse {
     ConfigParse(const ConfigParse&);
     ConfigParse& operator=(const ConfigParse&);
 
-    void _parse(const std::string& source);
+    void     _parse(const std::string& source);
+    Servers& getServers();
+
+  private:
+    Servers _servers;
+
+    void _setServers();
 };
 
 #endif

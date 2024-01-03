@@ -13,9 +13,9 @@ class StatusLine {
     std::string       serialize() const;
     static StatusLine deserialize(const std::string& status_line);
 
-    const HTTP::METHOD  getMethod() const;
-    const std::string   getURI() const;
-    const HTTP::VERSION getVersion() const;
+    const HTTP::METHOD&  getMethod() const;
+    const std::string&   getURI() const;
+    const HTTP::VERSION& getVersion() const;
 
   private:
     HTTP::METHOD  _method;

@@ -12,7 +12,6 @@ class Socket {
   public:
     Socket();
     Socket(const char* ip, const char* port);
-    ~Socket();
     int         getSocketfd() const;
     const char* getIP() const;
     const char* getPort() const;

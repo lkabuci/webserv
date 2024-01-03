@@ -7,7 +7,7 @@ ConfigInfo::ConfigInfo()
 
 ConfigInfo::ConfigInfo(const std::string& ip, const std::string& port,
                        const std::set<std::string>& name, const size_t& size,
-                       const std::set<std::string>&         indx,
+                       const std::set<std::string>& indx,
 
                        const std::set<std::string>&         root_dir,
                        const std::map<size_t, std::string>& error_page,
