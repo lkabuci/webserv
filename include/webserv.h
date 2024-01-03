@@ -15,7 +15,6 @@
 #include "../src/config/Token.hpp"
 #include "../src/config/TokenType.hpp"
 #include "../src/config/common.hpp"
-#include "../src/helpers/ServerHelper.hpp"
 #include "../src/http/HTTP.hpp"
 #include "../src/http/Header.hpp"
 #include "../src/http/HttpUtils.hpp"

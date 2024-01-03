@@ -25,11 +25,14 @@ void Env::create(TokenType type) {
 }
 
 void Env::put(const std::vector<std::string>& value, const Token& token) {
-    Extractor extract(value, token);
+    Extractor                extract(value, token);
+    std::vector<std::string> ipport;
 
     switch (token.type()) {
     case LISTEN:
-        _ptr->set_port_number(extract.port_number());
+        ipport = extract.ip_port();
+        _ptr->set_ip(ipport[0]);
+        _ptr->set_port(ipport[1]);
         break;
     case SERVER_NAME:
         _ptr->set_server_name(extract.server_name());
@@ -64,8 +67,9 @@ void Env::put(const std::vector<std::string>& value, const Token& token) {
 }
 
 void Env::add(TokenType type) {
-    if (type == SERVER)
+    if (type == SERVER) {
         _svconfs.push_back(*(static_cast<ServerConfig*>(_ptr)));
+    }
     else {
         (static_cast<ServerConfig*>(_prev))
             ->addLocation(*(static_cast<LocationConfig*>(_ptr)));

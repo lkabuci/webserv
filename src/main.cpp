@@ -8,12 +8,12 @@ int main(int argc, char* argv[]) {
     ConfigParse cp;
 
     cp.parseFile(argv[1]);
-    Socket server("0.0.0.0", "2222");
+    //Socket server("0.0.0.0", "2222");
 
-    int serverSocket = server.getSocketfd();
+    //int serverSocket = server.getSocketfd();
 
-    EventLoop eventLoop(serverSocket);
-    eventLoop.start();
+    //EventLoop eventLoop(serverSocket);
+    //eventLoop.start();
 
     return EXIT_SUCCESS;
 }
