@@ -16,8 +16,7 @@ ServerConfig::ServerConfig(const std::string& ip, const std::string& port,
                  methods, auto_index) {}
 
 ServerConfig::ServerConfig(const ServerConfig& svconf)
-    : ConfigInfo(svconf), _locations(svconf._locations),
-      _socketfd(svconf._socketfd) {}
+    : ConfigInfo(svconf), _locations(svconf._locations){}
 
 ServerConfig::~ServerConfig() {}
 
@@ -26,7 +25,6 @@ ServerConfig& ServerConfig::operator=(const ServerConfig& svconf) {
         return *this;
     ConfigInfo::operator=(svconf);
     _locations = svconf._locations;
-    _socketfd = svconf._socketfd;
     return *this;
 }
 
@@ -40,16 +38,6 @@ void ServerConfig::addLocation(LocationConfig lconf) {
     if (lconf.allow_methods().empty())
         lconf.set_allow_methods(_allow_methods);
     _locations.push_back(lconf);
-}
-
-const int& ServerConfig::getSocket() const {
-    return _socketfd;
-}
-
-void ServerConfig::setSocket() {
-    Socket sock(_ip.c_str(), _port.c_str());
-
-    _socketfd = sock.getSocketfd();
 }
 
 void ServerConfig::display() const {
