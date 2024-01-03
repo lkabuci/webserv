@@ -14,7 +14,7 @@ class Parser {
 
     void parse();
 
-    // private:
+  private:
     Parser(const Parser&);
     Parser& operator=(const Parser&);
 

@@ -1,22 +1,25 @@
 #include "ConfigInfo.hpp"
 
 ConfigInfo::ConfigInfo()
-    : _port(8000), _client_max_body_size(100), _autoindex(false) {
-    _server_name.insert("-");
+    : _port("8000"), _client_max_body_size(100), _autoindex(false) {
+    _server_name.insert("_");
 }
 
-ConfigInfo::ConfigInfo(const size_t& port, const std::set<std::string>& name,
-                       const size_t& size, const std::set<std::string>& index,
+ConfigInfo::ConfigInfo(const std::string& ip, const std::string& port,
+                       const std::set<std::string>& name, const size_t& size,
+                       const std::set<std::string>&         indx,
+
                        const std::set<std::string>&         root_dir,
                        const std::map<size_t, std::string>& error_page,
                        const std::map<size_t, std::string>& return_page,
                        const std::set<std::string>& methods, bool auto_index)
-    : _port(port), _server_name(name), _client_max_body_size(size),
-      _index(index), _root(root_dir), _error_page(error_page),
+    : _ip(ip), _port(port), _server_name(name), _client_max_body_size(size),
+      _index(indx), _root(root_dir), _error_page(error_page),
+
       _return(return_page), _allow_methods(methods), _autoindex(auto_index) {}
 
 ConfigInfo::ConfigInfo(const ConfigInfo& conf)
-    : _port(conf._port), _server_name(conf._server_name),
+    : _ip(conf._ip), _port(conf._port), _server_name(conf._server_name),
       _client_max_body_size(conf._client_max_body_size), _index(conf._index),
       _root(conf._root), _error_page(conf._error_page), _return(conf._return),
       _allow_methods(conf._allow_methods), _autoindex(conf._autoindex) {}
@@ -26,6 +29,7 @@ ConfigInfo::~ConfigInfo() {}
 ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
     if (this == &conf)
         return *this;
+    _ip = conf._ip;
     _port = conf._port;
     _server_name = conf._server_name;
     _client_max_body_size = conf._client_max_body_size;
@@ -38,7 +42,12 @@ ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
     return *this;
 }
 
-const size_t& ConfigInfo::port_number() const {
+const std::string& ConfigInfo::ip() const {
+    return _ip;
+}
+
+const std::string& ConfigInfo::port() const {
+
     return _port;
 }
 
@@ -74,7 +83,16 @@ const bool& ConfigInfo::autoindex() const {
     return _autoindex;
 }
 
-void ConfigInfo::set_port_number(const size_t& port) {
+// void ConfigInfo::set_port_number(const size_t& port) {
+//     _port = port;
+// }
+
+void ConfigInfo::set_ip(const std::string& ip) {
+    _ip = ip;
+}
+
+void ConfigInfo::set_port(const std::string& port) {
+
     _port = port;
 }
 
@@ -111,6 +129,7 @@ void ConfigInfo::set_autoindex(bool auto_index) {
 }
 
 void ConfigInfo::display() const {
+    std::cout << "ip: " << _ip << '\n';
     std::cout << "port_number: " << _port << '\n';
     if (!_server_name.empty()) {
         std::cout << "server_name:";

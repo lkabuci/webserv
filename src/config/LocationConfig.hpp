@@ -8,9 +8,9 @@
 class LocationConfig : public ConfigInfo {
   public:
     LocationConfig();
-    LocationConfig(const std::set<std::string>& paths, const size_t& port,
-                   const std::set<std::string>& name, const size_t& size,
-                   const std::set<std::string>&         index,
+    LocationConfig(const std::set<std::string>& paths, const std::string& ip,
+                   const std::string& port, const std::set<std::string>& name,
+                   const size_t& size, const std::set<std::string>& indx,
                    const std::set<std::string>&         root_dir,
                    const std::map<size_t, std::string>& error_page,
                    const std::map<size_t, std::string>& return_page,
@@ -23,7 +23,6 @@ class LocationConfig : public ConfigInfo {
     const std::set<std::string>& getPaths() const;
     void                         addPath(const std::string& path);
     void                         addPath(const std::vector<std::string>& paths);
-    friend bool operator==(const LocationConfig& l1, const LocationConfig& l2);
 
   private:
     std::set<std::string> _paths;

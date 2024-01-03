@@ -3,14 +3,16 @@
 #ifndef __SERVER_CONFIG_HPP__
 #define __SERVER_CONFIG_HPP__
 
+#include "../stream/Socket.hpp"
 #include "ConfigInfo.hpp"
 #include "LocationConfig.hpp"
 
 class ServerConfig : public ConfigInfo {
   public:
     ServerConfig();
-    ServerConfig(const size_t& port, const std::set<std::string>& name,
-                 const size_t& size, const std::set<std::string>& index,
+    ServerConfig(const std::string& ip, const std::string& port,
+                 const std::set<std::string>& name, const size_t& size,
+                 const std::set<std::string>&         indx,
                  const std::set<std::string>&         root_dir,
                  const std::map<size_t, std::string>& error_page,
                  const std::map<size_t, std::string>& return_page,
@@ -24,8 +26,6 @@ class ServerConfig : public ConfigInfo {
     std::vector<LocationConfig>& getLocations();
 
     virtual void display() const;
-
-    friend bool operator==(const ServerConfig& s1, const ServerConfig& s2);
 
   private:
     std::vector<LocationConfig> _locations;
