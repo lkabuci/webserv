@@ -18,7 +18,6 @@ Socket::Socket() : _addresses(NULL, NULL) {}
 Socket::Socket(const char* ip, const char* port)
     : _sockfd(-1), _ip(ip), _port(port), _addresses(ip, port) {
     initializeSocket();
-    _addresses.~AddressResolver();
     _ip = const_cast<char*>(ServerHelper::GetIPAddressFromSockAddr(_sockfd));
     _port =
         const_cast<char*>(ServerHelper::GetPortAddressFromSockAddr(_sockfd));
@@ -59,7 +58,7 @@ void Socket::initializeSocket() {
 }
 
 Socket::~Socket() {
-    close(_sockfd);
+    //close(_sockfd);
 }
 
 int Socket::getSocketfd() const {

@@ -16,7 +16,8 @@ ServerConfig::ServerConfig(const std::string& ip, const std::string& port,
                  methods, auto_index) {}
 
 ServerConfig::ServerConfig(const ServerConfig& svconf)
-    : ConfigInfo(svconf), _locations(svconf._locations) {}
+    : ConfigInfo(svconf), _locations(svconf._locations),
+      _socketfd(svconf._socketfd) {}
 
 ServerConfig::~ServerConfig() {}
 
@@ -25,6 +26,7 @@ ServerConfig& ServerConfig::operator=(const ServerConfig& svconf) {
         return *this;
     ConfigInfo::operator=(svconf);
     _locations = svconf._locations;
+    _socketfd = svconf._socketfd;
     return *this;
 }
 
