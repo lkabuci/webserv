@@ -5,20 +5,20 @@
 
 #include "ServerConfig.hpp"
 
-class   Server {
-public:
+class Server {
+  public:
     Server(const ServerConfig& svconf);
     Server(const Server& server);
 
     Server& operator=(const Server& server);
 
-    void            setServer(const ServerConfig& svconf);
-    ServerConfig&   getServerConfig();
-    const int&      getSocket() const;
+    void          setServer(const ServerConfig& svconf);
+    ServerConfig& getServerConfig();
+    const int&    getSocket() const;
 
-private:
-    ServerConfig    _svconf;
-    int            _sockfd;
+  private:
+    ServerConfig _svconf;
+    int          _sockfd;
 };
 
 #endif

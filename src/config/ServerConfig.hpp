@@ -24,14 +24,11 @@ class ServerConfig : public ConfigInfo {
 
     void                         addLocation(LocationConfig lconf);
     std::vector<LocationConfig>& getLocations();
-    //const int&                  getSocket() const;
-    //void                        setSocket();
 
     virtual void display() const;
 
   private:
     std::vector<LocationConfig> _locations;
-    //int                         _socketfd;
 };
 
 #endif
