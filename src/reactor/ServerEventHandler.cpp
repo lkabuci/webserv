@@ -19,7 +19,7 @@ void ServerEventHandler::handleEvent() {
         std::cerr << "failed to connect" << std::endl;
         return;
     }
-    ClientEventHandler* clientHandler = new ClientEventHandler(clientAddr,
-                                                               clientSocket);
-    Reactor::getInstance().registerHandler(clientHandler);
+    ClientEventHandler* clientHandler =
+        new ClientEventHandler(clientAddr, clientSocket);
+    Reactor::getInstance().registerHandler(clientHandler, clientSocket);
 }

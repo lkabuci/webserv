@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include "IEventHandler.hpp"
 #include "../stream/Client.hpp"
+#include "IEventHandler.hpp"
+#include <vector>
 
 class ClientEventHandler : public IEventHandler {
   public:
@@ -11,6 +11,6 @@ class ClientEventHandler : public IEventHandler {
     virtual void handleEvent();
 
   private:
-    int _socket;
+    int    _socket;
     Client _client;
 };

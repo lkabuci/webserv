@@ -10,12 +10,15 @@
 class Reactor {
   public:
     static Reactor& getInstance();
-    void            registerHandler(IEventHandler* handler);
-    void            unregisterHandler(IEventHandler* handler);
-    void            run(const std::vector<int>& sockets);
+    ~Reactor();
+    void                 registerHandler(IEventHandler* handler, int socket);
+    void                 unregisterHandler(IEventHandler* handler);
+    void                 run(const std::vector<int>& sockets);
+    std::vector<pollfd>& getPollfds();
 
   private:
     std::vector<IEventHandler*> _eventHandlers;
+    std::vector<pollfd>         _pollfds;
     Demultiplexer               _demultiplexer;
     Dispatcher                  _dispatcher;
 };

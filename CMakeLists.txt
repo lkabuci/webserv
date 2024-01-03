@@ -18,6 +18,7 @@ file(GLOB_RECURSE WEBSERV_SOURCES
     src/stream/*.cpp
     src/utils/*.cpp
     src/os/*.cpp
+    src/reactor/IEventHandler.hpp
 )
 
 add_executable(webserv ${WEBSERV_SOURCES})
