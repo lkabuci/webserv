@@ -9,6 +9,7 @@ class Server {
   public:
     Server(const ServerConfig& svconf);
     Server(const Server& server);
+    ~Server();
 
     Server& operator=(const Server& server);
 

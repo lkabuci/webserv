@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include <unistd.h>
 
 Server::Server(const ServerConfig& svconf) {
     setServer(svconf);
@@ -6,6 +7,10 @@ Server::Server(const ServerConfig& svconf) {
 
 Server::Server(const Server& server)
     : _svconf(server._svconf), _sockfd(server._sockfd) {}
+
+Server::~Server() {
+    close(_sockfd);
+}
 
 Server& Server::operator=(const Server& server) {
     if (this == &server)
