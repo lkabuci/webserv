@@ -26,12 +26,13 @@ void ConfigParse::_parse(const std::string& source) {
         Parser parser(source);
 
         parser.parse();
-        // std::vector<ServerConfig>   svconfs = Env::get();
-        // std::cout << "size: " << svconfs.size() << '\n';
-        // for (size_t i = 0; i < svconfs.size(); ++i) {
-        //     std::cout << "------------ SERVER " << i + 1 << "\n";
-        //     svconfs[i].display();
-        // }
+         std::vector<ServerConfig>   svconfs = Env::get();
+         std::cout << "size: " << svconfs.size() << '\n';
+         for (size_t i = 0; i < svconfs.size(); ++i) {
+             std::cout << "------------ SERVER " << i + 1 << "\n";
+             std::cout << "-- socketfd: " << svconfs[i].getSocket() << '\n';
+             svconfs[i].display();
+         }
         // Env& env = Env::getInstance();
 
         // env.create(SERVER);

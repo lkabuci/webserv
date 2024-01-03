@@ -40,6 +40,16 @@ void ServerConfig::addLocation(LocationConfig lconf) {
     _locations.push_back(lconf);
 }
 
+const int& ServerConfig::getSocket() const {
+    return _socketfd;
+}
+
+void ServerConfig::setSocket() {
+    Socket sock(_ip.c_str(), _port.c_str());
+
+    _socketfd = sock.getSocketfd();
+}
+
 void ServerConfig::display() const {
     ConfigInfo::display();
     std::cout << "----> Location Block\n";

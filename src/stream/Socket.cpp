@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <vector>
 
+Socket::Socket() : _addresses(NULL, NULL) {}
+
 Socket::Socket(const char* ip, const char* port)
     : _sockfd(-1), _ip(ip), _port(port), _addresses(ip, port) {
     initializeSocket();

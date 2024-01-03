@@ -67,8 +67,10 @@ void Env::put(const std::vector<std::string>& value, const Token& token) {
 }
 
 void Env::add(TokenType type) {
-    if (type == SERVER)
+    if (type == SERVER) {
+        (static_cast<ServerConfig*>(_ptr))->setSocket();
         _svconfs.push_back(*(static_cast<ServerConfig*>(_ptr)));
+    }
     else {
         (static_cast<ServerConfig*>(_prev))
             ->addLocation(*(static_cast<LocationConfig*>(_ptr)));

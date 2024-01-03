@@ -3,6 +3,7 @@
 #ifndef __SERVER_CONFIG_HPP__
 #define __SERVER_CONFIG_HPP__
 
+#include "../stream/Socket.hpp"
 #include "ConfigInfo.hpp"
 #include "LocationConfig.hpp"
 
@@ -23,11 +24,14 @@ class ServerConfig : public ConfigInfo {
 
     void                         addLocation(LocationConfig lconf);
     std::vector<LocationConfig>& getLocations();
+    const int&                  getSocket() const;
+    void                        setSocket();
 
     virtual void display() const;
 
   private:
     std::vector<LocationConfig> _locations;
+    int                         _socketfd;
 };
 
 #endif
