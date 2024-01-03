@@ -27,7 +27,21 @@ int main(int argc, char* argv[]) {
     ConfigParse cp;
 
     cp.parseFile(argv[1]);
-    Servers servers = cp.getServers();
+    Servers& servers = cp.getServers();
+
+    Reactor& reactor = Reactor::getInstance();
+    for (size_t i = 0; i < servers.size(); ++i) {
+        ServerEventHandler* serverHandler =
+                new ServerEventHandler(servers[i]->getSocket());
+        reactor.registerHandler(serverHandler, servers[i]->getSocket());
+    }
+
+    // Start the Reactor event loop
+    std::vector<int> serverSockets;
+    for (size_t i = 0; i < servers.size(); ++i) {
+        serverSockets.push_back(servers[i]->getSocket());
+    }
+    reactor.run(serverSockets);
 
     return EXIT_SUCCESS;
 }
