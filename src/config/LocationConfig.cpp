@@ -13,6 +13,7 @@ LocationConfig::LocationConfig(const std::set<std::string>& paths,
                                const std::set<std::string>&         methods,
                                bool                                 auto_index)
     : ConfigInfo(ip, port, name, size, indx, root_dir, error_page, return_page,
+
                  methods, auto_index),
       _paths(paths) {}
 

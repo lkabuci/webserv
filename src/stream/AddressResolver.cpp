@@ -3,7 +3,6 @@
 #include <cstring>
 #include <iostream>
 #include <netdb.h>
-#include <vector>
 
 AddressResolver::AddressResolver(const char* ip, const char* port)
     : _addresses(NULL), _ip(ip), _port(port) {
@@ -24,7 +23,7 @@ void AddressResolver::fillAddressInfo() {
 
     const int rv = getaddrinfo(_ip, _port, &hints, &_addresses);
     if (rv != 0) {
-        std::cerr << "getaddeinfo: " << gai_strerror(rv) << ".\n";
+        std::cerr << "getaddrinfo: " << gai_strerror(rv) << ".\n";
         std::exit(EXIT_FAILURE);
     }
 }

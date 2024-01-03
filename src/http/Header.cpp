@@ -12,7 +12,7 @@ std::string Header::serialize() const {
 }
 
 Header Header::deserialize(const std::string& header) {
-    size_t pos = header.find(":");
+    size_t pos = header.find(':');
     if (pos == std::string::npos) {
         throw std::runtime_error("Error while parsing the header");
     }

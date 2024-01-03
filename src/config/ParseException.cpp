@@ -11,4 +11,6 @@ ParseException::ParseException(Token token, const std::string& message) {
     }
 }
 
-const char* ParseException::what() const throw() { return _errorMsg.c_str(); }
+const char* ParseException::what() const throw() {
+    return _errorMsg.c_str();
+}

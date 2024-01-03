@@ -22,23 +22,23 @@ class Lexer {
     Lexer& operator=(const Lexer& lexer);
 
     std::string _source;
-    const int _length;
-    int _start;
-    int _current;
-    int _line;
-    Token _token;
+    const int   _length;
+    int         _start;
+    int         _current;
+    int         _line;
+    Token       _token;
 
     Token scanToken();
-    void setToken(TokenType type);
-    void setToken(TokenType type, const std::string& text);
-    char peek();
-    char advance();
-    bool isAtEnd() const;
-    void skipWhiteSpaces();
-    void skipComment();
-    void _string(char c);
-    void _parameter();
-    bool isParameterChar(char c);
+    void  setToken(TokenType type);
+    void  setToken(TokenType type, const std::string& text);
+    char  peek();
+    char  advance();
+    bool  isAtEnd() const;
+    void  skipWhiteSpaces();
+    void  skipComment();
+    void  _string(char c);
+    void  _parameter();
+    bool  isParameterChar(char c);
 
     void reserve();
 };

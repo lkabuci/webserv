@@ -38,6 +38,7 @@ void ConfigParse::_parse(const std::string& source) {
                       << ", port: " << s[i].getServerConfig().port()
                       << ", socket: " << s[i].getSocket() << "\n\n";
         }
+
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

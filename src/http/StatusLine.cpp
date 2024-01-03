@@ -8,7 +8,7 @@ StatusLine::StatusLine(HTTP::METHOD method, const std::string& uri,
                        HTTP::VERSION version)
     : _method(method), _uri(uri), _version(version) {}
 
-std::string StatusLine::serliaze() const {
+std::string StatusLine::serialize() const {
     std::stringstream status_line;
     status_line << HTTP::toString(_method) << " " << _uri << " "
                 << HTTP::toString(_version);

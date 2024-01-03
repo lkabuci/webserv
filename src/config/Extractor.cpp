@@ -56,7 +56,8 @@ size_t Extractor::client_max_body_size() {
     std::string info = _info[0];
     if (info[info.length() - 1] != 'm')
         throw RunTimeException(_token, "Invalid size.");
-    info.pop_back();
+    info.erase(info.end() - 1);
+    // info.pop_back();
     std::stringstream ss(info);
     int               size;
 

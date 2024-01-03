@@ -10,7 +10,7 @@ class StatusLine {
   public:
     StatusLine();
     StatusLine(HTTP::METHOD, const std::string&, HTTP::VERSION);
-    std::string       serliaze() const;
+    std::string       serialize() const;
     static StatusLine deserialize(const std::string& status_line);
 
     const HTTP::METHOD  getMethod() const;

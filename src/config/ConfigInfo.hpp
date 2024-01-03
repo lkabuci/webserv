@@ -27,17 +27,18 @@ class ConfigInfo {
     const size_t& client_max_body_size() const;
     const std::set<std::string>& index() const;
     const std::set<std::string>& root() const;
+
     const std::map<size_t, std::string>& error_page() const;
     const std::map<size_t, std::string>& return_page() const;
-    const std::set<std::string>& allow_methods() const;
-    const bool& autoindex() const;
+    const std::set<std::string>&         allow_methods() const;
+    const bool&                          autoindex() const;
 
     //void set_port_number(const size_t& port);
     void set_ip(const std::string& ip);
     void set_port(const std::string& port);
     void set_server_name(const std::set<std::string>& name);
     void set_client_max_body_size(const size_t& size);
-    void set_index(const std::set<std::string>& indx);
+    void set_index(const std::set<std::string>& index);
     void set_root(const std::set<std::string>& root_dir);
     void set_error_page(const std::map<size_t, std::string>& errpage);
     void set_return(const std::map<size_t, std::string>& return_page);

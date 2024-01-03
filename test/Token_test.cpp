@@ -12,9 +12,9 @@ TEST(TokenTest, DefaultConstructor) {
 }
 
 TEST(TokenTest, ParameterizedConstructor) {
-    TokenType type = PARAMETER;
+    TokenType   type = PARAMETER;
     std::string lexeme = "test";
-    int line = 1;
+    int         line = 1;
 
     Token token(type, lexeme, line);
 
@@ -25,9 +25,9 @@ TEST(TokenTest, ParameterizedConstructor) {
 }
 
 TEST(TokenTest, CopyConstructor) {
-    TokenType type = PARAMETER;
+    TokenType   type = PARAMETER;
     std::string lexeme = "test";
-    int line = 1;
+    int         line = 1;
 
     Token token1(type, lexeme, line);
     Token token2(token1);
@@ -39,9 +39,9 @@ TEST(TokenTest, CopyConstructor) {
 }
 
 TEST(TokenTest, AssignmentOperator) {
-    TokenType type = PARAMETER;
+    TokenType   type = PARAMETER;
     std::string lexeme = "test";
-    int line = 1;
+    int         line = 1;
 
     Token token1(type, lexeme, line);
     Token token2;

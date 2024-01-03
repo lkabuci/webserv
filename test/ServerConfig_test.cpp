@@ -20,24 +20,24 @@ TEST(ServerConfigTest, DefaultConstructor) {
 }
 
 TEST(ServerConfigTest, ParameterizedConstructor) {
-    size_t port = 8080;
-    std::set<std::string> name = {"name"};
-    size_t size = 1024;
-    std::set<std::string> indx = {"index.html"};
-    std::set<std::string> root_dir = {"root"};
+    size_t                        port = 8080;
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string> methods = {"GET"};
-    bool auto_index = false;
+    std::set<std::string>         methods = {"GET"};
+    bool                          auto_index = false;
 
-    ServerConfig config(port, name, size, indx, root_dir, error_page,
+    ServerConfig config(port, name, size, index, root_dir, error_page,
                         return_page, methods, auto_index);
 
     // Check if the values are correctly set
     EXPECT_EQ(config.port_number(), port);
     EXPECT_EQ(config.server_name(), name);
     EXPECT_EQ(config.client_max_body_size(), size);
-    EXPECT_EQ(config.index(), indx);
+    EXPECT_EQ(config.index(), index);
     EXPECT_EQ(config.root(), root_dir);
     EXPECT_EQ(config.error_page(), error_page);
     EXPECT_EQ(config.return_page(), return_page);
@@ -47,17 +47,17 @@ TEST(ServerConfigTest, ParameterizedConstructor) {
 }
 
 TEST(ServerConfigTest, CopyConstructor) {
-    size_t port = 8080;
-    std::set<std::string> name = {"name"};
-    size_t size = 1024;
-    std::set<std::string> indx = {"index.html"};
-    std::set<std::string> root_dir = {"root"};
+    size_t                        port = 8080;
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string> methods = {"GET"};
-    bool auto_index = false;
+    std::set<std::string>         methods = {"GET"};
+    bool                          auto_index = false;
 
-    ServerConfig config1(port, name, size, indx, root_dir, error_page,
+    ServerConfig config1(port, name, size, index, root_dir, error_page,
                          return_page, methods, auto_index);
     ServerConfig config2(config1);
 
@@ -66,17 +66,17 @@ TEST(ServerConfigTest, CopyConstructor) {
 }
 
 TEST(ServerConfigTest, AssignmentOperator) {
-    size_t port = 8080;
-    std::set<std::string> name = {"name"};
-    size_t size = 1024;
-    std::set<std::string> indx = {"index.html"};
-    std::set<std::string> root_dir = {"root"};
+    size_t                        port = 8080;
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string> methods = {"GET"};
-    bool auto_index = false;
+    std::set<std::string>         methods = {"GET"};
+    bool                          auto_index = false;
 
-    ServerConfig config1(port, name, size, indx, root_dir, error_page,
+    ServerConfig config1(port, name, size, index, root_dir, error_page,
                          return_page, methods, auto_index);
     ServerConfig config2;
     config2 = config1;
@@ -90,7 +90,7 @@ TEST(ServerConfigTest, AssignmentOperator) {
 }
 
 TEST(ServerConfigTest, AddLocation) {
-    ServerConfig config;
+    ServerConfig   config;
     LocationConfig location;
 
     config.addLocation(location);

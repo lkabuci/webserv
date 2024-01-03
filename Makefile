@@ -42,7 +42,7 @@ unittest:
 	@docker compose up --build; make fclean -f Makefile-test
 
 clean:
-	@$(RM) $(BUILD_DIR) $(LIB)
+	@$(RM) $(BUILD_DIR) $(LIB) tests
 
 fclean: clean
 	@$(RM) $(NAME)

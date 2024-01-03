@@ -14,14 +14,14 @@ class Token {
 
     Token& operator=(const Token& token);
 
-    const TokenType& type() const;
+    const TokenType&   type() const;
     const std::string& lexeme() const;
-    const int& line() const;
+    const int&         line() const;
 
   private:
-    TokenType _type;
+    TokenType   _type;
     std::string _lexeme;
-    int _line;
+    int         _line;
 };
 
 std::ostream& operator<<(std::ostream& os, const Token& token);
