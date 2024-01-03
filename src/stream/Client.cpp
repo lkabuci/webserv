@@ -88,7 +88,7 @@ void Client::fillIpPort() {
     case AF_INET6:
         ipv6 = reinterpret_cast<struct sockaddr_in6*>(&_sockAddr);
         inet_ntop(AF_INET6, &(ipv6->sin6_addr), _ip, sizeof _ip);
-        snprintf(_port, sizeof(_port), "%d", ntohs(ipv6->sin6_port));
+        std::snprintf(_port, sizeof(_port), "%d", ntohs(ipv6->sin6_port));
         break;
     default:
         // here I should probably return a -1 or throw an error so the poll
