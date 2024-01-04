@@ -34,7 +34,7 @@ Client& Client::operator=(const Client& other) {
 const char* Client::getClientAddress() const {
     static char address[PORT_LEN + INET6_ADDRSTRLEN + 2];
     std::memset(address, 0, sizeof(address));
-    snprintf(address, sizeof(address), "%s:%s", _ip, _port);
+    std::snprintf(address, sizeof(address), "%s:%s", _ip, _port);
     return address;
 }
 
@@ -83,7 +83,7 @@ void Client::fillIpPort() {
     case AF_INET:
         ipv4 = reinterpret_cast<struct sockaddr_in*>(&_sockAddr);
         inet_ntop(AF_INET, &(ipv4->sin_addr), _ip, sizeof _ip);
-        snprintf(_port, sizeof(_port), "%d", ntohs(ipv4->sin_port));
+        std::snprintf(_port, sizeof(_port), "%d", ntohs(ipv4->sin_port));
         break;
     case AF_INET6:
         ipv6 = reinterpret_cast<struct sockaddr_in6*>(&_sockAddr);

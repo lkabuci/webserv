@@ -1,5 +1,4 @@
 #include "../src/config/Token.hpp"
-#include "../src/config/TokenType.hpp"
 #include "gtest/gtest.h"
 
 TEST(TokenTest, DefaultConstructor) {

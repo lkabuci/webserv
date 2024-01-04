@@ -41,10 +41,11 @@ const char* ServerHelper::GetPortAddressFromSockAddr(int sockfd) {
     }
     if (addr.ss_family == AF_INET) {
         struct sockaddr_in* s = reinterpret_cast<struct sockaddr_in*>(&addr);
-        snprintf(portBuffer, sizeof(portBuffer), "%d", ntohs(s->sin_port));
+        std::snprintf(portBuffer, sizeof(portBuffer), "%d", ntohs(s->sin_port));
     } else { // AF_INET6
         struct sockaddr_in6* s = reinterpret_cast<struct sockaddr_in6*>(&addr);
-        snprintf(portBuffer, sizeof(portBuffer), "%d", ntohs(s->sin6_port));
+        std::snprintf(portBuffer, sizeof(portBuffer), "%d",
+                      ntohs(s->sin6_port));
     }
     return portBuffer;
 }
