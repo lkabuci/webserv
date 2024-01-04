@@ -10,7 +10,7 @@ project(Webserv)
 set(CMAKE_CXX_STANDARD 98)
 
 file(GLOB_RECURSE WEBSERV_SOURCES
-    src/main.cpp
+    src/*.cpp
     src/config/*.cpp
     src/helpers/*.cpp
     src/http/*.cpp
@@ -42,4 +42,3 @@ target_link_libraries(unit_tests PRIVATE gtest pthread)
 target_compile_options(unit_tests PRIVATE -Wall)
 
 add_test(NAME unit_tests COMMAND unit_tests)
-

@@ -7,6 +7,7 @@
 
 extern volatile sig_atomic_t isServerRunning;
 
+#include "../src/Webserver.hpp"
 #include "../src/config/ConfigInfo.hpp"
 #include "../src/config/ConfigParse.hpp"
 #include "../src/config/Env.hpp"
@@ -26,7 +27,6 @@ extern volatile sig_atomic_t isServerRunning;
 #include "../src/http/HttpUtils.hpp"
 #include "../src/http/Request.hpp"
 #include "../src/http/StatusLine.hpp"
-#include "../src/reactor/Webserver.hpp"
 #include "../src/stream/AddressResolver.hpp"
 #include "../src/stream/Client.hpp"
 #include "../src/stream/Socket.hpp"

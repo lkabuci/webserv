@@ -1,6 +1,5 @@
 #include "Reactor.hpp"
 #include "../../include/webserv.h"
-#include <cstddef>
 #include <unistd.h>
 
 Reactor& Reactor::getInstance() {
@@ -14,7 +13,7 @@ void Reactor::registerHandler(IEventHandler* handler, int socket) {
     _pollfds.push_back(newPfd);
 }
 
-void Reactor::run(const std::vector<int>& sockets) {
+void Reactor::run() {
     while (isServerRunning) {
         if (_demultiplexer.waitForEvents() == -1) {
             break;

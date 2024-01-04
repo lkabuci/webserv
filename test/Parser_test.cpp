@@ -6,7 +6,8 @@
 
 TEST(ParserTest, DefaultConstructor) {
     Parser parser("");
-    EXPECT_TRUE(parser.isAtEnd()); // Parser should be at end with an empty source
+    EXPECT_TRUE(parser.isAtEnd());
+    // Parser should be at end with an empty source
 }
 
 TEST(ParserTest, ParseEmptySource) {

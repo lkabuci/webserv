@@ -11,7 +11,7 @@
 
 class ConfigParse {
   public:
-    ConfigParse();
+    explicit ConfigParse(const char* path);
     void parseFile(const char* file);
 
     static std::string toString(int n);

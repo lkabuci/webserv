@@ -13,7 +13,7 @@ class Reactor {
     ~Reactor();
     void                 registerHandler(IEventHandler* handler, int socket);
     void                 unregisterHandler(IEventHandler* handler);
-    void                 run(const std::vector<int>& sockets);
+    void                 run();
     std::vector<pollfd>& getPollfds();
 
   private:
