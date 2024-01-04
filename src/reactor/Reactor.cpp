@@ -1,5 +1,5 @@
 #include "Reactor.hpp"
-#include "../../include/webserv.h"
+#include "../../include/webserv.hpp"
 #include <unistd.h>
 
 Reactor& Reactor::getInstance() {

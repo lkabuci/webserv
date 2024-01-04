@@ -1,4 +1,4 @@
-#include "../include/webserv.h"
+#include "../include/webserv.hpp"
 #include <gtest/gtest.h>
 
 TEST(HttpUtilsTest, TrimFunction) {

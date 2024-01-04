@@ -16,7 +16,7 @@ OBJECTS		= $(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:%.cpp=%.o)))
 
 LIB			= $(BUILD_DIR)/libwebserv.a
 
-INCLUDE		= include/webserv.h
+INCLUDE		= include/webserv.hpp
 INCLUDE		+= $(shell find src -type f -name "*.hpp")
 all:	$(NAME)
 

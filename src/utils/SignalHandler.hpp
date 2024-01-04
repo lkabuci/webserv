@@ -1,5 +1,5 @@
 #pragma once
-#include "../../include/webserv.h"
+#include "../../include/webserv.hpp"
 #include <csignal>
 #include <cstring>
 
