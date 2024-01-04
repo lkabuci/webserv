@@ -1,0 +1,15 @@
+{
+  "name" : "webserv",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "45c8b198b7647b6a68235353a00839082c910914",
+  "dependencies" : [
+    {
+      "name" : "gtest",
+      "version>=" : "1.14.0"
+    },
+    {
+      "name" : "libevent",
+      "version>=" : "2.1.12+20230128"
+    }
+  ]
+}

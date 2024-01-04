@@ -8,7 +8,9 @@ void fatal(const std::string& msg, int exit_status) {
     std::exit(exit_status);
 }
 
-ConfigParse::ConfigParse() : _servers() {}
+ConfigParse::ConfigParse(const char* path) : _servers() {
+    parseFile(path);
+}
 
 void ConfigParse::parseFile(const char* file) {
     std::ifstream infile(file);
