@@ -15,10 +15,10 @@ void Reactor::registerHandler(IEventHandler* handler, int socket) {
 
 void Reactor::run() {
     while (isServerRunning) {
-        if (_demultiplexer.waitForEvents() == -1) {
+        if (Demultiplexer::waitForEvents() == -1) {
             break;
         }
-        _dispatcher.dispatchEvents(_pollfds, _eventHandlers);
+        Dispatcher::dispatchEvents(_pollfds, _eventHandlers);
     }
 }
 

@@ -1,6 +1,8 @@
 #ifndef __HEADER_HPP__
 #define __HEADER_HPP__
 
+#define CR '\r'
+#define LF '\n'
 #define CRLF "\r\n"
 
 #include <algorithm>

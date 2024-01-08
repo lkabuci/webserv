@@ -3,6 +3,7 @@
 
 #include "utils/SignalHandler.hpp"
 #include <csignal>
+#include <unistd.h>
 
 volatile sig_atomic_t isServerRunning = true;
 

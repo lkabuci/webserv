@@ -18,6 +18,8 @@ file(GLOB_RECURSE WEBSERV_SOURCES
     src/stream/*.cpp
     src/utils/*.cpp
     src/os/*.cpp
+    src/methods/*.cpp
+    src/methods/IRequestStrategy.hpp
     src/reactor/IEventHandler.hpp
 )
 
