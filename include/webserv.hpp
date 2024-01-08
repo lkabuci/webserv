@@ -3,6 +3,10 @@
 #define BUFFER_SIZE 4096
 #define PORT_LEN 6
 
+#define CR '\r'
+#define LF '\n'
+#define CRLF "\r\n"
+
 #include <csignal>
 
 extern volatile sig_atomic_t isServerRunning;

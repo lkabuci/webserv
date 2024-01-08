@@ -13,6 +13,7 @@ SignalHandler::SignalHandler() {
 }
 
 void SignalHandler::handleSIGINT(int signum) {
+    (void)signum;
     std::cout << "Received SIGINT\n";
     isServerRunning = false;
 }

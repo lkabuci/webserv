@@ -43,6 +43,8 @@ fi
 
 echo -e "${YELLOW}+ Checking formatter${NC}"
 is_formatted=0
+# Or check only for the staged files that are about to be commited
+# for file in $(git diff --name-only --cached); do
 for file in $(find $PWD/src $PWD/include/ -type f \( -name "*.cpp" -o -name "*.hpp" -o -name "*.h" \)); do
     output=$($CLANG_FORMAT_PATH --dry-run -Werror "$file" 2>&1)
     # Check if output contains any suggestions

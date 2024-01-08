@@ -19,6 +19,4 @@ class Reactor {
   private:
     std::vector<IEventHandler*> _eventHandlers;
     std::vector<pollfd>         _pollfds;
-    Demultiplexer               _demultiplexer;
-    Dispatcher                  _dispatcher;
 };
