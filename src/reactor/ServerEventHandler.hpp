@@ -1,13 +1,14 @@
 #pragma once
 
+#include "../stream/Server.hpp"
 #include "IEventHandler.hpp"
 
 class ServerEventHandler : public IEventHandler {
   public:
-    explicit ServerEventHandler(int serverSocket);
+    explicit ServerEventHandler(const Server&);
     ~ServerEventHandler();
     void handleEvent();
 
   private:
-    int _socket;
+    Server _server;
 };

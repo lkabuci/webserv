@@ -91,8 +91,8 @@ void Client::fillIpPort() {
         std::snprintf(_port, sizeof(_port), "%d", ntohs(ipv6->sin6_port));
         break;
     default:
-        // here I should probably return a -1 or throw an error so the poll
-        // multiplexing ignore it
+        // TODO: here I should probably return a -1 or throw an error so the
+        // poll multiplexing ignore it
         std::cerr << "Unknown address family\n";
         break;
     }
