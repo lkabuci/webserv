@@ -29,4 +29,5 @@ class ClientEventHandler : public IEventHandler {
 
   private:
     std::string _body;
+    bool        _isHeaderEnded;
 };

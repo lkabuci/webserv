@@ -21,6 +21,7 @@ ClientEventHandler::ClientEventHandler(Server& sv, sockaddr_storage& addr,
                                        int clientSocket)
     : _socket(clientSocket), _server(sv), _client(addr, clientSocket) {
     _isDoneReading = false;
+    _isHeaderEnded = false;
 }
 
 ClientEventHandler::~ClientEventHandler() {}
@@ -53,22 +54,27 @@ void ClientEventHandler::handleEvent() {
 
         s.append(buffer, ret);
         if ((headerPos = s.find(CRLF2)) != std::string::npos) {
-            _header = s.substr(0, headerPos);
-            _body = s.substr(headerPos + std::strlen(CRLF2));
-            HTTP::METHOD method =
-                HTTP::toMethod(Request::deserialize(_header).getMethod());
-            switch (method) {
-            case HTTP::GET:
-                GetRequestStrategy(this);
-                break;
-            case HTTP::POST:
-                PostRequestStrategy(this);
-                break;
-            case HTTP::DELETE:
-                DELETERequestStrategy(this);
-                break;
-            default:
-                Reactor::getInstance().unregisterHandler(this);
+            if (!_isHeaderEnded) {
+                _header = s.substr(0, headerPos);
+                _body = s.substr(headerPos + std::strlen(CRLF2));
+                HTTP::METHOD method =
+                    HTTP::toMethod(Request::deserialize(_header).getMethod());
+                switch (method) {
+                case HTTP::GET:
+                    GetRequestStrategy(this);
+                    break;
+                case HTTP::POST:
+                    PostRequestStrategy(this);
+                    break;
+                case HTTP::DELETE:
+                    DELETERequestStrategy(this);
+                    break;
+                default:
+                    Reactor::getInstance().unregisterHandler(this);
+                }
+                _isHeaderEnded = true;
+            } else {
+                _body.append(s);
             }
         }
         if (!_isDoneReading) {
