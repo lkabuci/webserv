@@ -4,8 +4,7 @@
 #include <iostream>
 #include <sys/socket.h>
 
-ServerEventHandler::ServerEventHandler(int serverSocket)
-    : _socket(serverSocket) {}
+ServerEventHandler::ServerEventHandler(const Server& sv) : _server(sv) {}
 
 ServerEventHandler::~ServerEventHandler() {}
 
@@ -14,12 +13,14 @@ void ServerEventHandler::handleEvent() {
     // Accept incoming connections and create client event handlers
     sockaddr_storage clientAddr;
     socklen_t        clientAddrLen = sizeof clientAddr;
-    int clientSocket = accept(_socket, (sockaddr*)&clientAddr, &clientAddrLen);
+    int              clientSocket =
+        accept(_server.getSocket(), reinterpret_cast<sockaddr*>(&clientAddr),
+               &clientAddrLen);
     if (clientSocket == -1) {
         std::cerr << "failed to connect" << std::endl;
         return;
     }
     ClientEventHandler* clientHandler =
-        new ClientEventHandler(clientAddr, clientSocket);
+        new ClientEventHandler(_server, clientAddr, clientSocket);
     Reactor::getInstance().registerHandler(clientHandler, clientSocket);
 }

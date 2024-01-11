@@ -10,8 +10,6 @@
 #include <stdexcept>
 #include <vector>
 
-static IRequestStrategy* getRequestStrategy(StatusLine&);
-
 /*
     GET / HTTP/1.1\r\n
     Host: www.example.com\r\n
@@ -19,10 +17,8 @@ static IRequestStrategy* getRequestStrategy(StatusLine&);
     \r\n
     body
 */
-Request::Request(StatusLine& status_line, std::vector<Header>& headers,
-                 const std::string& body, IRequestStrategy* rq)
-    : _status_line(status_line), _headers(headers), _body(body),
-      _rqStrategy(rq) {}
+Request::Request(StatusLine& status_line, std::vector<Header>& headers)
+    : _status_line(status_line), _headers(headers) {}
 
 std::string Request::serialize() const {
     std::stringstream request;
@@ -49,9 +45,6 @@ Request Request::deserialize(const std::string& request) {
     std::string         buffer;
     std::istringstream  ss(request);
     int                 size = 0;
-    std::string         body;
-    bool                isHeadFinish = false;
-    IRequestStrategy*   rqStrategy = NULL;
 
     while (std::getline(ss, buffer)) {
         size_t pos = buffer.find(CR);
@@ -59,24 +52,20 @@ Request Request::deserialize(const std::string& request) {
             buffer.erase(pos);
         }
         if (buffer.empty()) {
-            isHeadFinish = true;
             continue;
         }
         if (size == 0) {
             status_line = StatusLine::deserialize(buffer);
-        } else if (!isHeadFinish) {
-            headers.push_back(Header::deserialize(buffer));
         } else {
-            body += buffer;
+            headers.push_back(Header::deserialize(buffer));
         }
         ++size;
     }
     if (size == 0) {
         throw std::runtime_error("Error while parsing the request");
     }
-    rqStrategy = getRequestStrategy(status_line);
     // TODO: check if the HOST key exists
-    return Request(status_line, headers, body, rqStrategy);
+    return Request(status_line, headers);
 }
 
 std::string Request::getMethod() {
@@ -97,23 +86,23 @@ std::vector<Header> Request::getHeaders() {
 std::string Request::getBody() {
     return _body;
 }
-Request::~Request() {
-    delete _rqStrategy;
+Request::~Request() {}
+
+std::string Request::getHeaderValue(const std::vector<Header>& headers,
+                                    const std::string&         key) {
+    std::vector<Header>::const_iterator it =
+        std::find_if(headers.begin(), headers.end(), HeaderMatch(key));
+    if (it != headers.end())
+        return it->getValue();
+    return "";
 }
 
-IRequestStrategy* getRequestStrategy(StatusLine& statusLine) {
-    switch (statusLine.getMethod()) {
-    case HTTP::GET:
-        return new GetRequestStrategy();
-    case HTTP::POST:
-        return new PostRequestStrategy();
-    case HTTP::DELETE:
-        return new DELETERequestStrategy();
+void Request::appendBody(const std::string body) {
+    _body += body;
+}
 
-        //    TODO: PUT and HEAD methods to be added later
-        //    case HTTP::PUT: return new PutRequestStrategy();
-        //    case HTTP::HEAD: return new HeadRequestStrategy();
-    default:
-        throw std::runtime_error("Unsupported method");
-    }
+Request::HeaderMatch::HeaderMatch(const std::string& key) : _key(key) {}
+
+bool Request::HeaderMatch::operator()(const Header& header) const {
+    return header.getKey() == _key;
 }

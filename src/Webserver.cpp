@@ -8,9 +8,10 @@ Webserver::Webserver(Servers& servers) : _servers(servers) {
 
 void Webserver::_setup() {
     Reactor& reactor = Reactor::getInstance();
-    for (size_t i = 0; i < _servers.size(); ++i) {
+    size_t   size = _servers.size();
+    for (size_t i = 0; i < size; ++i) {
         ServerEventHandler* serverHandler =
-            new ServerEventHandler(_servers[i]->getSocket());
+            new ServerEventHandler(*_servers[i]);
         reactor.registerHandler(serverHandler, _servers[i]->getSocket());
     }
     reactor.run();

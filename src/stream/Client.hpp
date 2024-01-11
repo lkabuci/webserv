@@ -31,7 +31,9 @@ class Client {
     struct pollfd            _pfd;
     char                     _ip[INET6_ADDRSTRLEN];
     char                     _port[PORT_LEN];
+    //    bool                     _isDoneReading = false;
 
+  private:
     void initClient();
     void fillIpPort();
 };
