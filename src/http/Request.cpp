@@ -17,6 +17,13 @@
     \r\n
     body
 */
+
+std::set<std::string> Request::general_headers;
+std::set<std::string> Request::request_headers;
+std::set<std::string> Request::entity_headers;
+
+Request::Request(const std::string& request) : _request(request) {}
+
 Request::Request(StatusLine& status_line, std::vector<Header>& headers)
     : _status_line(status_line), _headers(headers) {}
 
@@ -68,28 +75,28 @@ Request Request::deserialize(const std::string& request) {
     return Request(status_line, headers);
 }
 
-std::string Request::getMethod() {
+const std::string Request::getMethod() const {
     return HTTP::toString(_status_line.getMethod());
 }
 
-std::string Request::getUri() {
+const std::string Request::getUri() const {
     return _status_line.getURI();
 }
 
-std::string Request::getHttpVersion() {
+const std::string Request::getHttpVersion() const {
     return HTTP::toString(_status_line.getVersion());
 }
 
-std::vector<Header> Request::getHeaders() {
+const std::vector<Header> Request::getHeaders() const {
     return _headers;
 }
-std::string Request::getBody() {
+const std::string Request::getBody() const {
     return _body;
 }
 Request::~Request() {}
 
-std::string Request::getHeaderValue(const std::vector<Header>& headers,
-                                    const std::string&         key) {
+const std::string Request::getHeaderValue(const std::vector<Header>& headers,
+                                          const std::string& key) const {
     std::vector<Header>::const_iterator it =
         std::find_if(headers.begin(), headers.end(), HeaderMatch(key));
     if (it != headers.end())
@@ -105,4 +112,12 @@ Request::HeaderMatch::HeaderMatch(const std::string& key) : _key(key) {}
 
 bool Request::HeaderMatch::operator()(const Header& header) const {
     return header.getKey() == _key;
+}
+
+void Request::setRequestStr(const std::string& request) {
+    _request = request;
+}
+
+const std::string& Request::getRequestStr() const {
+    return _request;
 }

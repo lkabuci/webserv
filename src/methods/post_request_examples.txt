@@ -1,0 +1,27 @@
+JSON:
+
+POST /path/to/resource HTTP/1.1\r\n
+Host: example.com\r\n
+Content-Type: application/json\r\n
+Content-Length: 15\r\n
+\r\n
+{"key": "value"}
+
+
+---------------------------------------------
+
+FORM-DATA
+POST /upload HTTP/1.1\r\n
+Host: localhost:3000\r\n
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABC123\r\n
+\r\n
+------WebKitFormBoundaryABC123\r\n
+Content-Disposition: form-data; name="username"\r\n
+\r\n
+john_doe\r\n
+------WebKitFormBoundaryABC123\r\n
+Content-Disposition: form-data; name="file"; filename="example.txt"\r\n
+Content-Type: text/plain\r\n
+\r\n
+This is the content of the file.\r\n
+------WebKitFormBoundaryABC123--\r\n

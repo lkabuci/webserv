@@ -4,6 +4,8 @@
 // #include "POSTRequestStrategy.hpp"
 // #include "DELETERequestStrategy.hpp"
 
+#include "../Scanner/Scanner.hpp"
+
 class Request;
 
 class IRequestStrategy {

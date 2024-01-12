@@ -19,6 +19,32 @@ enum TokenType {
     RIGHT_BRACE,
     SEMICOLON,
     PARAMETER,
+
+    //  Separators
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    LEFT_ANGLE,
+    RIGHT_ANGLE,
+    AT_SIGN,
+    COMMA,
+    COLON,
+    BACK_SLASH,
+    QUOTE,
+    SLASH,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
+    QUESTION_MARK,
+    EQUAL,
+    CR_LF,
+    SP,
+    HT,
+    CR_,
+    TOKEN,
+    CRLF_CRLF,
+
+    QUOTED_STRING,
+    QUOTED_PAIR,
+
     END
 };
 

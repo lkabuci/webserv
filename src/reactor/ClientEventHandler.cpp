@@ -30,6 +30,7 @@ void ClientEventHandler::handleEvent() {
     char        buffer[MAXIMUM_HTTP_REQUEST_HEADER_SIZE];
     std::string s;
     size_t      headerPos = std::string::npos;
+
     while (headerPos == std::string::npos && !_isDoneReading) {
         std::memset(buffer, 0, sizeof(buffer));
         ssize_t ret = recv(_socket, buffer, sizeof(buffer), MSG_DONTWAIT);
@@ -64,7 +65,9 @@ void ClientEventHandler::handleEvent() {
                     GetRequestStrategy(this);
                     break;
                 case HTTP::POST:
-                    PostRequestStrategy(this);
+                    handle_post_request(s);
+                    // PostRequestStrategy(this);
+                    //                    goto go;
                     break;
                 case HTTP::DELETE:
                     DELETERequestStrategy(this);
@@ -81,11 +84,12 @@ void ClientEventHandler::handleEvent() {
             return;
         }
     }
+    // go:
     const char response[] = "HTTP/1.1 200 OK\r\n"
                             "Content-Type: text/plain\r\n"
                             "Content-Length: 13\r\n"
                             "\r\n"
-                            "Hello, World!";
+                            "sf ghayerha";
     send(_socket, response, std::strlen(response), 0);
     Reactor::getInstance().unregisterHandler(this);
 }
@@ -112,4 +116,30 @@ const std::string& ClientEventHandler::getHeader() const {
 
 const std::string& ClientEventHandler::getBody() const {
     return _body;
+}
+
+void ClientEventHandler::handle_post_request(const std::string& s) {
+    (void)s;
+    PostRequestStrategy post_request_handler(this);
+    try {
+        std::string r = "POST /upload HTTP/1.1\r\n"
+                        "Host: localhost:3000\r\n"
+                        "Content-Type: multipart/form-data;                  "
+                        "boundary=----WebKitFormBoundaryABC123\r\n"
+                        "\r\n"
+                        "john_doe\r\n"
+                        "------WebKitFormBoundaryABC123\r\n"
+                        "Content-Disposition: form-data; name=\"file\"; "
+                        "filename=\"example.txt\"\r\n"
+                        "Content-Type: text/plain\r\n"
+                        "\r\n"
+                        "This is the content of the file.\r\n"
+                        "------WebKitFormBoundaryABC123--\r\n";
+        // Request request(Request::deserialize(r));
+        Request request(r);
+        post_request_handler.handleRequest(request);
+    } catch (const std::exception& e) {
+        std::cout << e.what() << '\n';
+        std::exit(1);
+    }
 }

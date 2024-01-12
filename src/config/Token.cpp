@@ -6,6 +6,9 @@ Token::Token() : _type(END), _lexeme(""), _line(0) {}
 Token::Token(const TokenType& type, const std::string& lexeme, const int& line)
     : _type(type), _lexeme(lexeme), _line(line) {}
 
+Token::Token(const TokenType& type, const std::string& lexeme)
+    : _type(type), _lexeme(lexeme) {}
+
 Token::Token(const Token& token)
     : _type(token._type), _lexeme(token._lexeme), _line(token._line) {}
 

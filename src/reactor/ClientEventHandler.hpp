@@ -15,19 +15,17 @@ class ClientEventHandler : public IEventHandler {
     bool          isDoneReading() const;
     void          setIsDoneReading(bool isDoneReading);
 
+    const std::string& getHeader() const;
+    const std::string& getBody() const;
+
   private:
     int           _socket;
     const Server& _server;
     bool          _isDoneReading;
     Client        _client;
     std::string   _header;
+    std::string   _body;
+    bool          _isHeaderEnded;
 
-  public:
-    const std::string& getHeader() const;
-
-    const std::string& getBody() const;
-
-  private:
-    std::string _body;
-    bool        _isHeaderEnded;
+    void handle_post_request(const std::string& s); //  temporary
 };

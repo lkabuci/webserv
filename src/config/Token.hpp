@@ -9,6 +9,7 @@ class Token {
   public:
     Token();
     Token(const TokenType& type, const std::string& lexeme, const int& line);
+    Token(const TokenType& type, const std::string& lexeme);
     Token(const Token& token);
     ~Token();
 

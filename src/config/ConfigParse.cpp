@@ -9,7 +9,7 @@ void fatal(const std::string& msg, int exit_status) {
 }
 
 ConfigParse::ConfigParse(const char* path) : _servers() {
-    parseFile(path);
+    parseFile(path ? path : "config/webserv.conf");
 }
 
 void ConfigParse::parseFile(const char* file) {
