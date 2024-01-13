@@ -124,7 +124,7 @@ void ClientEventHandler::handle_post_request(const std::string& s) {
     try {
         std::string r = "POST /upload HTTP/1.1\r\n"
                         "Host: localhost:3000\r\n"
-                        "Content-Type: multipart/form-data;                  "
+                        "Content-Type: multipart/form-data;                 "
                         "boundary=----WebKitFormBoundaryABC123\r\n"
                         "\r\n"
                         "john_doe\r\n"
@@ -136,6 +136,7 @@ void ClientEventHandler::handle_post_request(const std::string& s) {
                         "This is the content of the file.\r\n"
                         "------WebKitFormBoundaryABC123--\r\n";
         // Request request(Request::deserialize(r));
+        // std::cout << request.getBody() << '\n';
         Request request(r);
         post_request_handler.handleRequest(request);
     } catch (const std::exception& e) {

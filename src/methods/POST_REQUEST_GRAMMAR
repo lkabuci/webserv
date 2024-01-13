@@ -150,3 +150,67 @@ body-part := MIME-part-headers [CRLF *OCTET]
             ; described in the text.
 
 OCTET := <any 0-255 octet value>
+
+
+
+
+
+disposition := "Content-Disposition" ":"
+                    disposition-type
+                    *(";" disposition-parm)
+
+disposition-type := "inline"
+                  / "attachment"
+                  / extension-token
+                  ; values are not case-sensitive
+
+disposition-parm := filename-parm
+                  / creation-date-parm
+                  / modification-date-parm
+                  / read-date-parm
+                  / size-parm
+                  / parameter
+
+filename-parm := "filename" "=" value
+
+creation-date-parm := "creation-date" "=" quoted-date-time
+
+modification-date-parm := "modification-date" "=" quoted-date-time
+
+read-date-parm := "read-date" "=" quoted-date-time
+
+size-parm := "size" "=" 1*DIGIT
+
+quoted-date-time := quoted-string
+                      ; contents MUST be an RFC 822 `date-time'
+                      ; numeric timezones (+HHMM or -HHMM) MUST be used
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Any HTTP/1.1 message containing an entity-body SHOULD include a
+Content-Type header field defining the media type of that body. If
+and only if the media type is not given by a Content-Type field, the
+recipient MAY attempt to guess the media type via inspection of its
+content and/or the name extension(s) of the URI used to identify the
+resource. If the media type remains unknown, the recipient SHOULD
+treat it as type "application/octet-stream"

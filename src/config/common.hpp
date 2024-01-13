@@ -4,7 +4,6 @@
 #define __COMMON_HPP__
 
 #include "TokenType.hpp"
-#include <cstdarg>
 #include <cstdlib>
 #include <exception>
 #include <fstream>

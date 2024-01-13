@@ -17,7 +17,7 @@ class Request {
     static std::set<std::string> entity_headers;
 
     Request(const std::string& request);
-    Request(StatusLine&, std::vector<Header>&);
+    Request(StatusLine&, std::vector<Header>&, const std::string&);
     ~Request();
     std::string    serialize() const;
     static Request deserialize(const std::string& request);
@@ -34,6 +34,8 @@ class Request {
     const std::string         getHeaderValue(const std::vector<Header>& headers,
                                              const std::string&         key) const;
     void                      appendBody(std::string body);
+
+    static std::string str_to_lower(const std::string& str);
 
   private:
     std::string         _request;

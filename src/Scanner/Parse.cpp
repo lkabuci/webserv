@@ -50,3 +50,11 @@ void Parse::consume(const TokenType& type, const char* message) {
     if (!match(type))
         throw std::runtime_error(message);
 }
+
+std::string Parse::get_line() {
+    std::string line;
+
+    while (!is_at_end() && !match(CR_LF))
+        line.append(advance().lexeme());
+    return line;
+}

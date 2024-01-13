@@ -20,6 +20,8 @@ class Parse {
     void  consume(const TokenType& type, const char* message);
     bool  is_at_end() const;
 
+    std::string get_line();
+
   private:
     Scanner _scanner;
     Token   _token;

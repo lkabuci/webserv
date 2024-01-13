@@ -22,7 +22,8 @@ class ContentType : public Headers {
 
   private:
     std::vector<Parameter> _parameters;
-    void                   parameter();
+
+    void parameter();
 };
 
 #endif

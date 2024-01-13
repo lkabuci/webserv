@@ -3,34 +3,20 @@
 
 void PostRequestStrategy::handleRequest(const Request& request) {
     parse_request(request);
-    for (size_t i = 0; i < _headers.size(); ++i) {
-        if (_headers[i].name == "Content-Type") {
-            Headers* header = new ContentType();
-            header->parse(_headers[i].value);
-            std::cout << header->type() << "->" << header->subtype() << '\n';
-            _content_types.push_back(header);
-            ContentType* p = static_cast<ContentType*>(header);
-            for (size_t i = 0; i < p->parameters().size(); ++i)
-                std::cout << (*p)[i].attribute() << "=" << (*p)[i].value()
-                          << '\n';
-        }
-    }
+    parse_headers();
+    parse_body();
 }
 
 PostRequestStrategy::~PostRequestStrategy() {
-    for (size_t i = 0; i < _content_types.size(); ++i)
-        delete _content_types[i];
+    for (size_t i = 0; i < _headers.size(); ++i)
+        delete _headers[i];
 }
 
 PostRequestStrategy::PostRequestStrategy(ClientEventHandler* pHandler)
-    : _pHandler(pHandler) {
-    init_headers();
-}
+    : _pHandler(pHandler) {}
 
 void PostRequestStrategy::parse_request(const Request& request) {
     _parser = Parse(request.getRequestStr());
-    //_scanner = Scanner(request.getRequestStr());
-    //_token = _scanner.get_next_token();
 
     request_line();
     _parser.consume(CR_LF, "missing CRLF1.");
@@ -41,6 +27,28 @@ void PostRequestStrategy::parse_request(const Request& request) {
     if (_parser.previous().type() != CR_LF)
         throw std::runtime_error("missing CRLF.");
     message_body();
+}
+
+void PostRequestStrategy::parse_headers() {
+    for (size_t i = 0; i < _header_fields.size(); ++i) {
+        if (_header_fields[i].name == "content-type") {
+            Headers* header = new ContentType();
+
+            header->parse(_header_fields[i].value);
+            _headers.push_back(header);
+            multipart_body(header);
+        }
+    }
+}
+
+void PostRequestStrategy::parse_body() {
+    for (size_t i = 0; i < _header_fields.size(); ++i) {
+        // if (_header_fields[i].name == "content-type" &&
+        // dynamic_cast<ContentType*>(_headers[i])) {
+        //     _headers[i]->parse(_header_fields[i].value);
+        //     multipart_body(_headers[i]);
+        // }
+    }
 }
 
 void PostRequestStrategy::request_line() {
@@ -54,7 +62,7 @@ void PostRequestStrategy::message_header() {
     std::string name = _parser.advance().lexeme();
 
     _parser.consume(COLON, "missing colon");
-    _field.name = name;
+    _field.name = Request::str_to_lower(name);
     field_value();
 }
 
@@ -78,7 +86,7 @@ void PostRequestStrategy::field_value() {
     skip_spaces();
     linear_white_space();
     _field.value = value;
-    _headers.push_back(_field);
+    _header_fields.push_back(_field);
 }
 
 bool PostRequestStrategy::field_content() {
@@ -114,56 +122,63 @@ void PostRequestStrategy::general_header() {
 
 void PostRequestStrategy::entity_header() {}
 
-void PostRequestStrategy::multipart_body() {}
+void PostRequestStrategy::multipart_body(Headers* header) {
+    ContentType* ptr = static_cast<ContentType*>(header);
 
-void PostRequestStrategy::init_headers() {
-    insert_general_headers();
-    insert_request_headers();
-    insert_entity_headers();
+    _boundary.boundary = (*ptr)[0].value();
+    if (_boundary.boundary.length() > MAX_BOUNDARY_LENGTH)
+        throw std::runtime_error("boundary too large.");
+    _boundary.delimeter = std::string("--") + _boundary.boundary;
+    _boundary.close_delimeter = _boundary.delimeter + "--";
+    _parser = Parse(_body);
+    preamble();
+    _parser.consume(CR_LF, "missing CRLF.");
+    if (!_boundary.is_delimeter(_parser))
+        throw std::runtime_error("missing boundar.");
+    _parser.advance();
+    _parser.consume(CR_LF, "missing CRLF.");
+    body_part();
 }
 
-void PostRequestStrategy::insert_general_headers() {
-    Request::general_headers.insert("Cache-Control");
-    Request::general_headers.insert("Date");
-    Request::general_headers.insert("Pragma");
-    Request::general_headers.insert("Trailer");
-    Request::general_headers.insert("Transfer-Encoding");
-    Request::general_headers.insert("Upgrade");
-    Request::general_headers.insert("Via");
-    Request::general_headers.insert("Warning");
+void PostRequestStrategy::preamble() {
+    while (!_parser.check(END) && !_parser.check(CR_LF)) {
+        if (_boundary.is_delimeter(_parser))
+            break;
+        _parser.advance();
+    }
 }
 
-void PostRequestStrategy::insert_request_headers() {
-    Request::request_headers.insert("Accept");
-    Request::request_headers.insert("Accept-Charset");
-    Request::request_headers.insert("Accept-Encoding");
-    Request::request_headers.insert("Accept-Language");
-    Request::request_headers.insert("Authorization");
-    Request::request_headers.insert("Expect");
-    Request::request_headers.insert("From");
-    Request::request_headers.insert("Host");
-    Request::request_headers.insert("If-Match");
-    Request::request_headers.insert("If-Modified-Since");
-    Request::request_headers.insert("If-Non-Match");
-    Request::request_headers.insert("If-Range");
-    Request::request_headers.insert("If-Unmodified-Since");
-    Request::request_headers.insert("Max-Forwards");
-    Request::request_headers.insert("Proxy-Authorization");
-    Request::request_headers.insert("Range");
-    Request::request_headers.insert("Referer");
-    Request::request_headers.insert("TE");
-    Request::request_headers.insert("User-Agent");
+void PostRequestStrategy::body_part() {
+    while (!_boundary.is_delimeter(_parser) && !_parser.is_at_end()) {
+        _form_data.parse(_parser, _boundary);
+    }
 }
 
-void PostRequestStrategy::insert_entity_headers() {
-    Request::entity_headers.insert("Allow");
-    Request::entity_headers.insert("Content-Encoding");
-    Request::entity_headers.insert("Content-Language");
-    Request::entity_headers.insert("Content-Length");
-    Request::entity_headers.insert("Content-Location");
-    Request::entity_headers.insert("Content-MD5");
-    Request::entity_headers.insert("Content-Range");
-    Request::entity_headers.insert("Content-Type");
-    Request::entity_headers.insert("Expires");
-    Request::entity_headers.insert("Last-Modified");
+bool PostRequestStrategy::line_contains_boundary() {
+    return _parser.peek().lexeme().find(_boundary.delimeter) !=
+           std::string::npos;
+}
+
+bool Multipart::is_delimeter(Parse& parser) {
+    if (parser.peek().type() == CR_LF)
+        parser.advance();
+    std::string str = parser.peek().lexeme();
+    size_t      pos = str.find("--");
+
+    if (pos == std::string::npos)
+        return false;
+    size_t i = pos + 2;
+    for (size_t j = 0; i < str.length(); ++j) {
+        if (str[i] != boundary[j])
+            return false;
+        i++;
+    }
+    return i == str.length();
+}
+
+bool Multipart::is_close_delimeter(Parse& parser) {
+    if (parser.peek().lexeme() != close_delimeter)
+        return false;
+    parser.advance();
+    return true;
 }

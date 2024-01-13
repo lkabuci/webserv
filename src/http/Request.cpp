@@ -24,8 +24,9 @@ std::set<std::string> Request::entity_headers;
 
 Request::Request(const std::string& request) : _request(request) {}
 
-Request::Request(StatusLine& status_line, std::vector<Header>& headers)
-    : _status_line(status_line), _headers(headers) {}
+Request::Request(StatusLine& status_line, std::vector<Header>& headers,
+                 const std::string& body)
+    : _status_line(status_line), _headers(headers), _body(body) {}
 
 std::string Request::serialize() const {
     std::stringstream request;
@@ -34,7 +35,7 @@ std::string Request::serialize() const {
         request << _headers[i].serialize() << CRLF;
     }
     request << CRLF;
-    request << _body;
+    request << _body << CRLF;
     return request.str();
 }
 
@@ -54,6 +55,10 @@ Request Request::deserialize(const std::string& request) {
     int                 size = 0;
 
     while (std::getline(ss, buffer)) {
+        // CRLF2
+        if (buffer == "\r") {
+            break;
+        }
         size_t pos = buffer.find(CR);
         if (pos != std::string::npos) {
             buffer.erase(pos);
@@ -72,7 +77,7 @@ Request Request::deserialize(const std::string& request) {
         throw std::runtime_error("Error while parsing the request");
     }
     // TODO: check if the HOST key exists
-    return Request(status_line, headers);
+    return Request(status_line, headers, ss.eof() ? "" : ss.str());
 }
 
 const std::string Request::getMethod() const {
@@ -120,4 +125,14 @@ void Request::setRequestStr(const std::string& request) {
 
 const std::string& Request::getRequestStr() const {
     return _request;
+}
+
+std::string Request::str_to_lower(const std::string& str) {
+    std::string temp(str);
+
+    for (size_t i = 0; i < temp.length(); ++i) {
+        if (std::isupper(temp[i]))
+            temp[i] = std::tolower(temp[i]);
+    }
+    return temp;
 }

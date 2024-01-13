@@ -3,9 +3,19 @@
 #include "../Scanner/Parse.hpp"
 #include "../http/ContentType.hpp"
 #include "../reactor/ClientEventHandler.hpp"
+#include "FormData.hpp"
 #include "IRequestStrategy.hpp"
 
 enum ContentTypes { MULTIPART };
+
+struct Multipart {
+    std::string boundary;
+    std::string delimeter;
+    std::string close_delimeter;
+
+    bool is_delimeter(Parse& parser);
+    bool is_close_delimeter(Parse& parser);
+};
 
 class PostRequestStrategy : public IRequestStrategy {
   public:
@@ -17,27 +27,23 @@ class PostRequestStrategy : public IRequestStrategy {
 
   private:
     ClientEventHandler*   _pHandler;
-    std::vector<Headers*> _content_types;
-    std::string           _boundary;
-    std::string           _delimeter;
-    std::string           _closeDelimeter;
-    std::string           _type;
-    std::string           _length;
-    std::string           _body;
-    Parse                 _parser;
+    std::vector<Headers*> _headers;
+    Multipart             _boundary;
+    ContentTypes          _type;
+    // std::string           _length;
+    std::string _body;
+    Parse       _parser;
+    FormData    _form_data;
 
     struct Header_Fields {
         std::string name;
         std::string value;
     } _field;
-    std::vector<Header_Fields> _headers;
-
-    void init_headers();
-    void insert_general_headers();
-    void insert_request_headers();
-    void insert_entity_headers();
+    std::vector<Header_Fields> _header_fields;
 
     void parse_request(const Request& request);
+    void parse_headers();
+    void parse_body();
     void request_line();
     void message_header();
     void message_body();
@@ -52,5 +58,9 @@ class PostRequestStrategy : public IRequestStrategy {
     ContentTypes content_type();
     void         set_length();
     void         set_boundary();
-    void         multipart_body();
+    void         multipart_body(Headers* header);
+    void         body_part();
+    void         preamble();
+
+    bool line_contains_boundary();
 };
