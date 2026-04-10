@@ -1,5 +1,7 @@
+#include <cerrno>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -15,7 +17,6 @@
 
 #define BUFFER_SIZE 4096
 #define MAXIMUM_HTTP_REQUEST_HEADER_SIZE 8192
-// 8kb is the default max http request header in both nginx & apache
 
 ClientEventHandler::ClientEventHandler(Server& sv, sockaddr_storage& addr,
                                        int clientSocket)
@@ -24,70 +25,135 @@ ClientEventHandler::ClientEventHandler(Server& sv, sockaddr_storage& addr,
     _isHeaderEnded = false;
 }
 
-ClientEventHandler::~ClientEventHandler() {}
+ClientEventHandler::~ClientEventHandler() {
+    close(_socket);
+}
+
+std::string ClientEventHandler::statusText(int code) {
+    switch (code) {
+    case 200: return "OK";
+    case 201: return "Created";
+    case 204: return "No Content";
+    case 301: return "Moved Permanently";
+    case 302: return "Found";
+    case 400: return "Bad Request";
+    case 403: return "Forbidden";
+    case 404: return "Not Found";
+    case 405: return "Method Not Allowed";
+    case 413: return "Request Entity Too Large";
+    case 500: return "Internal Server Error";
+    case 501: return "Not Implemented";
+    default:  return "Unknown";
+    }
+}
+
+void ClientEventHandler::sendResponse(int statusCode,
+                                      const std::string& contentType,
+                                      const std::string& body) {
+    std::ostringstream response;
+    response << "HTTP/1.1 " << statusCode << " " << statusText(statusCode) << CRLF;
+    response << "Content-Type: " << contentType << CRLF;
+    response << "Content-Length: " << body.size() << CRLF;
+    response << "Connection: close" << CRLF;
+    response << CRLF;
+    response << body;
+
+    std::string resp = response.str();
+    send(_socket, resp.c_str(), resp.size(), 0);
+}
+
+void ClientEventHandler::sendRedirectResponse(int code,
+                                              const std::string& location) {
+    std::ostringstream response;
+    response << "HTTP/1.1 " << code << " " << statusText(code) << CRLF;
+    response << "Location: " << location << CRLF;
+    response << "Content-Length: 0" << CRLF;
+    response << "Connection: close" << CRLF;
+    response << CRLF;
+
+    std::string resp = response.str();
+    send(_socket, resp.c_str(), resp.size(), 0);
+}
 
 void ClientEventHandler::handleEvent() {
-    char        buffer[MAXIMUM_HTTP_REQUEST_HEADER_SIZE];
-    std::string s;
-    size_t      headerPos = std::string::npos;
-    while (headerPos == std::string::npos && !_isDoneReading) {
-        std::memset(buffer, 0, sizeof(buffer));
-        ssize_t ret = recv(_socket, buffer, sizeof(buffer), MSG_DONTWAIT);
+    char    buffer[BUFFER_SIZE];
+    ssize_t ret = recv(_socket, buffer, sizeof(buffer), MSG_DONTWAIT);
 
-        if (ret == -1) {
-            std::cerr << "failed to read data from client" << std::endl;
-            Reactor::getInstance().unregisterHandler(this);
+    if (ret < 0) {
+        if (errno == EAGAIN || errno == EWOULDBLOCK)
             return;
-        }
-
-        // Client closed connection
-        // or ended sending request
-        if (ret == 0) {
-            if (!_isDoneReading) {
-                std::cout << "Client " << _client.getSockFd()
-                          << " closed connection.\n";
-                Reactor::getInstance().unregisterHandler(this);
-                return;
-            }
-            // TODO: else client sent all request
-        }
-
-        s.append(buffer, ret);
-        if ((headerPos = s.find(CRLF2)) != std::string::npos) {
-            if (!_isHeaderEnded) {
-                _header = s.substr(0, headerPos);
-                _body = s.substr(headerPos + std::strlen(CRLF2));
-                HTTP::METHOD method =
-                    HTTP::toMethod(Request::deserialize(_header).getMethod());
-                switch (method) {
-                case HTTP::GET:
-                    GetRequestStrategy(this);
-                    break;
-                case HTTP::POST:
-                    PostRequestStrategy(this);
-                    break;
-                case HTTP::DELETE:
-                    DELETERequestStrategy(this);
-                    break;
-                default:
-                    Reactor::getInstance().unregisterHandler(this);
-                }
-                _isHeaderEnded = true;
-            } else {
-                _body.append(s);
-            }
-        }
-        if (!_isDoneReading) {
-            return;
-        }
+        std::cerr << "recv error: " << strerror(errno) << std::endl;
+        Reactor::getInstance().unregisterHandler(this);
+        return;
     }
-    const char response[] = "HTTP/1.1 200 OK\r\n"
-                            "Content-Type: text/plain\r\n"
-                            "Content-Length: 13\r\n"
-                            "\r\n"
-                            "Hello, World!";
-    send(_socket, response, std::strlen(response), 0);
+    if (ret == 0) {
+        std::cout << "Client " << _client.getSockFd() << " closed connection.\n";
+        Reactor::getInstance().unregisterHandler(this);
+        return;
+    }
+
+    _rawData.append(buffer, static_cast<size_t>(ret));
+
+    // Find end of HTTP headers
+    size_t headerEnd = _rawData.find(CRLF2);
+    if (headerEnd == std::string::npos) {
+        if (_rawData.size() > MAXIMUM_HTTP_REQUEST_HEADER_SIZE) {
+            sendResponse(413, "text/plain", "Request Entity Too Large");
+            Reactor::getInstance().unregisterHandler(this);
+        }
+        return; // Need more header data
+    }
+
+    if (!_isHeaderEnded) {
+        _header = _rawData.substr(0, headerEnd);
+        _isHeaderEnded = true;
+    }
+
+    _body = _rawData.substr(headerEnd + std::strlen(CRLF2));
+
+    // Parse request to determine if we need to wait for body
+    Request req = Request::deserialize(_header);
+
+    std::string contentLengthStr =
+        req.getHeaderValue(req.getHeaders(), "Content-Length");
+    size_t contentLength = 0;
+    if (!contentLengthStr.empty()) {
+        contentLength = static_cast<size_t>(std::atol(contentLengthStr.c_str()));
+    }
+
+    if (_body.size() < contentLength) {
+        return; // Need more body data
+    }
+
+    req.appendBody(_body);
+
+    // Dispatch to the appropriate strategy
+    HTTP::METHOD      method = HTTP::toMethod(req.getMethod());
+    IRequestStrategy* strategy = NULL;
+
+    switch (method) {
+    case HTTP::GET:
+        strategy = new GetRequestStrategy(this);
+        break;
+    case HTTP::POST:
+        strategy = new PostRequestStrategy(this);
+        break;
+    case HTTP::DELETE:
+        strategy = new DELETERequestStrategy(this);
+        break;
+    default:
+        sendResponse(501, "text/plain", "Not Implemented");
+        Reactor::getInstance().unregisterHandler(this);
+        return;
+    }
+
+    strategy->handleRequest(req);
+    delete strategy;
     Reactor::getInstance().unregisterHandler(this);
+}
+
+int ClientEventHandler::getSocketFd() const {
+    return _socket;
 }
 
 Client& ClientEventHandler::getClient() {

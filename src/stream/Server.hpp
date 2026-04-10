@@ -13,9 +13,10 @@ class Server {
 
     Server& operator=(const Server& server);
 
-    void          setServer(const ServerConfig& svconf);
-    ServerConfig& getServerConfig();
-    const int&    getSocket() const;
+    void                setServer(const ServerConfig& svconf);
+    ServerConfig&       getServerConfig();
+    const ServerConfig& getServerConfig() const;
+    const int&          getSocket() const;
 
     const std::string&           ip() const;
     const std::string&           port() const;

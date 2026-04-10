@@ -18,14 +18,14 @@ class Request {
     static Request deserialize(const std::string& request);
     void           handle();
 
-    std::string         getMethod();
-    std::string         getUri();
-    std::string         getHttpVersion();
-    std::vector<Header> getHeaders();
-    std::string         getBody();
+    std::string         getMethod() const;
+    std::string         getUri() const;
+    std::string         getHttpVersion() const;
+    std::vector<Header> getHeaders() const;
+    std::string         getBody() const;
     std::string         getHeaderValue(const std::vector<Header>& headers,
-                                       const std::string&         key);
-    void                appendBody(std::string body);
+                                       const std::string&         key) const;
+    void                appendBody(const std::string& body);
 
   private:
     StatusLine          _status_line;

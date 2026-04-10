@@ -6,9 +6,12 @@
 class PostRequestStrategy : public IRequestStrategy {
   public:
     explicit PostRequestStrategy(ClientEventHandler* pHandler);
-    void handleRequest(const Request& request);
+    void     handleRequest(const Request& request);
     virtual ~PostRequestStrategy();
 
   private:
     ClientEventHandler* _pHandler;
+
+    bool saveUpload(const std::string& body, const std::string& contentType,
+                    const std::string& uploadDir);
 };

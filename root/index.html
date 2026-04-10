@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Webserv</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #333; }
+        form { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 4px; }
+        input, button { margin: 8px 0; padding: 8px; display: block; }
+        button { background: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #45a049; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>Webserv is running!</h1>
+    <p>Your HTTP/1.1 web server is working correctly.</p>
+
+    <h2>Upload a file (POST)</h2>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Test links</h2>
+    <ul>
+        <li><a href="/">Home (index)</a></li>
+        <li><a href="/errors/404.html">404 error page</a></li>
+    </ul>
+</body>
+</html>

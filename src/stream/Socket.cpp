@@ -62,8 +62,11 @@ int Socket::getSocketfd() const {
 }
 
 void Socket::configureSocket() {
-    if (fcntl(_sockfd, F_SETFL, O_NONBLOCK, FD_CLOEXEC) < 0) {
-        throw std::runtime_error("Failed to configure socket");
+    if (fcntl(_sockfd, F_SETFL, O_NONBLOCK) < 0) {
+        throw std::runtime_error("Failed to set socket to non-blocking");
+    }
+    if (fcntl(_sockfd, F_SETFD, FD_CLOEXEC) < 0) {
+        throw std::runtime_error("Failed to set FD_CLOEXEC on socket");
     }
     int option = 1;
     if (setsockopt(_sockfd, SOL_SOCKET, SO_REUSEADDR, &option,

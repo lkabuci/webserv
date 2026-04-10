@@ -68,28 +68,28 @@ Request Request::deserialize(const std::string& request) {
     return Request(status_line, headers);
 }
 
-std::string Request::getMethod() {
+std::string Request::getMethod() const {
     return HTTP::toString(_status_line.getMethod());
 }
 
-std::string Request::getUri() {
+std::string Request::getUri() const {
     return _status_line.getURI();
 }
 
-std::string Request::getHttpVersion() {
+std::string Request::getHttpVersion() const {
     return HTTP::toString(_status_line.getVersion());
 }
 
-std::vector<Header> Request::getHeaders() {
+std::vector<Header> Request::getHeaders() const {
     return _headers;
 }
-std::string Request::getBody() {
+std::string Request::getBody() const {
     return _body;
 }
 Request::~Request() {}
 
 std::string Request::getHeaderValue(const std::vector<Header>& headers,
-                                    const std::string&         key) {
+                                    const std::string&         key) const {
     std::vector<Header>::const_iterator it =
         std::find_if(headers.begin(), headers.end(), HeaderMatch(key));
     if (it != headers.end())
@@ -97,7 +97,7 @@ std::string Request::getHeaderValue(const std::vector<Header>& headers,
     return "";
 }
 
-void Request::appendBody(const std::string body) {
+void Request::appendBody(const std::string& body) {
     _body += body;
 }
 

@@ -24,6 +24,10 @@ ServerConfig& Server::getServerConfig() {
     return _svconf;
 }
 
+const ServerConfig& Server::getServerConfig() const {
+    return _svconf;
+}
+
 const int& Server::getSocket() const {
     return _sockfd;
 }

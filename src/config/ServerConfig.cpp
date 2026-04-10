@@ -32,6 +32,10 @@ std::vector<LocationConfig>& ServerConfig::getLocations() {
     return _locations;
 }
 
+const std::vector<LocationConfig>& ServerConfig::getLocations() const {
+    return _locations;
+}
+
 void ServerConfig::addLocation(LocationConfig lconf) {
     if (lconf.index().empty())
         lconf.set_index(_index);

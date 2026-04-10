@@ -22,8 +22,9 @@ class ServerConfig : public ConfigInfo {
 
     ServerConfig& operator=(const ServerConfig& svconfig);
 
-    void                         addLocation(LocationConfig lconf);
-    std::vector<LocationConfig>& getLocations();
+    void                               addLocation(LocationConfig lconf);
+    std::vector<LocationConfig>&       getLocations();
+    const std::vector<LocationConfig>& getLocations() const;
 
     virtual void display() const;
 
