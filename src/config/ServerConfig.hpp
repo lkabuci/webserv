@@ -21,6 +21,7 @@ class ServerConfig : public ConfigInfo {
     virtual ~ServerConfig();
 
     ServerConfig& operator=(const ServerConfig& svconfig);
+    bool          operator==(const ServerConfig& svconfig) const;
 
     void                               addLocation(LocationConfig lconf);
     std::vector<LocationConfig>&       getLocations();

@@ -19,6 +19,7 @@ class LocationConfig : public ConfigInfo {
     virtual ~LocationConfig();
 
     LocationConfig& operator=(const LocationConfig& svconfig);
+    bool            operator==(const LocationConfig& svconfig) const;
 
     const std::set<std::string>& getPaths() const;
     void                         addPath(const std::string& path);

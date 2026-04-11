@@ -22,6 +22,10 @@ LocationConfig::LocationConfig(const LocationConfig& svconf)
 
 LocationConfig::~LocationConfig() {}
 
+bool LocationConfig::operator==(const LocationConfig& lconf) const {
+    return ConfigInfo::operator==(lconf) && _paths == lconf._paths;
+}
+
 LocationConfig& LocationConfig::operator=(const LocationConfig& lconf) {
     if (this == &lconf)
         return *this;

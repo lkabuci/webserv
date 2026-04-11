@@ -19,6 +19,7 @@ class ConfigInfo {
     virtual ~ConfigInfo() = 0;
 
     ConfigInfo& operator=(const ConfigInfo& conf);
+    bool        operator==(const ConfigInfo& conf) const;
 
     const std::string&           ip() const;
     const std::string&           port() const;

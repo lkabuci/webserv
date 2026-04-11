@@ -20,6 +20,10 @@ ServerConfig::ServerConfig(const ServerConfig& svconf)
 
 ServerConfig::~ServerConfig() {}
 
+bool ServerConfig::operator==(const ServerConfig& svconf) const {
+    return ConfigInfo::operator==(svconf) && _locations == svconf._locations;
+}
+
 ServerConfig& ServerConfig::operator=(const ServerConfig& svconf) {
     if (this == &svconf)
         return *this;
