@@ -43,7 +43,7 @@ TEST(EnvTest, Put) {
     Env& env = Env::getInstance();
 
     Env::create(SERVER);
-    std::vector<std::string> value = {"8080"};
+    std::vector<std::string> value = {":8080"};
     Token                    token(LISTEN, "listen", 1);
     Env::put(value, token);
 

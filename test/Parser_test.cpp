@@ -23,14 +23,14 @@ TEST(ParserTest, ParseInvalidSource) {
 }
 
 TEST(ParserTest, ParseValidSource) {
-    std::string source = "server { listen 80; server_name localhost; }";
+    std::string source = "server { listen :80; server_name localhost; }";
     Parser      parser(source);
     EXPECT_NO_THROW(parser.parse()); // Parsing valid source should not throw
 }
 
 TEST(ParserTest, ParseIncompleteSource) {
     std::string source =
-        "server { listen 80; server_name localhost;"; // Missing closing brace
+        "server { listen :80; server_name localhost;"; // Missing closing brace
     Parser parser(source);
     EXPECT_THROW(parser.parse(),
                  ParseException); // Parsing incomplete source should throw
@@ -38,7 +38,7 @@ TEST(ParserTest, ParseIncompleteSource) {
 
 TEST(ParserTest, ParseExtraTokenSource) {
     std::string source =
-        "server { listen 80; server_name localhost; } extra"; // Extra token
+        "server { listen :80; server_name localhost; } extra"; // Extra token
                                                               // after server
                                                               // block
     Parser parser(source);
@@ -48,15 +48,15 @@ TEST(ParserTest, ParseExtraTokenSource) {
 }
 
 TEST(ParserTest, ParseMultipleServerBlocks) {
-    std::string source = "server { listen 80; server_name localhost; } server "
-                         "{ listen 8080; server_name example.com; }";
+    std::string source = "server { listen :80; server_name localhost; } server "
+                         "{ listen :8080; server_name example.com; }";
     Parser      parser(source);
     EXPECT_NO_THROW(parser.parse()); // Parsing source with multiple server
                                      // blocks should not throw
 }
 
 TEST(ParserTest, ParseServerBlockWithLocation) {
-    std::string source = "server { listen 80; server_name localhost; location "
+    std::string source = "server { listen :80; server_name localhost; location "
                          "/ { root /var/www; } }";
     Parser      parser(source);
     EXPECT_NO_THROW(parser.parse()); // Parsing source with server block
