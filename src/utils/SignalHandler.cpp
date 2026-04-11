@@ -3,6 +3,10 @@
 #include "SignalHandler.hpp"
 #include <iostream>
 
+// Definition lives here so it is available in both the main binary and the
+// unit-test binary (which excludes main.cpp).
+volatile sig_atomic_t isServerRunning = true;
+
 SignalHandler::SignalHandler() {
     struct sigaction sigIntHandler;
     std::memset(&sigIntHandler, 0, sizeof(sigIntHandler));

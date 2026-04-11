@@ -5,8 +5,6 @@
 #include <csignal>
 #include <unistd.h>
 
-volatile sig_atomic_t isServerRunning = true;
-
 int main(int argc, char* argv[]) {
     std::cout << "pid: " << getpid() << "\n";
     SignalHandler signalHandler;
