@@ -1,12 +1,14 @@
 #include "../src/config/Extractor.hpp"
 #include "gtest/gtest.h"
 
-TEST(ExtractorTest, PortNumber) {
-    std::vector<std::string> info = {"8080"};
+TEST(ExtractorTest, IpPort) {
+    std::vector<std::string> info = {"127.0.0.1:8080"};
     Token                    token;
     Extractor                extractor(info, token);
 
-    EXPECT_EQ(extractor.port_number(), 8080);
+    std::vector<std::string> result = extractor.ip_port();
+    EXPECT_EQ(result[0], "127.0.0.1");
+    EXPECT_EQ(result[1], "8080");
 }
 
 TEST(ExtractorTest, ServerName) {
