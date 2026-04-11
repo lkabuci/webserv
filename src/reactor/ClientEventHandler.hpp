@@ -15,10 +15,10 @@ class ClientEventHandler : public IEventHandler {
     const Server& getServer() const;
 
     // Response helpers used by strategy classes
-    int         getSocketFd() const;
-    void        sendResponse(int statusCode, const std::string& contentType,
-                             const std::string& body);
-    void        sendRedirectResponse(int code, const std::string& location);
+    int  getSocketFd() const;
+    void sendResponse(int statusCode, const std::string& contentType,
+                      const std::string& body);
+    void sendRedirectResponse(int code, const std::string& location);
 
     // Legacy accessors (kept for compatibility)
     bool               isDoneReading() const;

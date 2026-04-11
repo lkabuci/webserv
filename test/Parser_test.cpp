@@ -39,8 +39,8 @@ TEST(ParserTest, ParseIncompleteSource) {
 TEST(ParserTest, ParseExtraTokenSource) {
     std::string source =
         "server { listen :80; server_name localhost; } extra"; // Extra token
-                                                              // after server
-                                                              // block
+                                                               // after server
+                                                               // block
     Parser parser(source);
     EXPECT_THROW(
         parser.parse(),

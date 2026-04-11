@@ -3,11 +3,12 @@
 #include <cstdio>
 #include <fstream>
 
-static const char* TEMP_CONF    = "temp_valid.conf";
-static const char* NONEXIST     = "non_existent_xyz.conf";
+static const char* TEMP_CONF = "temp_valid.conf";
+static const char* NONEXIST = "non_existent_xyz.conf";
 
 // Write a minimal valid server block to a temp file.
-static void writeTempConf(const char* path, const char* content = "server { listen 80; }") {
+static void writeTempConf(const char* path,
+                          const char* content = "server { listen 80; }") {
     std::ofstream out(path);
     out << content;
 }
@@ -21,8 +22,7 @@ TEST(ConfigParseTest, ConstructWithValidFile) {
 }
 
 TEST(ConfigParseTest, ConstructWithNonExistentFileExits) {
-    EXPECT_EXIT(ConfigParse cp(NONEXIST),
-                ::testing::ExitedWithCode(1),
+    EXPECT_EXIT(ConfigParse cp(NONEXIST), ::testing::ExitedWithCode(1),
                 "Can't open file");
 }
 
@@ -40,8 +40,7 @@ TEST(ConfigParseTest, ParseFileNonExistentExits) {
     writeTempConf(TEMP_CONF);
     ConfigParse cp(TEMP_CONF);
     std::remove(TEMP_CONF);
-    EXPECT_EXIT(cp.parseFile(NONEXIST),
-                ::testing::ExitedWithCode(1),
+    EXPECT_EXIT(cp.parseFile(NONEXIST), ::testing::ExitedWithCode(1),
                 "Can't open file");
 }
 

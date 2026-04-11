@@ -1,12 +1,13 @@
 #include "../src/config/LocationConfig.hpp"
 #include "gtest/gtest.h"
 
-// ── Default constructor ───────────────────────────────────────────────────────
+// ── Default constructor
+// ───────────────────────────────────────────────────────
 
 TEST(LocationConfigTest, DefaultConstructor) {
     LocationConfig config;
 
-    EXPECT_EQ(config.port(), "8000");               // default port string
+    EXPECT_EQ(config.port(), "8000");                // default port string
     EXPECT_EQ(*(config.server_name().begin()), "_"); // default server_name
     EXPECT_EQ(config.client_max_body_size(), 100u);
     EXPECT_TRUE(config.index().empty());
@@ -18,19 +19,20 @@ TEST(LocationConfigTest, DefaultConstructor) {
     EXPECT_TRUE(config.getPaths().empty());
 }
 
-// ── Parameterized constructor ─────────────────────────────────────────────────
+// ── Parameterized constructor
+// ─────────────────────────────────────────────────
 
 TEST(LocationConfigTest, ParameterizedConstructor) {
-    std::set<std::string>         paths      = {"/path1", "/path2"};
-    std::string                   ip         = "127.0.0.1";
-    std::string                   port_str   = "8080";
-    std::set<std::string>         name       = {"name"};
-    size_t                        size       = 1024;
-    std::set<std::string>         index      = {"index.html"};
-    std::set<std::string>         root_dir   = {"root"};
+    std::set<std::string>         paths = {"/path1", "/path2"};
+    std::string                   ip = "127.0.0.1";
+    std::string                   port_str = "8080";
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string>         methods    = {"GET"};
+    std::set<std::string>         methods = {"GET"};
     bool                          auto_index = false;
 
     LocationConfig config(paths, ip, port_str, name, size, index, root_dir,
@@ -48,36 +50,38 @@ TEST(LocationConfigTest, ParameterizedConstructor) {
     EXPECT_EQ(config.autoindex(), auto_index);
 }
 
-// ── Copy constructor ──────────────────────────────────────────────────────────
+// ── Copy constructor
+// ──────────────────────────────────────────────────────────
 
 TEST(LocationConfigTest, CopyConstructor) {
-    std::set<std::string>         paths      = {"/path1", "/path2"};
-    std::set<std::string>         name       = {"name"};
-    size_t                        size       = 1024;
-    std::set<std::string>         index      = {"index.html"};
-    std::set<std::string>         root_dir   = {"root"};
+    std::set<std::string>         paths = {"/path1", "/path2"};
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string>         methods    = {"GET"};
+    std::set<std::string>         methods = {"GET"};
 
-    LocationConfig config1(paths, "127.0.0.1", "8080", name, size, index,
-                           root_dir, error_page, return_page, methods, false);
+    LocationConfig        config1(paths, "127.0.0.1", "8080", name, size, index,
+                                  root_dir, error_page, return_page, methods, false);
     const LocationConfig& config2(config1);
 
     EXPECT_EQ(config2, config1);
 }
 
-// ── Assignment operator ───────────────────────────────────────────────────────
+// ── Assignment operator
+// ───────────────────────────────────────────────────────
 
 TEST(LocationConfigTest, AssignmentOperator) {
-    std::set<std::string>         paths      = {"/path1", "/path2"};
-    std::set<std::string>         name       = {"name"};
-    size_t                        size       = 1024;
-    std::set<std::string>         index      = {"index.html"};
-    std::set<std::string>         root_dir   = {"root"};
+    std::set<std::string>         paths = {"/path1", "/path2"};
+    std::set<std::string>         name = {"name"};
+    size_t                        size = 1024;
+    std::set<std::string>         index = {"index.html"};
+    std::set<std::string>         root_dir = {"root"};
     std::map<size_t, std::string> error_page = {{404, "notfound.html"}};
     std::map<size_t, std::string> return_page = {{301, "moved.html"}};
-    std::set<std::string>         methods    = {"GET"};
+    std::set<std::string>         methods = {"GET"};
 
     LocationConfig config1(paths, "127.0.0.1", "8080", name, size, index,
                            root_dir, error_page, return_page, methods, false);
@@ -89,7 +93,8 @@ TEST(LocationConfigTest, AssignmentOperator) {
     EXPECT_EQ(config2, config1);
 }
 
-// ── addPath ───────────────────────────────────────────────────────────────────
+// ── addPath
+// ───────────────────────────────────────────────────────────────────
 
 TEST(LocationConfigTest, AddPath) {
     LocationConfig config;
@@ -109,7 +114,8 @@ TEST(LocationConfigTest, AddPaths) {
               std::set<std::string>(paths.begin(), paths.end()));
 }
 
-// ── Setters ───────────────────────────────────────────────────────────────────
+// ── Setters
+// ───────────────────────────────────────────────────────────────────
 
 TEST(LocationConfigTest, SetPort) {
     LocationConfig config;

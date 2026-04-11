@@ -14,14 +14,14 @@ void DELETERequestStrategy::handleRequest(const Request& request) {
     const ServerConfig& config = _pHandler->getServer().getServerConfig();
 
     std::string uri = request.getUri();
-    size_t      q   = uri.find('?');
+    size_t      q = uri.find('?');
     if (q != std::string::npos)
         uri = uri.substr(0, q);
 
     // Find best matching location (simple prefix match)
     const std::vector<LocationConfig>& locations = config.getLocations();
-    const LocationConfig*              loc        = NULL;
-    size_t                             bestLen    = 0;
+    const LocationConfig*              loc = NULL;
+    size_t                             bestLen = 0;
     for (size_t i = 0; i < locations.size(); i++) {
         const std::set<std::string>& paths = locations[i].getPaths();
         for (std::set<std::string>::const_iterator it = paths.begin();
@@ -29,13 +29,14 @@ void DELETERequestStrategy::handleRequest(const Request& request) {
             const std::string& path = *it;
             if (path == "~")
                 continue;
-            bool match = (uri == path) ||
-                         (uri.size() > path.size() &&
-                          uri.substr(0, path.size()) == path &&
-                          (path[path.size() - 1] == '/' || uri[path.size()] == '/'));
+            bool match =
+                (uri == path) ||
+                (uri.size() > path.size() &&
+                 uri.substr(0, path.size()) == path &&
+                 (path[path.size() - 1] == '/' || uri[path.size()] == '/'));
             if (match && path.size() > bestLen) {
                 bestLen = path.size();
-                loc     = &locations[i];
+                loc = &locations[i];
             }
         }
     }
@@ -52,7 +53,8 @@ void DELETERequestStrategy::handleRequest(const Request& request) {
         return;
     }
 
-    // Resolve file path (alias semantics: strip location prefix when location has root)
+    // Resolve file path (alias semantics: strip location prefix when location
+    // has root)
     std::string root;
     if (loc && !loc->root().empty())
         root = *loc->root().begin();
@@ -67,8 +69,7 @@ void DELETERequestStrategy::handleRequest(const Request& request) {
              it != paths.end(); ++it) {
             if (*it == "~")
                 continue;
-            if (uri.size() >= it->size() &&
-                uri.substr(0, it->size()) == *it &&
+            if (uri.size() >= it->size() && uri.substr(0, it->size()) == *it &&
                 it->size() > locPrefix.size())
                 locPrefix = *it;
         }
@@ -87,7 +88,8 @@ void DELETERequestStrategy::handleRequest(const Request& request) {
     }
 
     if (S_ISDIR(st.st_mode)) {
-        _pHandler->sendResponse(403, "text/plain", "Forbidden: cannot delete directory");
+        _pHandler->sendResponse(403, "text/plain",
+                                "Forbidden: cannot delete directory");
         return;
     }
 

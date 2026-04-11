@@ -35,7 +35,7 @@ bool PostRequestStrategy::saveUpload(const std::string& body,
         std::string boundary = "--" + contentType.substr(boundaryPos + 9);
         // Strip surrounding whitespace/quotes from boundary
         size_t start = boundary.find_first_not_of(" \t\"");
-        size_t end   = boundary.find_last_not_of(" \t\"");
+        size_t end = boundary.find_last_not_of(" \t\"");
         if (start != std::string::npos)
             boundary = boundary.substr(start, end - start + 1);
 
@@ -44,8 +44,8 @@ bool PostRequestStrategy::saveUpload(const std::string& body,
         if (partStart != std::string::npos) {
             partStart += boundary.size();
             // Skip CRLF after boundary line
-            if (body.size() > partStart + 1 &&
-                body[partStart] == '\r' && body[partStart + 1] == '\n')
+            if (body.size() > partStart + 1 && body[partStart] == '\r' &&
+                body[partStart + 1] == '\n')
                 partStart += 2;
             else if (body.size() > partStart && body[partStart] == '\n')
                 partStart += 1;
@@ -77,8 +77,8 @@ bool PostRequestStrategy::saveUpload(const std::string& body,
                 size_t bodyEnd = body.find(boundary, bodyStart);
                 if (bodyEnd != std::string::npos) {
                     // Remove trailing CRLF before boundary
-                    if (bodyEnd >= 2 &&
-                        body[bodyEnd - 2] == '\r' && body[bodyEnd - 1] == '\n')
+                    if (bodyEnd >= 2 && body[bodyEnd - 2] == '\r' &&
+                        body[bodyEnd - 1] == '\n')
                         bodyEnd -= 2;
                     else if (bodyEnd >= 1 && body[bodyEnd - 1] == '\n')
                         bodyEnd -= 1;
@@ -97,14 +97,15 @@ bool PostRequestStrategy::saveUpload(const std::string& body,
         filename = "upload_" + ts.str();
     }
 
-    std::string filepath = oss.str() + filename;
+    std::string   filepath = oss.str() + filename;
     std::ofstream out(filepath.c_str(), std::ios::binary | std::ios::trunc);
     if (!out.is_open()) {
-        std::cerr << "POST: cannot open file for writing: " << filepath
-                  << " (" << strerror(errno) << ")" << std::endl;
+        std::cerr << "POST: cannot open file for writing: " << filepath << " ("
+                  << strerror(errno) << ")" << std::endl;
         return false;
     }
-    out.write(fileContent.c_str(), static_cast<std::streamsize>(fileContent.size()));
+    out.write(fileContent.c_str(),
+              static_cast<std::streamsize>(fileContent.size()));
     out.close();
     return true;
 }
@@ -114,14 +115,14 @@ void PostRequestStrategy::handleRequest(const Request& request) {
 
     // Determine upload directory from location or server root
     std::string uri = request.getUri();
-    size_t      q   = uri.find('?');
+    size_t      q = uri.find('?');
     if (q != std::string::npos)
         uri = uri.substr(0, q);
 
     // Find matching location
     const std::vector<LocationConfig>& locations = config.getLocations();
-    const LocationConfig*              loc        = NULL;
-    size_t                             bestLen    = 0;
+    const LocationConfig*              loc = NULL;
+    size_t                             bestLen = 0;
     for (size_t i = 0; i < locations.size(); i++) {
         const std::set<std::string>& paths = locations[i].getPaths();
         for (std::set<std::string>::const_iterator it = paths.begin();
@@ -129,13 +130,14 @@ void PostRequestStrategy::handleRequest(const Request& request) {
             const std::string& path = *it;
             if (path == "~")
                 continue;
-            bool match = (uri == path) ||
-                         (uri.size() > path.size() &&
-                          uri.substr(0, path.size()) == path &&
-                          (path[path.size() - 1] == '/' || uri[path.size()] == '/'));
+            bool match =
+                (uri == path) ||
+                (uri.size() > path.size() &&
+                 uri.substr(0, path.size()) == path &&
+                 (path[path.size() - 1] == '/' || uri[path.size()] == '/'));
             if (match && path.size() > bestLen) {
                 bestLen = path.size();
-                loc     = &locations[i];
+                loc = &locations[i];
             }
         }
     }
@@ -175,7 +177,8 @@ void PostRequestStrategy::handleRequest(const Request& request) {
     // Ensure upload directory exists
     struct stat st;
     if (stat(uploadDir.c_str(), &st) != 0 || !S_ISDIR(st.st_mode)) {
-        _pHandler->sendResponse(500, "text/plain", "Upload directory not found");
+        _pHandler->sendResponse(500, "text/plain",
+                                "Upload directory not found");
         return;
     }
 

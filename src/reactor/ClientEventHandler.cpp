@@ -31,27 +31,41 @@ ClientEventHandler::~ClientEventHandler() {
 
 std::string ClientEventHandler::statusText(int code) {
     switch (code) {
-    case 200: return "OK";
-    case 201: return "Created";
-    case 204: return "No Content";
-    case 301: return "Moved Permanently";
-    case 302: return "Found";
-    case 400: return "Bad Request";
-    case 403: return "Forbidden";
-    case 404: return "Not Found";
-    case 405: return "Method Not Allowed";
-    case 413: return "Request Entity Too Large";
-    case 500: return "Internal Server Error";
-    case 501: return "Not Implemented";
-    default:  return "Unknown";
+    case 200:
+        return "OK";
+    case 201:
+        return "Created";
+    case 204:
+        return "No Content";
+    case 301:
+        return "Moved Permanently";
+    case 302:
+        return "Found";
+    case 400:
+        return "Bad Request";
+    case 403:
+        return "Forbidden";
+    case 404:
+        return "Not Found";
+    case 405:
+        return "Method Not Allowed";
+    case 413:
+        return "Request Entity Too Large";
+    case 500:
+        return "Internal Server Error";
+    case 501:
+        return "Not Implemented";
+    default:
+        return "Unknown";
     }
 }
 
-void ClientEventHandler::sendResponse(int statusCode,
+void ClientEventHandler::sendResponse(int                statusCode,
                                       const std::string& contentType,
                                       const std::string& body) {
     std::ostringstream response;
-    response << "HTTP/1.1 " << statusCode << " " << statusText(statusCode) << CRLF;
+    response << "HTTP/1.1 " << statusCode << " " << statusText(statusCode)
+             << CRLF;
     response << "Content-Type: " << contentType << CRLF;
     response << "Content-Length: " << body.size() << CRLF;
     response << "Connection: close" << CRLF;
@@ -62,7 +76,7 @@ void ClientEventHandler::sendResponse(int statusCode,
     send(_socket, resp.c_str(), resp.size(), 0);
 }
 
-void ClientEventHandler::sendRedirectResponse(int code,
+void ClientEventHandler::sendRedirectResponse(int                code,
                                               const std::string& location) {
     std::ostringstream response;
     response << "HTTP/1.1 " << code << " " << statusText(code) << CRLF;
@@ -87,7 +101,8 @@ void ClientEventHandler::handleEvent() {
         return;
     }
     if (ret == 0) {
-        std::cout << "Client " << _client.getSockFd() << " closed connection.\n";
+        std::cout << "Client " << _client.getSockFd()
+                  << " closed connection.\n";
         Reactor::getInstance().unregisterHandler(this);
         return;
     }
@@ -118,7 +133,8 @@ void ClientEventHandler::handleEvent() {
         req.getHeaderValue(req.getHeaders(), "Content-Length");
     size_t contentLength = 0;
     if (!contentLengthStr.empty()) {
-        contentLength = static_cast<size_t>(std::atol(contentLengthStr.c_str()));
+        contentLength =
+            static_cast<size_t>(std::atol(contentLengthStr.c_str()));
     }
 
     if (_body.size() < contentLength) {

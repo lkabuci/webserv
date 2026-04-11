@@ -6,7 +6,7 @@
 class PostRequestStrategy : public IRequestStrategy {
   public:
     explicit PostRequestStrategy(ClientEventHandler* pHandler);
-    void     handleRequest(const Request& request);
+    void handleRequest(const Request& request);
     virtual ~PostRequestStrategy();
 
   private:

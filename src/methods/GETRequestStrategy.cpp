@@ -43,8 +43,7 @@ bool GetRequestStrategy::matchesLocation(const LocationConfig& loc,
         const std::string& path = *it;
         if (uri == path)
             return true;
-        if (uri.size() > path.size() &&
-            uri.substr(0, path.size()) == path &&
+        if (uri.size() > path.size() && uri.substr(0, path.size()) == path &&
             (path[path.size() - 1] == '/' || uri[path.size()] == '/'))
             return true;
     }
@@ -73,14 +72,14 @@ GetRequestStrategy::findBestLocation(const ServerConfig& config,
         for (std::set<std::string>::const_iterator it = paths.begin();
              it != paths.end(); ++it) {
             const std::string& path = *it;
-            bool prefixMatch =
+            bool               prefixMatch =
                 (uri == path) ||
                 (uri.size() > path.size() &&
                  uri.substr(0, path.size()) == path &&
                  (path[path.size() - 1] == '/' || uri[path.size()] == '/'));
             if (prefixMatch && path.size() > bestLen) {
                 bestLen = path.size();
-                best    = &locations[i];
+                best = &locations[i];
             }
         }
     }
@@ -181,10 +180,18 @@ void GetRequestStrategy::serveErrorPage(int code, const ServerConfig& config) {
     // Default inline error page
     std::string msg;
     switch (code) {
-    case 403: msg = "Forbidden"; break;
-    case 404: msg = "Not Found"; break;
-    case 405: msg = "Method Not Allowed"; break;
-    default:  msg = "Error"; break;
+    case 403:
+        msg = "Forbidden";
+        break;
+    case 404:
+        msg = "Not Found";
+        break;
+    case 405:
+        msg = "Method Not Allowed";
+        break;
+    default:
+        msg = "Error";
+        break;
     }
 
     std::ostringstream html;
@@ -196,8 +203,8 @@ void GetRequestStrategy::serveErrorPage(int code, const ServerConfig& config) {
 
 void GetRequestStrategy::handleRequest(const Request& request) {
     // Strip query string from URI
-    std::string uri     = request.getUri();
-    size_t      qmark   = uri.find('?');
+    std::string uri = request.getUri();
+    size_t      qmark = uri.find('?');
     if (qmark != std::string::npos)
         uri = uri.substr(0, qmark);
 
@@ -208,7 +215,7 @@ void GetRequestStrategy::handleRequest(const Request& request) {
 
     // Handle redirect (return directive)
     if (loc && !loc->return_page().empty()) {
-        const std::map<size_t, std::string>& ret = loc->return_page();
+        const std::map<size_t, std::string>&          ret = loc->return_page();
         std::map<size_t, std::string>::const_iterator it = ret.begin();
         _pHandler->sendRedirectResponse(static_cast<int>(it->first),
                                         it->second);
@@ -246,8 +253,7 @@ void GetRequestStrategy::handleRequest(const Request& request) {
              it != paths.end(); ++it) {
             if (*it == "~")
                 continue;
-            if (uri.size() >= it->size() &&
-                uri.substr(0, it->size()) == *it &&
+            if (uri.size() >= it->size() && uri.substr(0, it->size()) == *it &&
                 it->size() > locPrefix.size())
                 locPrefix = *it;
         }
@@ -284,7 +290,8 @@ void GetRequestStrategy::handleRequest(const Request& request) {
                  it != indexFiles->end(); ++it) {
                 std::string indexPath = filepath + *it;
                 struct stat ist;
-                if (stat(indexPath.c_str(), &ist) == 0 && S_ISREG(ist.st_mode)) {
+                if (stat(indexPath.c_str(), &ist) == 0 &&
+                    S_ISREG(ist.st_mode)) {
                     serveFile(indexPath);
                     return;
                 }

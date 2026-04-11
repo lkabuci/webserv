@@ -32,7 +32,8 @@ bool ConfigInfo::operator==(const ConfigInfo& conf) const {
            _client_max_body_size == conf._client_max_body_size &&
            _index == conf._index && _root == conf._root &&
            _error_page == conf._error_page && _return == conf._return &&
-           _allow_methods == conf._allow_methods && _autoindex == conf._autoindex;
+           _allow_methods == conf._allow_methods &&
+           _autoindex == conf._autoindex;
 }
 
 ConfigInfo& ConfigInfo::operator=(const ConfigInfo& conf) {
