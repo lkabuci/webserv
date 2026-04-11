@@ -48,7 +48,7 @@ TEST(EnvTest, Put) {
     Env::put(value, token);
 
     // Check if the port number is correctly set
-    EXPECT_EQ(env._ptr->port_number(), 8080);
+    EXPECT_EQ(env._ptr->port(), "8080");
 }
 
 // Add more tests for other methods and edge cases
